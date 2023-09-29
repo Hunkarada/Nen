@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "nen",
+  "version": "${version}",
+  "name": "Nen",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/worker/Nen"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/nen/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "hunkarada.nen.client.NenModClient"
+    ],
+    "main": [
+      "hunkarada.nen.common.NenMod"
+    ]
+  },
+  "mixins": [
+    "nen.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
