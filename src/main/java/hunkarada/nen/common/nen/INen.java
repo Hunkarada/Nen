@@ -16,9 +16,9 @@ public interface INen {
     public void setAuraType(AuraType auraType);
 
 
-    public int getLvl();
+    public int getNenLvl();
 
-    public void setLvl(int lvl);
+    public void setNenLvl(int nenLvl);
 
 
     public int getPowerCap();
@@ -29,4 +29,8 @@ public interface INen {
     public int getPower();
 
     public void setPower(int power);
+
+    public int getNenExp();
+
+    public void setNenExp(int nenExp);
 }
