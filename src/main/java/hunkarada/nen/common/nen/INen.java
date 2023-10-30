@@ -1,36 +1,55 @@
 package hunkarada.nen.common.nen;
 
+import hunkarada.nen.common.nen.abilities.abstractions.abilities.Ability;
+import hunkarada.nen.common.nen.restrictions.Restriction;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface INen {
-    boolean getIsAwakened();
+     boolean nen$getIsNenAwakened();
 
-   void setIsAwakened(boolean isAwakened);
+     void nen$setIsNenAwakened(boolean isNenAwakened);
+     int nen$getNenAbilityPoints();
 
+     void nen$setNenAbilityPoints(int nenAbilityPoints);
 
+     NenType nen$getAuraType();
 
-    public int getAbilityPoints();
-
-    public void setAbilityPoints(int abilityPoints);
-
-    public AuraType getAuraType();
-
-    public void setAuraType(AuraType auraType);
+     void nen$setAuraType(NenType nenType);
 
 
-    public int getNenLvl();
+     int nen$getNenLvl();
 
-    public void setNenLvl(int nenLvl);
-
-
-    public int getPowerCap();
-
-    public void setPowerCap(int powerCap);
+     void nen$setNenLvl(int nenLvl);
 
 
-    public int getPower();
+     long nen$getNenPowerCap();
 
-    public void setPower(int power);
+     void nen$setNenPowerCap(long nenPowerCap);
 
-    public int getNenExp();
 
-    public void setNenExp(int nenExp);
+     long nen$getNenPower();
+
+     void nen$setNenPower(long nenPower);
+
+     int nen$getNenExp();
+
+     void nen$setNenExp(int nenExp);
+
+
+     ArrayList<Restriction> nen$getNenRestrictions();
+
+     void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions);
+
+
+      ArrayList<Ability> nen$getNenAbilities();
+
+     void nen$setNenAbilities(ArrayList<Ability> nenAbilities);
+
+     public HashMap<String, String> nen$getNenMemory();
+
+     void nen$setNenMemory(HashMap<String, String> nenMemory);
+
+     public void nen$writeToNenMemory(String abilityId, String data);
 }
