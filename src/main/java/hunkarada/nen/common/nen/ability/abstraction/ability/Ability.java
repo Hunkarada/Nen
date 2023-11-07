@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen.abilities.abstractions.abilities;
+package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 
 import hunkarada.nen.common.nen.NenType;
@@ -9,7 +9,12 @@ public abstract class Ability  {
     // cost in nen for that ability.
     protected int nenPower;
     protected String id;
+    protected int staticCost;
+    protected float dynamicCostPercent;
     protected NenType nenType;
+    protected int cooldown;
+
+    protected abstract int calcNenPower(LivingEntity caster);
 
     public abstract void cast(LivingEntity caster);
 

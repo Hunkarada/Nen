@@ -1,7 +1,7 @@
 package hunkarada.nen.common.nen;
 
-import hunkarada.nen.common.nen.abilities.abstractions.abilities.Ability;
-import hunkarada.nen.common.nen.restrictions.Restriction;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
+import hunkarada.nen.common.nen.restriction.Restriction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
