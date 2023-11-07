@@ -79,7 +79,7 @@ public abstract class Nen
         nbt.putLong("nenPowerCap", nenPowerCap);
         nbt.putInt("nenLvl", nenLvl);
         nbt.putInt("nenExp", nenExp);
-        nbt.putString("nenType", NenType.toNbt(nenType));
+        nbt.putString("nenType", nenType.toNbt());
         nbt.putInt("nenAbilityPoints", nenAbilityPoints);
 //        nbt.putString("nenRestrictions", );
 //        nbt.putString("nenAbilities", );
@@ -93,7 +93,7 @@ public abstract class Nen
         this.nenPowerCap = nbt.getLong("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getInt("nenExp");
-        this.nenType = NenType.fromNbt(nbt.getString("nenType"));
+        this.nenType = nenType.fromNbt(nbt.getString("nenType"));
         this.nenAbilityPoints = nbt.getInt("nenAbilityPoints");
 //        this.nenRestrictions =
 //        this.nenAbilities =

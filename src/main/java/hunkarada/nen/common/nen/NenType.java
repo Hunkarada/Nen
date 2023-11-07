@@ -1,6 +1,8 @@
 package hunkarada.nen.common.nen;
 
-public enum NenType {
+import hunkarada.nen.common.abstractions.nbt.CanNbt;
+
+public enum NenType implements CanNbt {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");
     private final String id;
     NenType(String id){
@@ -10,10 +12,10 @@ public enum NenType {
     public String toString(){
         return id;
     }
-    public static String toNbt(NenType nenType){
-        return nenType.toString();
+    public String toNbt(){
+        return this.toString();
     }
-    public static NenType fromNbt(String id){
+    public NenType fromNbt(String id){
         return switch (id) {
             case "Enhancement" -> NenType.ENHANCEMENT;
             case "Emission" -> NenType.EMISSION;
