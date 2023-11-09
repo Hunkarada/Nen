@@ -1,4 +1,4 @@
-package hunkarada.nen.common.abstractions.nbt;
+package hunkarada.nen.common.abstractions;
 
 public interface CanNbt {
     <T> String toNbt();

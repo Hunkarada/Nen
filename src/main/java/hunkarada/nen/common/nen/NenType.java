@@ -1,6 +1,6 @@
 package hunkarada.nen.common.nen;
 
-import hunkarada.nen.common.abstractions.nbt.CanNbt;
+import hunkarada.nen.common.abstractions.CanNbt;
 
 public enum NenType implements CanNbt {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");

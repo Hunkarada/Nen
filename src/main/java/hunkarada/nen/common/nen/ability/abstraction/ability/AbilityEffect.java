@@ -1,6 +1,6 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
-import hunkarada.nen.common.abstractions.nbt.CanNbt;
+import hunkarada.nen.common.abstractions.CanNbt;
 
 public abstract class AbilityEffect implements CanNbt {
     protected String id;
