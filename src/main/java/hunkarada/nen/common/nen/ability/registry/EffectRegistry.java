@@ -7,7 +7,10 @@ import java.util.HashMap;
 
 public class EffectRegistry implements Registry<AbilityEffect> {
 
-    private static HashMap<String, AbilityEffect> registry = new HashMap<>();
+
+    private static final EffectRegistry instance = new EffectRegistry();
+
+    private static final HashMap<String, AbilityEffect> registry = new HashMap<>();
 
     public void addToRegistry(String key, AbilityEffect value){
         registry.put(key, value);
@@ -20,5 +23,9 @@ public class EffectRegistry implements Registry<AbilityEffect> {
             throw new NullPointerException("You should register AbilityEffect");
         }
         return value;
+    }
+
+    public static EffectRegistry getInstance() {
+        return instance;
     }
 }

@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.ability.abstraction.ability;
 import hunkarada.nen.common.nen.ability.abstraction.target.TargetType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
@@ -30,6 +31,16 @@ public abstract class TargetAbility extends Ability {
                 }
             }
             case ENTITY -> {
+                if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
+                    World world = caster.getWorld();
+                    EntityHitResult entityTarget = (EntityHitResult) target;
+                    abilityEffect.effect(
+                            ((EntityHitResult) target).getEntity()
+                    );
+                }
+                else {
+                    refundNen(caster);
+                }
 
             }
             case MISS -> {
