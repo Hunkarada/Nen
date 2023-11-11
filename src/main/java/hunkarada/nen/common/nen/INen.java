@@ -51,5 +51,7 @@ public interface INen {
 
      void nen$setNenMemory(HashMap<String, String> nenMemory);
 
-     public void nen$writeToNenMemory(String abilityId, String data);
+     void nen$writeToNenMemory(String abilityId, String data);
+
+     String nen$readFromNenMemory(String abilityId);
 }

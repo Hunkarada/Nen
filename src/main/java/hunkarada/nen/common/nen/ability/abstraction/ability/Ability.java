@@ -12,6 +12,7 @@ public abstract class Ability implements CanNbt, CanRegister {
     // cost in nen for that ability.
 
     //difference between totalCost and nenPower is totalCost - how much nen we get from player, nenPower - how much nen is damaging entity.
+    protected LivingEntity caster;
     protected int totalCost;
     protected int nenPower;
     protected String id;

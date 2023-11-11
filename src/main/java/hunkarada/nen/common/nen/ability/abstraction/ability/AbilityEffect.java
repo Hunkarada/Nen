@@ -1,12 +1,17 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanNbt;
+import net.minecraft.entity.LivingEntity;
 
-public abstract class AbilityEffect implements CanNbt {
+public abstract class AbilityEffect <Target> implements CanNbt {
+    protected LivingEntity caster;
+    protected Target target;
     protected String id;
     protected int duration;
     protected boolean isFirstTick;
-    protected abstract <T> void effect(T target);
+    protected <T> void effect(T target){
+        this.target = (Target) target;
+    }
 
     @Override
     public String toNbt(){
