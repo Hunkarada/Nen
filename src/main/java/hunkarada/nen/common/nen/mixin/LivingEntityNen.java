@@ -151,6 +151,10 @@ public abstract class LivingEntityNen
         this.nenPower = nenPower;
     }
 
+    public void nen$collectNen(long sum) {
+        this.nenPower += sum;
+    }
+
     public int nen$getNenExp() {
         return nenExp;
     }
