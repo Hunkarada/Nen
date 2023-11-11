@@ -182,7 +182,7 @@ public abstract class LivingEntityNen
     public void nen$setNenMemory(HashMap<String, String> nenMemory){
         this.nenMemory = nenMemory;
     }
-
+// END OF GETTERS AND SETTERS
     public void nen$writeToNenMemory(String abilityId, String data){
         this.nenMemory.put(abilityId, data);
     }
