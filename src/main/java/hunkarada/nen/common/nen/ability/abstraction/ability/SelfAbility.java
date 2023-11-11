@@ -6,6 +6,7 @@ public abstract class SelfAbility extends Ability {
     @Override
     public void cast(LivingEntity caster){
         // AMOGUS
+        int D =0;
         // adfghjk;afghjko;adfgiohp
     }
 }
