@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 // This class is mixing into every LivingEntity, and this adds Nen data to all living creatures in minecraft.
 @Mixin(LivingEntity.class)
-public abstract class Nen
+public abstract class LivingEntityNen
         extends Entity
         implements INen {
 
@@ -54,7 +54,7 @@ public abstract class Nen
 
 
 
-    public Nen(EntityType<?> type, World world) {
+    public LivingEntityNen(EntityType<?> type, World world) {
         super(type, world);
     }
     //here we are add variables for each entity.
