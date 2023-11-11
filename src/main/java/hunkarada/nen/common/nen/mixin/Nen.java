@@ -48,6 +48,7 @@ public abstract class Nen
     @Unique
     ArrayList<Ability> nenAbilities;
     // memory is a place where we save information about abilities, for ex. which block should create conjurator?
+    @Deprecated
     @Unique
     HashMap<String, String> nenMemory;
 
