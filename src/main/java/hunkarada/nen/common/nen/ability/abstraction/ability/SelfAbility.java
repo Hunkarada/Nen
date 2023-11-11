@@ -8,6 +8,7 @@ public abstract class SelfAbility extends Ability {
         // AMOGUS
         int D =0;
         int E =0;
+        int G =0;
         // adfghjk;afghjko;adfgiohp
     }
 }
