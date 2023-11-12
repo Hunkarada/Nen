@@ -38,8 +38,7 @@ public abstract class Ability implements CanNbt, CanRegister {
     }
 
     public long calcNen() {
-        return (long)Math.round(this.staticCost + this.caster.nenPowerCap * this.dynamicCostPercent);
-    }
+        return (long)Math.round(this.staticCost + this.caster.nenPowerCap * this.dynamicCostPercent);}
 
     @Override
     public void register() {
