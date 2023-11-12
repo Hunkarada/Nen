@@ -10,6 +10,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -127,6 +128,92 @@ public abstract class LivingEntityNen
             this.nenPower = this.nenPowerCap;
         }
 
+    }
+
+
+    public boolean nen$getIsNenAwakened() {
+        return isNenAwakened;
+    }
+
+    public void nen$setIsNenAwakened(boolean isNenAwakened) {
+        this.isNenAwakened = isNenAwakened;
+    }
+
+    public int nen$getNenAbilityPoints() {
+        return nenAbilityPoints;
+    }
+
+    public void nen$setNenAbilityPoints(int nenAbilityPoints) {
+        this.nenAbilityPoints = nenAbilityPoints;
+    }
+
+    public NenType nen$getNenType() {
+        return nenType;
+    }
+
+    public void nen$setNenType(NenType nenType) {
+        this.nenType = nenType;
+    }
+
+
+    public int nen$getNenLvl() {
+        return nenLvl;
+    }
+
+    public void nen$setNenLvl(int nenLvl) {
+        this.nenLvl = nenLvl;
+    }
+
+
+    public long nen$getNenPowerCap() {
+        return nenPowerCap;
+    }
+
+    public void nen$setNenPowerCap(long nenPowerCap) {
+        this.nenPowerCap = nenPowerCap;
+    }
+
+
+    public long nen$getNenPower() {
+        return nenPower;
+    }
+
+    public void nen$setNenPower(long nenPower) {
+        this.nenPower = nenPower;
+    }
+
+    public int nen$getNenExp() {
+        return nenExp;
+    }
+
+    public void nen$setNenExp(int nenExp) {
+        this.nenExp = nenExp;
+    }
+
+
+    public ArrayList<Restriction> nen$getNenRestrictions() {
+        return nenRestrictions;
+    }
+
+    public void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions) {
+        this.nenRestrictions = nenRestrictions;
+    }
+
+
+    public ArrayList<Ability> nen$getNenAbilities() {
+        return nenAbilities;
+    }
+
+    public void nen$setNenAbilities(ArrayList<Ability> nenAbilities) {
+        this.nenAbilities = nenAbilities;
+    }
+
+    public HashMap<String, String> nen$getNenMemory() {
+        return nenMemory;
+    }
+
+    public void nen$setNenMemory(HashMap<String, String> nenMemory) {
+        this.nenMemory = nenMemory;
     }
 
 }
