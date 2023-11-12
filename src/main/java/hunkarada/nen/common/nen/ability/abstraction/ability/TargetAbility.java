@@ -14,8 +14,8 @@ public abstract class TargetAbility extends Ability {
     double spellDistance;
 
     @Override
-    public void cast(LivingEntity caster) {
-        collectNen(caster);
+    public void cast(LivingEntity caster, long cost) {
+        caster.collectNen();
         getTargetByLookVector(caster);
         switch (target.getType()){
             case BLOCK -> {
@@ -23,7 +23,7 @@ public abstract class TargetAbility extends Ability {
                     World world = caster.getWorld();
                     BlockHitResult blockTarget = (BlockHitResult) target;
                     abilityEffect.effect(
-                            world.getBlockState(blockTarget.getBlockPos()).getBlock()
+                            world.getBlockState(blockTarget.getBlockPos()).getBlock(), blockTarget.getType()
                     );
                 }
                 else {
@@ -35,7 +35,7 @@ public abstract class TargetAbility extends Ability {
                     World world = caster.getWorld();
                     EntityHitResult entityTarget = (EntityHitResult) target;
                     abilityEffect.effect(
-                            ((EntityHitResult) target).getEntity()
+                            ((EntityHitResult) target).getEntity(), entityTarget.getType()
                     );
                 }
                 else {

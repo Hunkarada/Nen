@@ -2,7 +2,6 @@ package hunkarada.nen.common.nen.mixin;
 
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.NenType;
-import hunkarada.nen.common.nen.INen;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

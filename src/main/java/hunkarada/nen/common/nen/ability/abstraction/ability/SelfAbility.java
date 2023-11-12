@@ -4,6 +4,6 @@ import net.minecraft.entity.LivingEntity;
 
 public abstract class SelfAbility extends Ability {
     @Override
-    public void cast(LivingEntity caster){
+    public void cast(LivingEntity caster, long cost){
     }
 }

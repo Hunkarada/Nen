@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen;
+package hunkarada.nen.common.nen.mixin;
 
 
 public interface INen {
