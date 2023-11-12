@@ -37,6 +37,10 @@ public abstract class Ability implements CanNbt, CanRegister {
         return AbilityRegistry.getInstance().getFromRegistry(id);
     }
 
+    public long calcNen() {
+        return (long)Math.round(this.staticCost + this.caster.nenPowerCap * this.dynamicCostPercent);
+    }
+
     @Override
     public void register() {
         AbilityRegistry.getInstance().addToRegistry(id, this);
