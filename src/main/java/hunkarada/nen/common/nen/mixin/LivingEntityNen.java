@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,10 +48,10 @@ public abstract class LivingEntityNen
     ArrayList<Restriction> nenRestrictions;
     @Unique
     ArrayList<Ability> nenAbilities;
-    // memory is a place where we save information about abilities, for ex. which block should create conjurator?
-    @Deprecated
+    // memory is a place where we save information about and for abilities, for ex.
+    // which block should create conjurator?
     @Unique
-    HashMap<String, String> nenMemory;
+    private HashMap<String, String> nenMemory;
 
 
 
@@ -101,96 +102,22 @@ public abstract class LivingEntityNen
 //        this.nenMemory =
 
     }
-    public boolean nen$getIsNenAwakened() {
-        return isNenAwakened;
-    }
-    public void nen$setIsNenAwakened(boolean isNenAwakened){
-       this.isNenAwakened = isNenAwakened;
-    }
-
-    public int nen$getNenAbilityPoints() {
-        return nenAbilityPoints;
-    }
-
-    public void nen$setNenAbilityPoints(int nenAbilityPoints) {
-        this.nenAbilityPoints = nenAbilityPoints;
+    // it's returns boolean value, if false - it's a signal to caller of method,
+    // that caster hasn't enough nen, if true - everything is good.
+    public boolean nen$collectNen(long value) {
+        if ((this.nenPower -= value) < 0){
+            return false;
+        }
+        else {
+            this.nenPower -= value;
+            return true;
+        }
     }
 
-    public NenType nen$getAuraType() {
-        return nenType;
-    }
-
-    public void nen$setAuraType(NenType nenType) {
-        this.nenType = nenType;
-    }
-
-
-    public int nen$getNenLvl() {
-        return nenLvl;
-    }
-
-    public void nen$setNenLvl(int nenLvl) {
-        this.nenLvl = nenLvl;
-    }
-
-
-    public long nen$getNenPowerCap() {
-        return nenPowerCap;
-    }
-
-    public void nen$setNenPowerCap(long nenPowerCap) {
-        this.nenPowerCap = nenPowerCap;
-    }
-
-
-    public long nen$getNenPower() {
-        return nenPower;
-    }
-
-    public void nen$setNenPower(long nenPower) {
-        this.nenPower = nenPower;
-    }
-
-    public void nen$collectNen(long Sum) {
-        this.nenPower += Sum;
-    }
-
-    public int nen$getNenExp() {
-        return nenExp;
-    }
-
-    public void nen$setNenExp(int nenExp) {
-        this.nenExp = nenExp;
-    }
-    public ArrayList<Restriction> nen$getNenRestrictions() {
-        return nenRestrictions;
-    }
-
-    public void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions) {
-        this.nenRestrictions = nenRestrictions;
-    }
-
-
-    public ArrayList<Ability> nen$getNenAbilities() {
-        return nenAbilities;
-    }
-
-    public void nen$setNenAbilities(ArrayList<Ability> nenAbilities) {
-        this.nenAbilities = nenAbilities;
-    }
-
-    public HashMap<String, String> nen$getNenMemory(){
-        return nenMemory;
-    }
-
-    public void nen$setNenMemory(HashMap<String, String> nenMemory){
-        this.nenMemory = nenMemory;
-    }
-// END OF GETTERS AND SETTERS
     public void nen$writeToNenMemory(String abilityId, String data){
         this.nenMemory.put(abilityId, data);
     }
-
+    @Nullable
     public String nen$readFromNenMemory(String abilityId){
         return this.nenMemory.get(abilityId);
     }
