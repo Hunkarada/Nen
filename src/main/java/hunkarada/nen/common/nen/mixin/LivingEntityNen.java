@@ -121,7 +121,7 @@ public abstract class LivingEntityNen
         return this.nenMemory.get(abilityId);
     }
 
-    public void nen$gainNenPowerWithCheck(long value) {
+    public void nen$giveNen(long value) {
         this.nenPower += value;
         if (this.nenPower > this.nenPowerCap) {
             this.nenPower = this.nenPowerCap;
