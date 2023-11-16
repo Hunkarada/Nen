@@ -27,7 +27,8 @@ public abstract class Ability implements CanNbt, CanRegister {
     protected AbilityEffect abilityEffect;
 
     protected void calcNenPower(LivingEntity caster){
-        // nenPower = totalCost * ;
+        INen nenCaster = (INen) caster;
+        nenPower = Math.round(totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType()));
     }
 
     public abstract void cast(LivingEntity caster, long cost);
@@ -43,7 +44,7 @@ public abstract class Ability implements CanNbt, CanRegister {
     public void calcNenCost() {
         INen caster = (INen) this.caster;
 
-        totalCost = (long) Math.round(this.staticCost + caster.nen$getNenPowerCap() * this.dynamicCostPercent);
+        totalCost = Math.round(this.staticCost + caster.nen$getNenPowerCap() * this.dynamicCostPercent);
     }
 
     @Override
