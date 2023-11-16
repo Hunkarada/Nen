@@ -1,7 +1,7 @@
 package hunkarada.nen.common.nen.mixin;
 
-import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.NenType;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -123,9 +122,12 @@ public abstract class LivingEntityNen
     }
 
     public void nen$giveNen(long value) {
-        this.nenPower += value;
-        if (this.nenPower > this.nenPowerCap) {
+        long power = this.nenPower + value;
+        if (power > this.nenPowerCap) {
             this.nenPower = this.nenPowerCap;
+        }
+        else {
+            this.nenPower = power;
         }
 
     }
