@@ -26,12 +26,12 @@ public abstract class Ability implements CanNbt, CanRegister {
     protected int cooldown;
     protected AbilityEffect abilityEffect;
 
-    protected void calcNenPower(LivingEntity caster){
-        INen nenCaster = (INen) caster;
+    protected void calcNenPower(){
+        INen nenCaster = (INen) this.caster;
         nenPower = Math.round(totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType()));
     }
 
-    public abstract void cast(LivingEntity caster, long cost);
+    public abstract void cast(LivingEntity caster);
 
     public String toNbt(){
         return id;
@@ -41,10 +41,26 @@ public abstract class Ability implements CanNbt, CanRegister {
         return AbilityRegistry.getInstance().getFromRegistry(id);
     }
 
-    public void calcNenCost() {
+    protected void calcNenCost() {
         INen caster = (INen) this.caster;
-
         totalCost = Math.round(this.staticCost + caster.nen$getNenPowerCap() * this.dynamicCostPercent);
+    }
+
+    protected void prepareCast(LivingEntity caster){
+        this.caster = caster;
+        calcNenCost();
+        calcNenPower();
+    }
+
+    protected boolean isNotAtCooldown(){
+        //look carefully at ==, not =, it's boolean
+        return cooldown == 0;
+    }
+
+    protected void calcCooldown(){
+        if (cooldown != 0){
+            this.cooldown -= this.cooldown;
+        }
     }
 
     @Override
