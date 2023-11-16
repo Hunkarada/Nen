@@ -55,4 +55,11 @@ public abstract class AbilityEffect implements CanNbt, CanRegister {
         EffectRegistry.getInstance().addToRegistry(id, this);
     }
 
+    public boolean calcDuration()
+    {
+        if (this.duration <= 0) {return true;}
+        this.duration -= 1;
+        return false;
+    }
+
 }
