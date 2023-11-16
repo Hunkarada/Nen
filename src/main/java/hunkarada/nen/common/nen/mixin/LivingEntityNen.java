@@ -23,7 +23,7 @@ import java.util.HashMap;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityNen
         extends Entity
-        implements INen {
+        implements ILivingEntityNen {
 
     @Unique
     boolean isNenAwakened;

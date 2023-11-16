@@ -5,7 +5,7 @@ import hunkarada.nen.common.abstractions.CanNbt;
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.registry.AbilityRegistry;
-import hunkarada.nen.common.nen.mixin.INen;
+import hunkarada.nen.common.nen.mixin.ILivingEntityNen;
 import net.minecraft.entity.LivingEntity;
 
 // Class for creating other abilities
@@ -27,7 +27,7 @@ public abstract class Ability implements CanNbt, CanRegister {
     protected AbilityEffect abilityEffect;
 
     protected void calcNenPower(){
-        INen nenCaster = (INen) this.caster;
+        ILivingEntityNen nenCaster = (ILivingEntityNen) this.caster;
         nenPower = Math.round(totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType()));
     }
 
@@ -42,7 +42,7 @@ public abstract class Ability implements CanNbt, CanRegister {
     }
 
     protected void calcNenCost() {
-        INen caster = (INen) this.caster;
+        ILivingEntityNen caster = (ILivingEntityNen) this.caster;
         totalCost = Math.round(this.staticCost + caster.nen$getNenPowerCap() * this.dynamicCostPercent);
     }
 

@@ -9,7 +9,7 @@ import hunkarada.nen.common.nen.restriction.Restriction;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public interface INen {
+public interface ILivingEntityNen {
 
      boolean nen$getIsNenAwakened();
 
