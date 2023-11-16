@@ -2,9 +2,6 @@ package hunkarada.nen.common.nen;
 
 import hunkarada.nen.common.abstractions.CanNbt;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public enum NenType implements CanNbt {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");
     private final String id;
@@ -27,33 +24,24 @@ public enum NenType implements CanNbt {
                     case "Enhancement" -> {
                         return 1.0;
                     }
-                    case "Emission" -> {
+                    case "Emission", "Transmutation" -> {
                         return 0.8;
                     }
-                    case "Manipulation" -> {
+                    case "Manipulation", "Conjuration" -> {
                         return 0.6;
                     }
                     case "Specialization" -> {
                         return 0.01;
                     }
-                    case "Conjuration" -> {
-                        return 0.6;
-                    }
-                    case "Transmutation" -> {
-                        return 0.8;
-                    }
                 }
             }
             case "Emission" -> {
                 switch (anotherNenType.id){
-                    case "Enhancement" -> {
+                    case "Enhancement", "Manipulation" -> {
                         return 0.8;
                     }
                     case "Emission" -> {
                         return 1.0;
-                    }
-                    case "Manipulation" -> {
-                        return 0.8;
                     }
                     case "Specialization" -> {
                         return 0.01;
@@ -69,7 +57,7 @@ public enum NenType implements CanNbt {
             }
             case "Manipulation" -> {
                 switch (anotherNenType.id){
-                    case "Enhancement" -> {
+                    case "Enhancement", "Conjuration" -> {
                         return 0.6;
                     }
                     case "Emission" -> {
@@ -80,9 +68,6 @@ public enum NenType implements CanNbt {
                     }
                     case "Specialization" -> {
                         return 0.01;
-                    }
-                    case "Conjuration" -> {
-                        return 0.6;
                     }
                     case "Transmutation" -> {
                         return 0.4;
@@ -95,32 +80,23 @@ public enum NenType implements CanNbt {
                     case "Enhancement" -> {
                         return 0.4;
                     }
-                    case "Emission" -> {
+                    case "Emission", "Transmutation" -> {
                         return 0.6;
                     }
-                    case "Manipulation" -> {
+                    case "Manipulation", "Conjuration" -> {
                         return 0.8;
                     }
                     case "Specialization" -> {
                         return 1.0;
                     }
-                    case "Conjuration" -> {
-                        return 0.8;
-                    }
-                    case "Transmutation" -> {
-                        return 0.6;
-                    }
                 }            }
             case "Conjuration" -> {
                 switch (anotherNenType.id){
-                    case "Enhancement" -> {
+                    case "Enhancement", "Manipulation" -> {
                         return 0.6;
                     }
                     case "Emission" -> {
                         return 0.4;
-                    }
-                    case "Manipulation" -> {
-                        return 0.6;
                     }
                     case "Specialization" -> {
                         return 0.01;
@@ -135,7 +111,7 @@ public enum NenType implements CanNbt {
             }
             case "Transmutation" -> {
                 switch (anotherNenType.id){
-                    case "Enhancement" -> {
+                    case "Enhancement", "Conjuration" -> {
                         return 0.8;
                     }
                     case "Emission" -> {
@@ -146,9 +122,6 @@ public enum NenType implements CanNbt {
                     }
                     case "Specialization" -> {
                         return 0.01;
-                    }
-                    case "Conjuration" -> {
-                        return 0.8;
                     }
                     case "Transmutation" -> {
                         return 1.0;
