@@ -19,38 +19,40 @@ public abstract class TargetAbility extends Ability {
         if (isNotAtCooldown()){
             // calculate cost and other things
             prepareCast(caster);
-            // took away nen from caster
+            // took away nen from caster with check.
             INen nenCaster = (INen) caster;
-            nenCaster.nen$collectNen(totalCost);
-            // getting target
-            getTargetByLookVector(caster);
-            switch (target.getType()){
-                case BLOCK -> {
-                    if (targetType == TargetType.BLOCK || targetType == TargetType.MIXED){
-                        World world = caster.getWorld();
-                        BlockHitResult blockTarget = (BlockHitResult) target;
-                        abilityEffect.applyEffect(
-                            world.getBlockState(blockTarget.getBlockPos()).getBlock(), blockTarget.getType(), caster
-                        );
+            if (nenCaster.nen$collectNen(totalCost)){
+                switch (target.getType()){
+                    case BLOCK -> {
+                        if (targetType == TargetType.BLOCK || targetType == TargetType.MIXED){
+                            World world = caster.getWorld();
+                            BlockHitResult blockTarget = (BlockHitResult) target;
+                            abilityEffect.applyEffect(
+                                    world.getBlockState(blockTarget.getBlockPos()).getBlock(), caster
+                            );
+                        }
+                        else {
+                            nenCaster.nen$giveNen(totalCost);
+                        }
                     }
-                    else {
-                        nenCaster.nen$giveNen(totalCost);
-                    }
-                }
-                case ENTITY -> {
+                    case ENTITY -> {
                         if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
                             EntityHitResult entityTarget = (EntityHitResult) target;
                             abilityEffect.applyEffect(
-                            ((EntityHitResult) target).getEntity(), entityTarget.getType(), caster
+                                    ((EntityHitResult) target).getEntity(), caster
                             );
                         }
                         else {
                             nenCaster.nen$giveNen(totalCost);
                         }
 
+                    }
+                    case MISS -> nenCaster.nen$giveNen(totalCost);
                 }
-                case MISS -> nenCaster.nen$giveNen(totalCost);
             }
+            // getting target
+            getTargetByLookVector(caster);
+
         }
     }
 
