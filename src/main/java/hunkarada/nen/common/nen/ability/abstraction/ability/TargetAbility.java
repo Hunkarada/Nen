@@ -1,7 +1,7 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.nen.ability.abstraction.target.TargetType;
-import hunkarada.nen.common.nen.mixin.INen;
+import hunkarada.nen.common.nen.mixin.ILivingEntityNen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -20,7 +20,7 @@ public abstract class TargetAbility extends Ability {
             // calculate cost and other things
             prepareCast(caster);
             // took away nen from caster with check.
-            INen nenCaster = (INen) caster;
+            ILivingEntityNen nenCaster = (ILivingEntityNen) caster;
             if (nenCaster.nen$collectNen(totalCost)){
                 switch (target.getType()){
                     case BLOCK -> {
