@@ -2,6 +2,7 @@ package hunkarada.nen.common.nen.mixin;
 
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
+import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -45,8 +46,12 @@ public abstract class LivingEntityNen
     // but it gives you more nen.
     @Unique
     ArrayList<Restriction> nenRestrictions;
+    // abilities, which caster can use.
     @Unique
     ArrayList<Ability> nenAbilities;
+    // effects, which caster has at himself.
+    @Unique
+    ArrayList<AbilityEffect> nenAbilityEffects;
     // memory is a place where we save information about and for abilities, for ex.
     // which block should create conjurator?
     @Unique
@@ -104,7 +109,7 @@ public abstract class LivingEntityNen
     // it's returns boolean value, if false - it's a signal to caller of method,
     // that caster hasn't enough nen, if true - everything is good.
     public boolean nen$collectNen(long value) {
-        if ((this.nenPower -= value) < 0){
+        if ((this.nenPower - value) < 0){
             return false;
         }
         else {
@@ -113,12 +118,12 @@ public abstract class LivingEntityNen
         }
     }
 
-    public void nen$writeToNenMemory(String abilityId, String data){
-        this.nenMemory.put(abilityId, data);
+    public void nen$writeToNenMemory(String id, String data){
+        this.nenMemory.put(id, data);
     }
     @Nullable
-    public String nen$readFromNenMemory(String abilityId){
-        return this.nenMemory.get(abilityId);
+    public String nen$readFromNenMemory(String id){
+        return this.nenMemory.get(id);
     }
 
     public void nen$giveNen(long value) {
@@ -216,6 +221,13 @@ public abstract class LivingEntityNen
 
     public void nen$setNenMemory(HashMap<String, String> nenMemory) {
         this.nenMemory = nenMemory;
+    }
+
+    public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
+        return this.nenAbilityEffects;
+    }
+    public void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects){
+        this.nenAbilityEffects = nenAbilityEffects;
     }
 
 }

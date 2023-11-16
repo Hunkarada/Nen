@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
+import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import hunkarada.nen.common.nen.restriction.Restriction;
 
 import java.util.ArrayList;
@@ -54,9 +55,12 @@ public interface INen {
 
      void nen$setNenMemory(HashMap<String, String> nenMemory);
 
-     void nen$writeToNenMemory(String abilityId, String data);
+     ArrayList<AbilityEffect> nen$getNenAbilityEffects();
+     void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects);
 
-     String nen$readFromNenMemory(String abilityId);
+     void nen$writeToNenMemory(String id, String data);
+
+     String nen$readFromNenMemory(String id);
 
      boolean nen$collectNen(long sum);
 
