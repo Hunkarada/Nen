@@ -1,14 +1,13 @@
 package hunkarada.nen.common.nen.mixin;
 
 
-import hunkarada.nen.common.nen.NenType;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,6 +27,9 @@ public abstract class EntityNen
     @Unique
     private HashMap<String, String> nenMemory;
 
+    @Unique
+    Gson gson = new Gson();
+
 
     public EntityNen(EntityType<?> type, World world) {
         super(type, world);
@@ -43,20 +45,32 @@ public abstract class EntityNen
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
     public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci){
 
-        nbt.putString("nenAbilityEffects",nenAbilityEffects.toString());
-        nbt.putString("nenMemory", );
+        nbt.putString("nenAbilityEffects",gson.toJson(nenAbilityEffects));
+        nbt.putString("nenMemory", gson.toJson(nenMemory));
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
     public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci){
-        this.nenExp = nbt.getInt("nenExp");
-        this.nenType = nenType.fromNbt(nbt.getString("nenType"));
-        this.nenAbilityPoints = nbt.getInt("nenAbilityPoints");
-        this.nenRestrictions =
-        this.nenAbilities =
-        this.nenAbilityEffects =  nbt.getString("nenAbilityEffects")
+        this.nenAbilityEffects = gson.fromJson(nbt.getString("nenAbilityEffects"), new TypeToken<ArrayList<AbilityEffect>>(){}.getType());
+        this.nenMemory = gson.fromJson(nbt.getString("nenMemory"), new TypeToken<HashMap<String, String>>(){}.getType());
 
     }
+
+    public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
+        return this.nenAbilityEffects;
+    }
+    public void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects){
+        this.nenAbilityEffects = nenAbilityEffects;
+    }
+
+    public HashMap<String, String> nen$getNenMemory() {
+        return nenMemory;
+    }
+
+    public void nen$setNenMemory(HashMap<String, String> nenMemory) {
+        this.nenMemory = nenMemory;
+    }
+
 
 }
 

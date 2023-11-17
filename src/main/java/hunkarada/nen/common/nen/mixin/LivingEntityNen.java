@@ -215,19 +215,7 @@ public abstract class LivingEntityNen
         this.nenAbilities = nenAbilities;
     }
 
-    public HashMap<String, String> nen$getNenMemory() {
-        return nenMemory;
-    }
 
-    public void nen$setNenMemory(HashMap<String, String> nenMemory) {
-        this.nenMemory = nenMemory;
-    }
 
-    public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
-        return this.nenAbilityEffects;
-    }
-    public void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects){
-        this.nenAbilityEffects = nenAbilityEffects;
-    }
 
 }
