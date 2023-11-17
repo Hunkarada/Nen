@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,10 +32,8 @@ public abstract class EntityNen
     Gson gson = new Gson();
 
 
-    public EntityNen(EntityType<?> type, World world) {
-        super(type, world);
-    }
-    //here we are add variables for each entity.
+//    public EntityNen(EntityType<?> type, World world) {super(type, world);}
+
     @Inject(method = "<init>", at = @At("RETURN"))
     public void EntityNen(EntityType<?> type, World world, CallbackInfo callbackInfo) {
         this.nenAbilityEffects = new ArrayList<>();
@@ -56,6 +55,7 @@ public abstract class EntityNen
 
     }
 
+//NenAbilityEffects
     public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
         return this.nenAbilityEffects;
     }
@@ -63,12 +63,21 @@ public abstract class EntityNen
         this.nenAbilityEffects = nenAbilityEffects;
     }
 
+//NenMemory
     public HashMap<String, String> nen$getNenMemory() {
         return nenMemory;
     }
 
     public void nen$setNenMemory(HashMap<String, String> nenMemory) {
         this.nenMemory = nenMemory;
+    }
+
+    public void nen$writeToNenMemory(String id, String data){
+        this.nenMemory.put(id, data);
+    }
+    @Nullable
+    public String nen$readFromNenMemory(String id){
+        return this.nenMemory.get(id);
     }
 
 

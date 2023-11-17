@@ -50,12 +50,7 @@ public abstract class LivingEntityNen
     @Unique
     ArrayList<Ability> nenAbilities;
     // effects, which caster has at himself.
-    @Unique
-    ArrayList<AbilityEffect> nenAbilityEffects;
-    // memory is a place where we save information about and for abilities, for ex.
-    // which block should create conjurator?
-    @Unique
-    private HashMap<String, String> nenMemory;
+
 
 
 
@@ -118,13 +113,8 @@ public abstract class LivingEntityNen
         }
     }
 
-    public void nen$writeToNenMemory(String id, String data){
-        this.nenMemory.put(id, data);
-    }
-    @Nullable
-    public String nen$readFromNenMemory(String id){
-        return this.nenMemory.get(id);
-    }
+
+
 
     public void nen$giveNen(long value) {
         long power = this.nenPower + value;

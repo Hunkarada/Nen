@@ -51,9 +51,9 @@ public interface ILivingEntityNen {
 
      void nen$setNenAbilities(ArrayList<Ability> nenAbilities);
 
-     void nen$writeToNenMemory(String id, String data);
 
-     String nen$readFromNenMemory(String id);
+
+
 
      boolean nen$collectNen(long sum);
 
