@@ -17,6 +17,8 @@ public abstract class TargetAbility extends Ability {
     @Override
     public void cast(LivingEntity caster) {
         if (isNotAtCooldown()){
+            // getting target
+            getTargetByLookVector(caster);
             // calculate cost and other things
             prepareCast(caster);
             // took away nen from caster with check.
@@ -37,7 +39,6 @@ public abstract class TargetAbility extends Ability {
                     }
                     case ENTITY -> {
                         if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
-                            EntityHitResult entityTarget = (EntityHitResult) target;
                             abilityEffect.applyEffect(
                                     ((EntityHitResult) target).getEntity(), caster
                             );
@@ -50,8 +51,7 @@ public abstract class TargetAbility extends Ability {
                     case MISS -> nenCaster.nen$giveNen(totalCost);
                 }
             }
-            // getting target
-            getTargetByLookVector(caster);
+
 
         }
     }
