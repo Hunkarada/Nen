@@ -49,7 +49,7 @@ public abstract class LivingEntityNen
     // abilities, which caster can use.
     @Unique
     ArrayList<Ability> nenAbilities;
-    // effects, which caster has at himself.
+
 
 
 
@@ -69,8 +69,6 @@ public abstract class LivingEntityNen
         this.nenAbilityPoints = 0;
 //        this.nenRestrictions = new ArrayList<>();
 //        this.nenAbilities = new ArrayList<>();
-//        this.nenMemory = new HashMap<>();
-
     }
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
@@ -84,7 +82,6 @@ public abstract class LivingEntityNen
         nbt.putInt("nenAbilityPoints", nenAbilityPoints);
 //        nbt.putString("nenRestrictions", );
 //        nbt.putString("nenAbilities", );
-//        nbt.putString("nenMemory", );
     }
     // and reading data from NBT.
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
@@ -98,7 +95,6 @@ public abstract class LivingEntityNen
         this.nenAbilityPoints = nbt.getInt("nenAbilityPoints");
 //        this.nenRestrictions =
 //        this.nenAbilities =
-//        this.nenMemory =
 
     }
     // it's returns boolean value, if false - it's a signal to caller of method,

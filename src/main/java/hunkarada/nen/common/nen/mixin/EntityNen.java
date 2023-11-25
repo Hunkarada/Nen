@@ -2,7 +2,6 @@ package hunkarada.nen.common.nen.mixin;
 
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,6 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,14 +22,12 @@ import java.util.HashMap;
 @Mixin(Entity.class)
 public abstract class EntityNen
         implements IEntityNen {
+    // effects, which caster has at himself.
     @Unique
     ArrayList<AbilityEffect> nenAbilityEffects;
 
     @Unique
     private HashMap<String, String> nenMemory;
-
-    @Unique
-    Gson gson = new Gson();
 
 
 //    public EntityNen(EntityType<?> type, World world) {super(type, world);}
@@ -41,17 +39,13 @@ public abstract class EntityNen
 
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
-    public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci){
+    @Inject(method = "writeNbt", at = @At("RETURN"))
+    public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
 
-        nbt.putString("nenAbilityEffects",gson.toJson(nenAbilityEffects));
-        nbt.putString("nenMemory", gson.toJson(nenMemory));
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
-    public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci){
-        this.nenAbilityEffects = gson.fromJson(nbt.getString("nenAbilityEffects"), new TypeToken<ArrayList<AbilityEffect>>(){}.getType());
-        this.nenMemory = gson.fromJson(nbt.getString("nenMemory"), new TypeToken<HashMap<String, String>>(){}.getType());
+    @Inject(method = "readNbt", at = @At("RETURN"))
+    public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
 
     }
 
