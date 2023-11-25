@@ -4,6 +4,7 @@
   "package": "hunkarada.nen.common.nen.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityNen",
     "LivingEntityNen"
   ],
   "client": [
