@@ -21,14 +21,15 @@ public abstract class NenCollisionEntity extends Entity {
         super(type, world);
     }
 
-    public static void spawnCollisionEntity(LivingEntity caster, Vec3d startPos){
-
-    }
-
     protected void checkForCollision(){
         switch (shape){
             case CUBE -> {} // positions
             case SPHERE -> {} // radius
         }
+    }
+    @Override
+    public void tick(){
+        super.tick();
+        checkForCollision();
     }
 }
