@@ -6,9 +6,11 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,6 +24,8 @@ import java.util.HashMap;
 @Mixin(Entity.class)
 public abstract class EntityNen
         implements IEntityNen {
+    @Shadow protected abstract NbtList toNbtList(float... values);
+
     // effects, which caster has at himself.
     @Unique
     ArrayList<AbilityEffect> nenAbilityEffects;
@@ -42,10 +46,24 @@ public abstract class EntityNen
     @Inject(method = "writeNbt", at = @At("RETURN"))
     public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
 
+        //nenAbilityEffects Nbt save
+        int size = nenAbilityEffects.size();
+        nbt.putInt("nenAbilityEffectsSize", size);
+        ArrayList<Integer> collector = new ArrayList<Integer>();
+        for(int i = 0; i < size; ++i) {
+            String key = "30"+i;
+            nbt.putString(key, nenAbilityEffects.get(i).toNbt());
+            collector.add(Integer.parseInt(key));
+        }
+        nbt.putIntArray("nenAbilityEffects", collector);
+        //
+
     }
 
     @Inject(method = "readNbt", at = @At("RETURN"))
     public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
+        //nenAbilityEffects Nbt load
+        nbt.getKeys()
 
     }
 
