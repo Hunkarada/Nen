@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 @Mixin(Entity.class)
@@ -51,19 +52,49 @@ public abstract class EntityNen
         nbt.putInt("nenAbilityEffectsSize", size);
         ArrayList<Integer> collector = new ArrayList<Integer>();
         for(int i = 0; i < size; ++i) {
-            String key = "30"+i;
+            String key = "10"+i;
             nbt.putString(key, nenAbilityEffects.get(i).toNbt());
             collector.add(Integer.parseInt(key));
         }
         nbt.putIntArray("nenAbilityEffects", collector);
-        //
+
+        //nenMemory Nbt save
+        collector.clear();
+        int i = 0;
+        for (Map.Entry<String, String> item : nenMemory.entrySet()) {
+            String key = "20"+i;
+            nbt.putString(item.getKey(), item.getValue());
+            nbt.putString(key, item.getKey());
+            collector.add(Integer.parseInt(key));
+            ++i;
+        }
+        nbt.putIntArray("nenMemory", collector);
+
 
     }
 
     @Inject(method = "readNbt", at = @At("RETURN"))
     public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
         //nenAbilityEffects Nbt load
-        nbt.getKeys()
+        nenAbilityEffects.clear();
+        int[] collector = nbt.getIntArray("nenAbilityEffects");
+        for(int i = 0; i < collector.length; ++i) {
+            nenAbilityEffects.add(???.fromNbt(nbt.getString(String.valueOf(collector[i]))));
+
+            //AbilityEffect idCatch = new AbilityEffect();
+            //nbt.getString(String.valueOf(collector[i]));
+        }
+
+        //nenMemory Nbt load
+        nenMemory.clear();
+        collector = nbt.getIntArray("nenMemory");
+        String keyGet;
+
+        for(int item : collector) {
+            keyGet = nbt.getString(String.valueOf(item));
+            nenMemory.put(keyGet, nbt.getString(keyGet));
+        }
+
 
     }
 
