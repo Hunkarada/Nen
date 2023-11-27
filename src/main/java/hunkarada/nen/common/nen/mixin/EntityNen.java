@@ -48,10 +48,8 @@ public abstract class EntityNen
     public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
 
         //nenAbilityEffects Nbt save
-        int size = nenAbilityEffects.size();
-        nbt.putInt("nenAbilityEffectsSize", size);
         ArrayList<Integer> collector = new ArrayList<Integer>();
-        for(int i = 0; i < size; ++i) {
+        for(int i = 0; i < nenAbilityEffects.size(); ++i) {
             String key = "10"+i;
             nbt.putString(key, nenAbilityEffects.get(i).toNbt());
             collector.add(Integer.parseInt(key));
