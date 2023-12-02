@@ -1,8 +1,6 @@
 package hunkarada.nen.common.nen;
 
-import hunkarada.nen.common.abstractions.CanNbt;
-
-public enum NenType implements CanNbt {
+public enum NenType {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");
     private final String id;
     NenType(String id){
@@ -12,8 +10,8 @@ public enum NenType implements CanNbt {
     public String toString(){
         return id;
     }
-    public String toNbt(){
-        return this.toString();
+    public static String toNbt(NenType nenType){
+        return nenType.toString();
     }
     //stupid implementation with switch-case construction,
     // as it will be much faster, than index calculations, and much simpler to do
@@ -132,7 +130,7 @@ public enum NenType implements CanNbt {
         throw new RuntimeException("NenType Error");
     }
 
-    public NenType fromNbt(String id){
+    public static NenType fromNbt(String id){
         return switch (id) {
             case "Enhancement" -> NenType.ENHANCEMENT;
             case "Emission" -> NenType.EMISSION;

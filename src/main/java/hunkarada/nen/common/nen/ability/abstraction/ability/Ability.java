@@ -1,7 +1,6 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 
-import hunkarada.nen.common.abstractions.CanNbt;
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.registry.AbilityRegistry;
@@ -9,7 +8,7 @@ import hunkarada.nen.common.nen.mixin.ILivingEntityNen;
 import net.minecraft.entity.LivingEntity;
 
 // Class for creating other abilities
-public abstract class Ability implements CanNbt, CanRegister {
+public abstract class Ability implements CanRegister {
     // cost in nen for that ability.
 
     //the difference between totalCost and nenPower is totalCost -
@@ -33,11 +32,11 @@ public abstract class Ability implements CanNbt, CanRegister {
 
     public abstract void cast(LivingEntity caster);
 
-    public String toNbt(){
-        return id;
+    public static String toNbt(Ability ability){
+        return ability.id;
     }
 
-    public Ability fromNbt(String id){
+    public static Ability fromNbt(String id){
         return AbilityRegistry.getInstance().getFromRegistry(id);
     }
 

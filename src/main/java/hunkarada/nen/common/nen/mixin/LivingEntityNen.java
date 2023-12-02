@@ -78,7 +78,7 @@ public abstract class LivingEntityNen
         nbt.putLong("nenPowerCap", nenPowerCap);
         nbt.putInt("nenLvl", nenLvl);
         nbt.putInt("nenExp", nenExp);
-        nbt.putString("nenType", nenType.toNbt());
+        nbt.putString("nenType", NenType.toNbt(nenType));
         nbt.putInt("nenAbilityPoints", nenAbilityPoints);
 //        nbt.putString("nenRestrictions", );
 //        nbt.putString("nenAbilities", );
@@ -91,7 +91,7 @@ public abstract class LivingEntityNen
         this.nenPowerCap = nbt.getLong("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getInt("nenExp");
-        this.nenType = nenType.fromNbt(nbt.getString("nenType"));
+        this.nenType = NenType.fromNbt(nbt.getString("nenType"));
         this.nenAbilityPoints = nbt.getInt("nenAbilityPoints");
 //        this.nenRestrictions =
 //        this.nenAbilities =
