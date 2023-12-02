@@ -27,10 +27,9 @@ public abstract class TargetAbility extends Ability {
                 switch (target.getType()){
                     case BLOCK -> {
                         if (targetType == TargetType.BLOCK || targetType == TargetType.MIXED){
-                            World world = caster.getWorld();
                             BlockHitResult blockTarget = (BlockHitResult) target;
                             abilityEffect.applyEffect(
-                                    world.getBlockState(blockTarget.getBlockPos()).getBlock(), caster
+                                    blockTarget.getBlockPos(), caster
                             );
                         }
                         else {
