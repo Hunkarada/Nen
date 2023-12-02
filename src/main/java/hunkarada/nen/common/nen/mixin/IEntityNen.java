@@ -11,6 +11,9 @@ public interface IEntityNen {
     ArrayList<AbilityEffect> nen$getNenAbilityEffects();
     void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects);
 
+    void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect);
+    void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect);
+
 //NenMemory
     public HashMap<String, String> nen$getNenMemory();
     void nen$setNenMemory(HashMap<String, String> nenMemory);

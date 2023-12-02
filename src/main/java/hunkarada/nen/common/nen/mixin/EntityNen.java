@@ -1,16 +1,13 @@
 package hunkarada.nen.common.nen.mixin;
 
 
-import com.google.gson.Gson;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,23 +16,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 @Mixin(Entity.class)
 public abstract class EntityNen
         implements IEntityNen {
-    @Shadow protected abstract NbtList toNbtList(float... values);
-
     // effects, which caster has at himself.
     @Unique
     ArrayList<AbilityEffect> nenAbilityEffects;
 
     @Unique
     private HashMap<String, String> nenMemory;
-
-
-//    public EntityNen(EntityType<?> type, World world) {super(type, world);}
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void EntityNen(EntityType<?> type, World world, CallbackInfo callbackInfo) {
@@ -46,53 +37,42 @@ public abstract class EntityNen
 
     @Inject(method = "writeNbt", at = @At("RETURN"))
     public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
-
-        //nenAbilityEffects Nbt save
-        ArrayList<Integer> collector = new ArrayList<Integer>();
-        for(int i = 0; i < nenAbilityEffects.size(); ++i) {
-            String key = "10"+i;
-            nbt.putString(key, nenAbilityEffects.get(i).toNbt());
-            collector.add(Integer.parseInt(key));
+        NbtCompound abilityEffectsNbt = new NbtCompound();
+        for (AbilityEffect effect : nenAbilityEffects){
+            abilityEffectsNbt.putString(AbilityEffect.toNbt(effect), AbilityEffect.toNbt(effect));
         }
-        nbt.putIntArray("nenAbilityEffects", collector);
+        nbt.put("nenAbilityEffects", abilityEffectsNbt);
 
         //nenMemory Nbt save
-        collector.clear();
-        int i = 0;
-        for (Map.Entry<String, String> item : nenMemory.entrySet()) {
-            String key = "20"+i;
-            nbt.putString(item.getKey(), item.getValue());
-            nbt.putString(key, item.getKey());
-            collector.add(Integer.parseInt(key));
-            ++i;
+        NbtCompound nenMemoryNbt = new NbtCompound();
+        for (String key : nenMemory.keySet()){
+            NbtCompound pairNbt = new NbtCompound();
+            pairNbt.putString("key", key);
+            pairNbt.putString("value", nenMemory.get(key));
+            nenMemoryNbt.put(key, pairNbt);
         }
-        nbt.putIntArray("nenMemory", collector);
-
+        nbt.put("nenMemory", nenMemoryNbt);
 
     }
 
     @Inject(method = "readNbt", at = @At("RETURN"))
     public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
         //nenAbilityEffects Nbt load
-        nenAbilityEffects.clear();
-        int[] collector = nbt.getIntArray("nenAbilityEffects");
-        for(int i = 0; i < collector.length; ++i) {
-            nenAbilityEffects.add(???.fromNbt(nbt.getString(String.valueOf(collector[i]))));
 
-            //AbilityEffect idCatch = new AbilityEffect();
-            //nbt.getString(String.valueOf(collector[i]));
+        // should be string, check is not necessary.
+        // key = value anyway, we don't care coz it works like an array, not map
+        ArrayList<String> abilityEffectKeys = (ArrayList) nbt.getCompound("nenAbilityEffects").getKeys();
+        for(String key : abilityEffectKeys){
+            nenAbilityEffects.add(AbilityEffect.fromNbt(key));
         }
 
         //nenMemory Nbt load
-        nenMemory.clear();
-        collector = nbt.getIntArray("nenMemory");
-        String keyGet;
-
-        for(int item : collector) {
-            keyGet = nbt.getString(String.valueOf(item));
-            nenMemory.put(keyGet, nbt.getString(keyGet));
+        NbtCompound nenMemoryNbt = nbt.getCompound("nenMemory");
+        ArrayList<String> memoryKeys = (ArrayList) nbt.getCompound("nenMemory").getKeys();
+        for (String key : memoryKeys){
+            NbtCompound pairNbt = nenMemoryNbt.getCompound(key);
+            nenMemory.put(pairNbt.getString("key"), pairNbt.getString("value"));
         }
-
 
     }
 
@@ -104,7 +84,17 @@ public abstract class EntityNen
         this.nenAbilityEffects = nenAbilityEffects;
     }
 
-//NenMemory
+    @Override
+    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect) {
+        nenAbilityEffects.add(nenAbilityEffect);
+    }
+
+    @Override
+    public void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect) {
+        nenAbilityEffects.remove(nenAbilityEffect);
+    }
+
+    //NenMemory
     public HashMap<String, String> nen$getNenMemory() {
         return nenMemory;
     }
