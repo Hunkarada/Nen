@@ -2,19 +2,16 @@ package hunkarada.nen.common.nen.ability.abstraction.entitiy;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class NenBlockEntity extends Entity {
+public class NenBlockEntity extends FallingBlockEntity {
 
-    public void createFromBlock(BlockPos pos){
-        this.setPosition(pos.toCenterPos());
-        this.world.removeBlock(pos,false);
-        this.world.spawnEntity(this);
-    }
-    public NenBlockEntity(EntityType<?> type, World world) {
-        super(type, world);
+
+    public NenBlockEntity(EntityType<? extends FallingBlockEntity> entityType, World world) {
+        super(entityType, world);
     }
 
     @Override

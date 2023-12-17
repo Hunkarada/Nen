@@ -1,15 +1,14 @@
 package hunkarada.nen.common.nen.mixin;
 
+import hunkarada.nen.common.nen.ILivingEntityNen;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 // This class is mixing into every LivingEntity, and this adds Nen data to all living creatures in minecraft.
 @Mixin(LivingEntity.class)

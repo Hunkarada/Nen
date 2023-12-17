@@ -4,7 +4,7 @@ package hunkarada.nen.common.nen.ability.abstraction.ability;
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.registry.AbilityRegistry;
-import hunkarada.nen.common.nen.mixin.ILivingEntityNen;
+import hunkarada.nen.common.nen.ILivingEntityNen;
 import net.minecraft.entity.LivingEntity;
 
 // Class for creating other abilities

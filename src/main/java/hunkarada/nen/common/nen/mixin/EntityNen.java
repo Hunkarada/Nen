@@ -1,6 +1,7 @@
 package hunkarada.nen.common.nen.mixin;
 
 
+import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -61,14 +62,14 @@ public abstract class EntityNen
 
         // should be string, check is not necessary.
         // key = value anyway, we don't care coz it works like an array, not map
-        ArrayList<String> abilityEffectKeys = (ArrayList) nbt.getCompound("nenAbilityEffects").getKeys();
+        String[] abilityEffectKeys = nbt.getCompound("nenAbilityEffects").getKeys().toArray(new String[0]);
         for(String key : abilityEffectKeys){
             nenAbilityEffects.add(AbilityEffect.fromNbt(key));
         }
 
         //nenMemory Nbt load
         NbtCompound nenMemoryNbt = nbt.getCompound("nenMemory");
-        ArrayList<String> memoryKeys = (ArrayList) nbt.getCompound("nenMemory").getKeys();
+        String[] memoryKeys = nbt.getCompound("nenMemory").getKeys().toArray(new String[0]);
         for (String key : memoryKeys){
             NbtCompound pairNbt = nenMemoryNbt.getCompound(key);
             nenMemory.put(pairNbt.getString("key"), pairNbt.getString("value"));

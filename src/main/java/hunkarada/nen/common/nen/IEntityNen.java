@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen.mixin;
+package hunkarada.nen.common.nen;
 
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 

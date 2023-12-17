@@ -3,15 +3,14 @@ package hunkarada.nen.common.nen.ability.abstraction.ability;
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenBlockEntity;
 import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
-import hunkarada.nen.common.nen.mixin.IEntityNen;
+import hunkarada.nen.common.nen.IEntityNen;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Scanner;
 
-public abstract class AbilityEffect implements CanNbt, CanRegister {
+public abstract class AbilityEffect implements CanRegister {
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
@@ -28,7 +27,7 @@ public abstract class AbilityEffect implements CanNbt, CanRegister {
 
     }
     protected void applyEffect(BlockPos target, LivingEntity caster){
-        NenBlockEntity nenBlockEntity = new NenBlockEntity(EntityType.NEN_BLOCK_ENTITY, caster.getWorld());
+
 
     }
     protected void firstTickEffect(NenBlockEntity target){
