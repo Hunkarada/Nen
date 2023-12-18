@@ -2,6 +2,7 @@ package hunkarada.nen.common.nen.mixin;
 
 
 import hunkarada.nen.common.nen.IEntityNen;
+import hunkarada.nen.common.nen.NenMemory;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Set;
 
 
 @Mixin(Entity.class)
@@ -27,12 +28,12 @@ public abstract class EntityNen
     ArrayList<AbilityEffect> nenAbilityEffects;
 
     @Unique
-    private HashMap<String, String> nenMemory;
+    private NenMemory nenMemory;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void EntityNen(EntityType<?> type, World world, CallbackInfo callbackInfo) {
         this.nenAbilityEffects = new ArrayList<>();
-        this.nenMemory = new HashMap<>();
+        this.nenMemory = new NenMemory();
 
     }
 
@@ -46,10 +47,11 @@ public abstract class EntityNen
 
         //nenMemory Nbt save
         NbtCompound nenMemoryNbt = new NbtCompound();
-        for (String key : nenMemory.keySet()){
+        Set<String> keySet = NenMemory.toNbt(nenMemory).keySet();
+        for (String key : keySet){
             NbtCompound pairNbt = new NbtCompound();
             pairNbt.putString("key", key);
-            pairNbt.putString("value", nenMemory.get(key));
+            pairNbt.putString("value", nenMemory.read(new NenMemory.NenMemoryKey(key)));
             nenMemoryNbt.put(key, pairNbt);
         }
         nbt.put("nenMemory", nenMemoryNbt);
@@ -72,7 +74,7 @@ public abstract class EntityNen
         String[] memoryKeys = nbt.getCompound("nenMemory").getKeys().toArray(new String[0]);
         for (String key : memoryKeys){
             NbtCompound pairNbt = nenMemoryNbt.getCompound(key);
-            nenMemory.put(pairNbt.getString("key"), pairNbt.getString("value"));
+            nenMemory.write(new NenMemory.NenMemoryKey(pairNbt.getString("key")), pairNbt.getString("value"));
         }
 
     }
@@ -96,20 +98,20 @@ public abstract class EntityNen
     }
 
     //NenMemory
-    public HashMap<String, String> nen$getNenMemory() {
+    public NenMemory nen$getNenMemory() {
         return nenMemory;
     }
 
-    public void nen$setNenMemory(HashMap<String, String> nenMemory) {
+    public void nen$setNenMemory(NenMemory nenMemory) {
         this.nenMemory = nenMemory;
     }
 
-    public void nen$writeToNenMemory(String id, String data){
-        this.nenMemory.put(id, data);
+    public void nen$writeToNenMemory(NenMemory.NenMemoryKey id, String data){
+        this.nenMemory.write(id, data);
     }
     @Nullable
-    public String nen$readFromNenMemory(String id){
-        return this.nenMemory.get(id);
+    public String nen$readFromNenMemory(NenMemory.NenMemoryKey id){
+        return this.nenMemory.read(id);
     }
 
 
