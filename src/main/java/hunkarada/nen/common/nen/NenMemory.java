@@ -3,7 +3,7 @@ package hunkarada.nen.common.nen;
 import java.util.HashMap;
 
 public class NenMemory {
-    private HashMap<String, String> data;
+    private HashMap<String, String> data = new HashMap<>();
     public static final NenMemoryKey SELECTED_BLOCK = new NenMemoryKey("selectedBlock");
 
     public static class NenMemoryKey {
