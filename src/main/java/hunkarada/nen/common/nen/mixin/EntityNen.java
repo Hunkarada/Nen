@@ -78,6 +78,14 @@ public abstract class EntityNen
         }
 
     }
+    @Inject(method = "tick", at = @At("RETURN"))
+    public void nen$tick(CallbackInfo ci){
+        for (AbilityEffect effect : nenAbilityEffects){
+            if (effect.calcDuration()){
+                effect.durationalEffect((Entity) (Object) this);
+            }
+        }
+    }
 
 //NenAbilityEffects
     public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
