@@ -1,9 +1,13 @@
 package hunkarada.nen.client;
 
+import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
@@ -14,6 +18,7 @@ public class NenKeyBinding {
     public static void registerKeyInput() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.wasPressed()) {
+                ClientPlayNetworking.send(ModMessages.SOME_ID, PacketByteBufs.create());
 
             }
         });
