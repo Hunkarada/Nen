@@ -1,9 +1,8 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanRegister;
-import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
 import hunkarada.nen.common.nen.IEntityNen;
-import hunkarada.nen.common.nen.mixin.EntityNen;
+import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +14,7 @@ public abstract class AbilityEffect implements CanRegister {
     protected int duration;
     protected boolean isFirstTick = true;
 
-    protected void applyEffect(Entity target, LivingEntity caster){
+    public void applyEffect(Entity target, LivingEntity caster){
         firstTickEffect(target);
         isFirstTick = false;
         if (duration != 0){
@@ -26,7 +25,7 @@ public abstract class AbilityEffect implements CanRegister {
 
 
     }
-    protected void applyEffect(BlockPos target, LivingEntity caster){
+    public void applyEffect(BlockPos target, LivingEntity caster){
 
 
     }
@@ -38,9 +37,7 @@ public abstract class AbilityEffect implements CanRegister {
     }
 
     public static String toNbt(AbilityEffect effect){
-        String result = "";
-        result = effect.id + " " + effect.duration + " " + effect.isFirstTick;
-        return result;
+        return effect.id + " " + effect.duration + " " + effect.isFirstTick;
     }
 
     public static AbilityEffect fromNbt(String id){
