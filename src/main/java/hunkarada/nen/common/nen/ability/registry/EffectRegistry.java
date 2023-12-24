@@ -7,8 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class EffectRegistry implements Registry<AbilityEffect> {
-
-
     private static final EffectRegistry instance = new EffectRegistry();
 
     private static final HashMap<String, AbilityEffect> registry = new HashMap<>();
