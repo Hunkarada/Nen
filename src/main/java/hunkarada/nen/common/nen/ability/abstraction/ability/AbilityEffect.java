@@ -1,9 +1,9 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanRegister;
-import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenBlockEntity;
 import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
 import hunkarada.nen.common.nen.IEntityNen;
+import hunkarada.nen.common.nen.mixin.EntityNen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -30,13 +30,10 @@ public abstract class AbilityEffect implements CanRegister {
 
 
     }
-    protected void firstTickEffect(NenBlockEntity target){
-
-    }
     protected void firstTickEffect(Entity target){
 
     }
-    protected void durationalEffect(Entity target){
+    public void durationalEffect(Entity target){
 
     }
 
@@ -67,17 +64,17 @@ public abstract class AbilityEffect implements CanRegister {
     }
 // Logic here is:
 // if duration is more or equals, than 1 - we decrease it by one,
-// if == 0, then method returns true, and we remove effect, if duration == -1, this effect can't expire at all.
+// if == 0, then method returns false, and we remove effect, if duration == -1, this effect can't expire at all.
     public boolean calcDuration()
     {
         if (this.duration == 0) {
-            return true;
-        } else if (this.duration == -1) {
             return false;
+        } else if (this.duration == -1) {
+            return true;
         }
         else {
             this.duration -= 1;
-            return false;
+            return true;
         }
     }
 
