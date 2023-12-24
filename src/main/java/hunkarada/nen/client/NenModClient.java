@@ -1,6 +1,5 @@
 package hunkarada.nen.client;
 
-import hunkarada.nen.common.nen.NenKeyBinding;
 import net.fabricmc.api.ClientModInitializer;
 
 public class NenModClient implements ClientModInitializer {
