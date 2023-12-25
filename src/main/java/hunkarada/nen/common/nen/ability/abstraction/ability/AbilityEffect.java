@@ -4,28 +4,30 @@ import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Scanner;
 
 public abstract class AbilityEffect implements CanRegister {
+    PlayerEntity caster;
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
 
-    public void applyEffect(Entity target, LivingEntity caster){
+    public void applyEffect(Entity target, PlayerEntity caster){
+        this.caster = caster;
         firstTickEffect(target);
         isFirstTick = false;
         if (duration != 0){
             // need to realize Entity mixin
             IEntityNen nenTarget = (IEntityNen) target;
-            nenTarget.nen$addNenAbilityEffect(this);
+            nenTarget.nen$addNenAbilityEffect(this, caster);
         }
 
 
     }
-    public void applyEffect(BlockPos target, LivingEntity caster){
+    public void applyEffect(BlockPos target, PlayerEntity caster){
 
 
     }

@@ -1,7 +1,8 @@
 package hunkarada.nen.common.register;
 
-import hunkarada.nen.common.nen.ability.conjuration.creator.selectblockability.SelectBlockAbility;
-import hunkarada.nen.common.nen.ability.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
+import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.CreatorNenAbilitySet;
+import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability.SelectBlockAbility;
+import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
 
 public class NenModRegister {
 
@@ -14,6 +15,7 @@ public class NenModRegister {
     public static void registerCommon(){
         registerAbilities();
         registerEffects();
+        registerAbilitySets();
     }
 
     public static void registerAbilities(){
@@ -22,5 +24,9 @@ public class NenModRegister {
 
     public static void registerEffects(){
         new SelectBlockAbilityEffect().register();
+    }
+
+    public static void registerAbilitySets(){
+        new CreatorNenAbilitySet().register();
     }
 }

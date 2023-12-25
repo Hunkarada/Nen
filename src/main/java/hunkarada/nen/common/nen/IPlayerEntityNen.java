@@ -1,22 +1,16 @@
 package hunkarada.nen.common.nen;
 
 
-import hunkarada.nen.common.nen.NenType;
-import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenAbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public interface ILivingEntityNen {
+public interface IPlayerEntityNen {
 
      boolean nen$getIsNenAwakened();
 
      void nen$setIsNenAwakened(boolean isNenAwakened);
-     int nen$getNenAbilityPoints();
-
-     void nen$setNenAbilityPoints(int nenAbilityPoints);
 
      NenType nen$getNenType();
 
@@ -47,9 +41,9 @@ public interface ILivingEntityNen {
      void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions);
 
 
-     ArrayList<Ability> nen$getNenAbilities();
+     NenAbilitySet nen$getNenAbilities();
 
-     void nen$setNenAbilities(ArrayList<Ability> nenAbilities);
+     void nen$setNenAbilities(NenAbilitySet nenAbilities);
 
 
 

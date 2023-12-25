@@ -4,6 +4,8 @@ import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -11,7 +13,8 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NenCollisionEntity extends Entity {
+public class NenCollisionEntity extends Entity {
+    PlayerEntity caster;
     Box collisionBox;
     AbilityEffect abilityEffect;
     int lifetime;
@@ -20,11 +23,12 @@ public abstract class NenCollisionEntity extends Entity {
     boolean isMass;
     public static final EntityType<NenCollisionEntity> NEN_COLLISION_ENTITY = null; // need to register that
 
-    public NenCollisionEntity(EntityType<?> type, World world, Box collisionBox, int lifetime, AbilityEffect abilityEffect) {
+    public NenCollisionEntity(EntityType<?> type, World world, Box collisionBox, int lifetime, AbilityEffect abilityEffect, PlayerEntity caster) {
         super(type, world);
         this.collisionBox = collisionBox;
         this.lifetime = lifetime;
         this.abilityEffect = abilityEffect;
+        this.caster = caster;
         calcRadius();
     }
 
@@ -52,7 +56,7 @@ public abstract class NenCollisionEntity extends Entity {
             if (isMass) {
                 for (Entity entity : filteredList) {
                     IEntityNen entityNen = (IEntityNen) entity;
-                    entityNen.nen$addNenAbilityEffect(abilityEffect);
+                    entityNen.nen$addNenAbilityEffect(abilityEffect, caster);
                 }
             } else {
                 Entity closestEntity = filteredList.get(0);
@@ -62,15 +66,31 @@ public abstract class NenCollisionEntity extends Entity {
                     }
                 }
                 IEntityNen entityNen = (IEntityNen) closestEntity;
-                entityNen.nen$addNenAbilityEffect(abilityEffect);
+                entityNen.nen$addNenAbilityEffect(abilityEffect, caster);
             }
         }
 
 
     }
+
+    @Override
+    protected void initDataTracker() {
+
+    }
+
     @Override
     public void tick(){
         super.tick();
         checkForCollision();
+    }
+
+    @Override
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+
+    }
+
+    @Override
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+
     }
 }

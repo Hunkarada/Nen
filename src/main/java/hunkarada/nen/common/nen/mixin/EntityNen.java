@@ -6,6 +6,7 @@ import hunkarada.nen.common.nen.NenMemory;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +31,7 @@ public abstract class EntityNen
     @Unique
     private NenMemory nenMemory;
 
+    @SuppressWarnings("MethodNameSameAsClassName")
     @Inject(method = "<init>", at = @At("RETURN"))
     public void EntityNen(EntityType<?> type, World world, CallbackInfo callbackInfo) {
         this.nenAbilityEffects = new ArrayList<>();
@@ -84,6 +86,9 @@ public abstract class EntityNen
             if (effect.calcDuration()){
                 effect.durationalEffect((Entity) (Object) this);
             }
+            else {
+                this.nen$removeNenAbilityEffect(effect);
+            }
         }
     }
 
@@ -96,13 +101,13 @@ public abstract class EntityNen
     }
 
     @Override
-    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect) {
-        nenAbilityEffects.add(nenAbilityEffect);
+    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster) {
+        nenAbilityEffect.applyEffect((Entity) (Object) this, caster);
     }
 
     @Override
     public void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect) {
-        nenAbilityEffects.remove(nenAbilityEffect);
+       nenAbilityEffects.remove(nenAbilityEffect);
     }
 
     //NenMemory

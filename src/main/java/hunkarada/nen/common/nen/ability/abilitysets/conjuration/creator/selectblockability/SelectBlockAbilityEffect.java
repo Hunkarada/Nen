@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen.ability.conjuration.creator.selectblockability;
+package hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability;
 
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 

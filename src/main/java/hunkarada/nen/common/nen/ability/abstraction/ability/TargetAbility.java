@@ -1,8 +1,8 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
-import hunkarada.nen.common.nen.ability.abstraction.target.TargetType;
-import hunkarada.nen.common.nen.ILivingEntityNen;
+import hunkarada.nen.common.nen.IPlayerEntityNen;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -14,14 +14,14 @@ public abstract class TargetAbility extends Ability {
     double spellDistance;
 
     @Override
-    public void cast(LivingEntity caster) {
+    public void cast(PlayerEntity caster) {
         if (isNotAtCooldown()){
             // getting target
             getTargetByLookVector(caster);
             // calculate cost and other things
             prepareCast(caster);
             // took away nen from caster with check.
-            ILivingEntityNen nenCaster = (ILivingEntityNen) caster;
+            IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
             if (nenCaster.nen$collectNen(totalCost)){
                 switch (target.getType()){
                     case BLOCK -> {
@@ -56,5 +56,9 @@ public abstract class TargetAbility extends Ability {
 
     protected void getTargetByLookVector(LivingEntity caster) {
         this.target = caster.raycast(spellDistance, 1.0f, false);
+    }
+
+    public enum TargetType {
+        ENTITY, BLOCK, MIXED
     }
 }
