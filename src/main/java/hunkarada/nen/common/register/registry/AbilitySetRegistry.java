@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen.ability.registry;
+package hunkarada.nen.common.register.registry;
 
 import hunkarada.nen.common.abstractions.Registry;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenAbilitySet;

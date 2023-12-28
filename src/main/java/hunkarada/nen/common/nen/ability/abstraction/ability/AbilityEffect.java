@@ -2,7 +2,7 @@ package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.IEntityNen;
-import hunkarada.nen.common.nen.ability.registry.EffectRegistry;
+import hunkarada.nen.common.register.registry.EffectRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -28,15 +28,11 @@ public abstract class AbilityEffect implements CanRegister {
 
     }
     public void applyEffect(BlockPos target, PlayerEntity caster){
-
-
-    }
-    protected void firstTickEffect(Entity target){
+        this.caster = caster;
 
     }
-    public void durationalEffect(Entity target){
-
-    }
+    protected abstract void firstTickEffect(Entity target);
+    public abstract void durationalEffect(Entity target);
 
     public static String toNbt(AbilityEffect effect){
         return effect.id + " " + effect.duration + " " + effect.isFirstTick;
