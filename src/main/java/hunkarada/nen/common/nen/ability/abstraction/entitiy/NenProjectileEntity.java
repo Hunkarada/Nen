@@ -12,9 +12,8 @@ import net.minecraft.world.World;
 
 public class NenProjectileEntity extends ProjectileEntity {
     AbilityEffect abilityEffect;
-    public NenProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world, AbilityEffect abilityEffect) {
+    public NenProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
-        this.abilityEffect = abilityEffect;
     }
 
     @Override

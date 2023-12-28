@@ -21,14 +21,9 @@ public class NenCollisionEntity extends Entity {
     double radius;
     boolean isSphere;
     boolean isMass;
-    public static final EntityType<NenCollisionEntity> NEN_COLLISION_ENTITY = null; // need to register that
 
-    public NenCollisionEntity(EntityType<?> type, World world, Box collisionBox, int lifetime, AbilityEffect abilityEffect, PlayerEntity caster) {
+    public NenCollisionEntity(EntityType<?> type, World world) {
         super(type, world);
-        this.collisionBox = collisionBox;
-        this.lifetime = lifetime;
-        this.abilityEffect = abilityEffect;
-        this.caster = caster;
         calcRadius();
     }
 
