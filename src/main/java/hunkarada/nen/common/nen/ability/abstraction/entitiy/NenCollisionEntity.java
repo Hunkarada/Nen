@@ -70,6 +70,14 @@ public class NenCollisionEntity extends Entity {
 
 
     }
+    private void checkLifetime(){
+        if (lifetime == 0){
+            this.kill();
+        }
+        else {
+            lifetime -= 1;
+        }
+    }
 
     @Override
     protected void initDataTracker() {
@@ -80,6 +88,7 @@ public class NenCollisionEntity extends Entity {
     public void tick(){
         super.tick();
         checkForCollision();
+        checkLifetime();
     }
 
     @Override

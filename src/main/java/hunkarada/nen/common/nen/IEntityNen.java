@@ -15,7 +15,7 @@ public interface IEntityNen {
     void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect);
 
 //NenMemory
-    public NenMemory nen$getNenMemory();
+NenMemory nen$getNenMemory();
     void nen$setNenMemory(NenMemory nenMemory);
     void nen$writeToNenMemory(NenMemory.NenMemoryKey id, String data);
     String nen$readFromNenMemory(NenMemory.NenMemoryKey id);
