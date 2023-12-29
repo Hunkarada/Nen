@@ -5,10 +5,10 @@ import hunkarada.nen.common.register.registry.AbilitySetRegistry;
 
 import java.util.ArrayList;
 
-public class NenAbilitySet implements CanRegister {
+public class AbilitySet implements CanRegister {
     protected String setId = "empty";
     protected ArrayList<Ability> abilitySet = new ArrayList<>();
-    public NenAbilitySet() {
+    public AbilitySet() {
         prepareSet();
     }
 
@@ -26,11 +26,11 @@ public class NenAbilitySet implements CanRegister {
         return abilityIds;
     }
 
-    public static String toNbt(NenAbilitySet nenAbilitySet){
+    public static String toNbt(AbilitySet nenAbilitySet){
        return nenAbilitySet.setId;
     }
 
-    public static NenAbilitySet fromNbt(String id){
+    public static AbilitySet fromNbt(String id){
         return AbilitySetRegistry.getInstance().getFromRegistry(id);
     }
 
