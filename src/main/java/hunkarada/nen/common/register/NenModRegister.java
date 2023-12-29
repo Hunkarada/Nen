@@ -1,9 +1,9 @@
 package hunkarada.nen.common.register;
 
 import hunkarada.nen.client.NenKeyBinding;
-import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.CreatorAbilitySet;
-import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability.SelectBlockAbility;
-import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
+import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.CreatorAbilitySet;
+import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;
+import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenCollisionEntity;
