@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
+import hunkarada.nen.common.nen.ability.abilities.EmptyAbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
@@ -63,7 +64,7 @@ public abstract class PlayerEntityNen
         this.nenExp = 0;
         this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
-        this.nenAbilities = new AbilitySet();
+        this.nenAbilities = new EmptyAbilitySet();
     }
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))

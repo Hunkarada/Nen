@@ -1,10 +1,10 @@
 package hunkarada.nen.common.register;
 
 import hunkarada.nen.client.NenKeyBinding;
+import hunkarada.nen.common.nen.ability.abilities.EmptyAbilitySet;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.CreatorAbilitySet;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenCollisionEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenProjectileEntity;
@@ -38,7 +38,7 @@ public class NenModRegister {
     }
 
     public static void registerAbilitySets(){
-        new AbilitySet().register();
+        new EmptyAbilitySet().register();
         new CreatorAbilitySet().register();
     }
     //works for both sides

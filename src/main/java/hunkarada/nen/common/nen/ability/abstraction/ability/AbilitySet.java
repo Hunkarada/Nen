@@ -6,8 +6,8 @@ import hunkarada.nen.common.register.registry.AbilitySetRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AbilitySet implements CanRegister {
-    protected String setId = "empty";
+public abstract class AbilitySet implements CanRegister {
+    protected String setId;
     protected ArrayList<Ability> abilitySet = new ArrayList<>();
     protected ArrayList<String> abilityIds = getAbilityIds();
 
@@ -16,8 +16,7 @@ public class AbilitySet implements CanRegister {
         prepareSet();
     }
 
-    protected void prepareSet() {
-    }
+    protected abstract void prepareSet();
 
     public ArrayList<Ability> getAbilitySetCopy(){
         return abilitySet;
