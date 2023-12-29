@@ -1,7 +1,7 @@
 package hunkarada.nen.common.nen;
 
 
-import hunkarada.nen.common.nen.ability.abstraction.ability.NenAbilitySet;
+import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ public interface IPlayerEntityNen {
      void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions);
 
 
-     NenAbilitySet nen$getNenAbilities();
+     AbilitySet nen$getNenAbilities();
 
-     void nen$setNenAbilities(NenAbilitySet nenAbilities);
+     void nen$setNenAbilities(AbilitySet nenAbilities);
 
 
 

@@ -3,7 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
-import hunkarada.nen.common.nen.ability.abstraction.ability.NenAbilitySet;
+import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -46,7 +46,7 @@ public abstract class PlayerEntityNen
     ArrayList<Restriction> nenRestrictions;
     // abilities, which caster can use.
     @Unique
-    NenAbilitySet nenAbilities;
+    AbilitySet nenAbilities;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -63,7 +63,7 @@ public abstract class PlayerEntityNen
         this.nenExp = 0;
         this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
-        this.nenAbilities = new NenAbilitySet();
+        this.nenAbilities = new AbilitySet();
     }
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
@@ -75,7 +75,7 @@ public abstract class PlayerEntityNen
         nbt.putInt("nenExp", nenExp);
         nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
-        nbt.putString("nenAbilities", NenAbilitySet.toNbt(nenAbilities));
+        nbt.putString("nenAbilities", AbilitySet.toNbt(nenAbilities));
     }
     // and reading data from NBT.
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
@@ -87,7 +87,7 @@ public abstract class PlayerEntityNen
         this.nenExp = nbt.getInt("nenExp");
         this.nenType = NenType.fromNbt(nbt.getString("nenType"));
 //        this.nenRestrictions =
-        this.nenAbilities = NenAbilitySet.fromNbt(nbt.getString("nenAbilities"));
+        this.nenAbilities = AbilitySet.fromNbt(nbt.getString("nenAbilities"));
 
     }
     // it's returns boolean value, if false - it's a signal to caller of method,
@@ -177,11 +177,11 @@ public abstract class PlayerEntityNen
         this.nenRestrictions = nenRestrictions;
     }
 
-    public NenAbilitySet nen$getNenAbilities() {
+    public AbilitySet nen$getNenAbilities() {
         return nenAbilities;
     }
 
-    public void nen$setNenAbilities(NenAbilitySet nenAbilities) {
+    public void nen$setNenAbilities(AbilitySet nenAbilities) {
         this.nenAbilities = nenAbilities;
     }
 
