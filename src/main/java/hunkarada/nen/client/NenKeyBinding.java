@@ -18,7 +18,7 @@ public class NenKeyBinding {
     public static void registerKeyInput() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.wasPressed()) {
-                ClientPlayNetworking.send(ModMessages.MOD_ID, PacketByteBufs.create());
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
 
             }
         });
