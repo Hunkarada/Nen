@@ -1,5 +1,6 @@
 package hunkarada.nen.common.register;
 
+import hunkarada.nen.client.NenKeyBinding;
 import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.CreatorNenAbilitySet;
 import hunkarada.nen.common.nen.ability.abilitysets.conjuration.creator.selectblockability.SelectBlockAbility;
@@ -8,6 +9,7 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.NenAbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenCollisionEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenProjectileEntity;
+import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -20,12 +22,14 @@ public class NenModRegister {
 
     public static void registerClient(){
         registerClientEntities();
+        registerKeybindings();
     }
     public static void registerCommon(){
         registerEntities();
         registerAbilities();
         registerEffects();
         registerAbilitySets();
+        registerNetwork();
     }
 
     public static void registerAbilities(){
@@ -51,5 +55,14 @@ public class NenModRegister {
 
     public static void registerClientEntities(){
 
+    }
+
+    public static void registerNetwork(){
+        ModMessages.registerC2SPackets();
+        ModMessages.registerS2CPackets();
+    }
+
+    public static void registerKeybindings(){
+        NenKeyBinding.register();
     }
 }

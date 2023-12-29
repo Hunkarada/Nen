@@ -1,6 +1,5 @@
 package hunkarada.nen.common;
 
-import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.api.ModInitializer;
 
 import static hunkarada.nen.common.register.NenModRegister.registerCommon;
@@ -15,8 +14,5 @@ public class NenMod implements ModInitializer {
     @Override
     public void onInitialize() {
         registerCommon();
-
-        ModMessages.registerC2SPackets();
-
     }
 }

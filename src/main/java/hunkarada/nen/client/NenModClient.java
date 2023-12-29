@@ -11,7 +11,5 @@ public class NenModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         registerClient();
-        NenKeyBinding.register();
-
     }
 }
