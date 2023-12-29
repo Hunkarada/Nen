@@ -9,9 +9,9 @@ import net.minecraft.util.hit.HitResult;
 
 public abstract class TargetAbility extends Ability {
 
-    TargetType targetType;
-    HitResult target;
-    double spellDistance;
+    protected TargetType targetType;
+    protected HitResult target;
+    protected double spellDistance;
 
     @Override
     public void cast(PlayerEntity caster) {

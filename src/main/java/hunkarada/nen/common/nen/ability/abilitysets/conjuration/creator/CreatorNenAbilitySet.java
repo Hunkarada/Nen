@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class CreatorNenAbilitySet extends NenAbilitySet {
     @Override
     protected void prepareSet(){
-       this.id = "creatorAbilitySet";
+       this.setId = "creatorAbilitySet";
        ArrayList<Ability> abilitySet = new ArrayList<>();
        abilitySet.add(new SelectBlockAbility());
        this.abilitySet = abilitySet;

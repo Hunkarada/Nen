@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Scanner;
 
 public abstract class AbilityEffect implements CanRegister {
-    PlayerEntity caster;
+    protected PlayerEntity caster;
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
@@ -29,9 +29,13 @@ public abstract class AbilityEffect implements CanRegister {
     }
     public void applyEffect(BlockPos target, PlayerEntity caster){
         this.caster = caster;
-
+        firstTickEffect(target);
+        // as we can't apply ability effect on blocks - we don't switch isFirstTick
     }
     protected abstract void firstTickEffect(Entity target);
+
+    protected abstract void firstTickEffect(BlockPos target);
+
     public abstract void durationalEffect(Entity target);
 
     public static String toNbt(AbilityEffect effect){

@@ -1,11 +1,13 @@
 package hunkarada.nen.common.nen.ability.abstraction.entitiy;
 
+import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NenCollisionEntity extends Entity {
+    public static final Identifier NEN_COLLISION_ENTITY_ID = new Identifier(NenMod.MOD_ID, "nen_collision_entity");
     PlayerEntity caster;
     Box collisionBox;
     AbilityEffect abilityEffect;

@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 
 public abstract class ProjectileAbility extends Ability {
-    NenProjectileEntity projectile;
+    protected NenProjectileEntity projectile;
 
 
     protected abstract ArrayList<Vec3d> calcPosAndDirection(LivingEntity caster);

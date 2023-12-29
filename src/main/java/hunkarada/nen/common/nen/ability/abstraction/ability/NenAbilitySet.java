@@ -6,7 +6,7 @@ import hunkarada.nen.common.register.registry.AbilitySetRegistry;
 import java.util.ArrayList;
 
 public class NenAbilitySet implements CanRegister {
-    protected String id = "empty";
+    protected String setId = "empty";
     protected ArrayList<Ability> abilitySet = new ArrayList<>();
     public NenAbilitySet() {
         prepareSet();
@@ -18,9 +18,16 @@ public class NenAbilitySet implements CanRegister {
     public ArrayList<Ability> getAbilitySetCopy(){
         return abilitySet;
     }
+    public ArrayList<String> getAbilityIds(){
+        ArrayList<String> abilityIds = new ArrayList<>();
+        for (Ability ability: abilitySet){
+            abilityIds.add(ability.id);
+        }
+        return abilityIds;
+    }
 
     public static String toNbt(NenAbilitySet nenAbilitySet){
-       return nenAbilitySet.id;
+       return nenAbilitySet.setId;
     }
 
     public static NenAbilitySet fromNbt(String id){
@@ -29,6 +36,6 @@ public class NenAbilitySet implements CanRegister {
 
     @Override
     public void register() {
-        AbilitySetRegistry.getInstance().addToRegistry(id, this);
+        AbilitySetRegistry.getInstance().addToRegistry(setId, this);
     }
 }

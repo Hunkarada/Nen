@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class NenMemory {
     private HashMap<String, String> data = new HashMap<>();
-    public static final NenMemoryKey SELECTED_BLOCK = new NenMemoryKey("selectedBlock");
+    public static final NenMemoryKey SELECTED_BLOCK = new NenMemoryKey("selected_block");
 
     public static class NenMemoryKey {
         String encapsulatedKey;
