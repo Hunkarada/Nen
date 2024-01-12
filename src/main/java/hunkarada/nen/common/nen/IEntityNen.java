@@ -11,11 +11,11 @@ public interface IEntityNen {
     ArrayList<AbilityEffect> nen$getNenAbilityEffects();
     void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects);
 
-    void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster);
+    void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster, long nenPower);
     void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect);
 
-//NenMemory
-NenMemory nen$getNenMemory();
+    //NenMemory
+    NenMemory nen$getNenMemory();
     void nen$setNenMemory(NenMemory nenMemory);
     void nen$writeToNenMemory(NenMemory.NenMemoryKey id, String data);
     String nen$readFromNenMemory(NenMemory.NenMemoryKey id);

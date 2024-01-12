@@ -10,5 +10,6 @@ public abstract class ProjectileAbility extends Ability {
     protected NenProjectileEntity projectile;
 
 
+
     protected abstract ArrayList<Vec3d> calcPosAndDirection(LivingEntity caster);
 }

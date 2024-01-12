@@ -10,24 +10,27 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Scanner;
 
 public abstract class AbilityEffect implements CanRegister {
+    protected long nenPower;
     protected PlayerEntity caster;
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
 
-    public void applyEffect(Entity target, PlayerEntity caster){
+    public void applyEffect(Entity target, PlayerEntity caster, long nenPower){
+        this.nenPower = nenPower;
         this.caster = caster;
         firstTickEffect(target);
         isFirstTick = false;
         if (duration != 0){
             // need to realize Entity mixin
             IEntityNen nenTarget = (IEntityNen) target;
-            nenTarget.nen$addNenAbilityEffect(this, caster);
+            nenTarget.nen$addNenAbilityEffect(this, caster, nenPower);
         }
 
 
     }
-    public void applyEffect(BlockPos target, PlayerEntity caster){
+    public void applyEffect(BlockPos target, PlayerEntity caster, long nenPower){
+        this.nenPower = nenPower;
         this.caster = caster;
         firstTickEffect(target);
         // as we can't apply ability effect on blocks - we don't switch isFirstTick
@@ -38,8 +41,12 @@ public abstract class AbilityEffect implements CanRegister {
 
     public abstract void durationalEffect(Entity target);
 
+    public long getNenPower(){
+        return nenPower;
+    }
+
     public static String toNbt(AbilityEffect effect){
-        return effect.id + " " + effect.duration + " " + effect.isFirstTick;
+        return effect.id + " " + effect.duration + " " + effect.isFirstTick + " " + effect.nenPower;
     }
 
     public static AbilityEffect fromNbt(String id){
@@ -48,10 +55,12 @@ public abstract class AbilityEffect implements CanRegister {
         String effectId = scanner.next();
         int duration = Integer.parseInt(scanner.next());
         boolean isFirstTick = Boolean.parseBoolean(scanner.next());
+        long nenPower = Long.parseLong(scanner.next());
 
         AbilityEffect effect = EffectRegistry.getInstance().getFromRegistry(effectId);
         effect.duration = duration;
         effect.isFirstTick = isFirstTick;
+        effect.nenPower = nenPower;
 
         return effect;
     }

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 public class NenProjectileEntity extends ProjectileEntity {
     public static final Identifier NEN_PROJECTILE_ENTITY = new Identifier(NenMod.MOD_ID, "nen_projectile_entity");
+
     AbilityEffect abilityEffect;
     public NenProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
@@ -22,8 +23,8 @@ public class NenProjectileEntity extends ProjectileEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        Entity entity = entityHitResult.getEntity();
-        abilityEffect.applyEffect(entity, (PlayerEntity) this.getOwner());
+        Entity entity =  entityHitResult.getEntity();
+        abilityEffect.applyEffect(entity, (PlayerEntity) this.getOwner(), abilityEffect.getNenPower());
 
     }
 
@@ -31,7 +32,7 @@ public class NenProjectileEntity extends ProjectileEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
         BlockPos blockPos = blockHitResult.getBlockPos();
-        abilityEffect.applyEffect(blockPos, (PlayerEntity) this.getOwner());
+        abilityEffect.applyEffect(blockPos, (PlayerEntity) this.getOwner(), abilityEffect.getNenPower());
     }
 
     @Override

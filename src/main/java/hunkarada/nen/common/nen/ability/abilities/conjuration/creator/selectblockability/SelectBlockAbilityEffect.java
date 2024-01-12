@@ -16,6 +16,7 @@ public class SelectBlockAbilityEffect extends AbilityEffect {
 
     @Override
     protected void firstTickEffect(BlockPos target) {
+        System.out.println("HUI");
         IEntityNen casterNen = (IEntityNen) caster;
         casterNen.nen$writeToNenMemory(NenMemory.SELECTED_BLOCK, target.toShortString());
     }

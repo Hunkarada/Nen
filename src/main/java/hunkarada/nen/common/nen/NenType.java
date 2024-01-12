@@ -1,5 +1,7 @@
 package hunkarada.nen.common.nen;
 
+import net.minecraft.nbt.NbtCompound;
+
 public enum NenType {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");
     private final String id;
@@ -11,7 +13,7 @@ public enum NenType {
         return id;
     }
     public static String toNbt(NenType nenType){
-        return nenType.toString();
+        return nenType.id;
     }
     //stupid implementation with switch-case construction,
     // as it will be much faster, than index calculations, and much simpler to do
@@ -130,7 +132,8 @@ public enum NenType {
         throw new RuntimeException("NenType Error");
     }
 
-    public static NenType fromNbt(String id){
+    public static NenType fromNbt(NbtCompound nbt){
+        String id = nbt.getString("nenType");
         return switch (id) {
             case "Enhancement" -> NenType.ENHANCEMENT;
             case "Emission" -> NenType.EMISSION;

@@ -10,7 +10,7 @@ import net.minecraft.util.hit.HitResult;
 public abstract class TargetAbility extends Ability {
 
     protected TargetType targetType;
-    protected HitResult target;
+    private HitResult target;
     protected double spellDistance;
 
     @Override
@@ -22,31 +22,33 @@ public abstract class TargetAbility extends Ability {
             prepareCast(caster);
             // took away nen from caster with check.
             IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
-            if (nenCaster.nen$collectNen(totalCost)){
+            if (nenCaster.nen$collectNen(this.getTotalCost())){
                 switch (target.getType()){
                     case BLOCK -> {
                         if (targetType == TargetType.BLOCK || targetType == TargetType.MIXED){
                             BlockHitResult blockTarget = (BlockHitResult) target;
                             abilityEffect.applyEffect(
-                                    blockTarget.getBlockPos(), caster
+                                    blockTarget.getBlockPos(), caster, getNenPower()
                             );
+                            setInitialCooldown();
                         }
                         else {
-                            nenCaster.nen$giveNen(totalCost);
+                            nenCaster.nen$giveNen(this.getTotalCost());
                         }
                     }
                     case ENTITY -> {
                         if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
                             abilityEffect.applyEffect(
-                                    ((EntityHitResult) target).getEntity(), caster
+                                    ((EntityHitResult) target).getEntity(), caster, getNenPower()
                             );
+                            setInitialCooldown();
                         }
                         else {
-                            nenCaster.nen$giveNen(totalCost);
+                            nenCaster.nen$giveNen(this.getTotalCost());
                         }
 
                     }
-                    case MISS -> nenCaster.nen$giveNen(totalCost);
+                    case MISS -> nenCaster.nen$giveNen(this.getTotalCost());
                 }
             }
 

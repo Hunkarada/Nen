@@ -18,12 +18,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 
 @Mixin(Entity.class)
 public abstract class EntityNen
         implements IEntityNen {
+
     // effects, which caster has at himself.
     @Unique
     ArrayList<AbilityEffect> nenAbilityEffects;
@@ -48,36 +48,20 @@ public abstract class EntityNen
         nbt.put("nenAbilityEffects", abilityEffectsNbt);
 
         //nenMemory Nbt save
-        NbtCompound nenMemoryNbt = new NbtCompound();
-        Set<String> keySet = NenMemory.toNbt(nenMemory).keySet();
-        for (String key : keySet){
-            NbtCompound pairNbt = new NbtCompound();
-            pairNbt.putString("key", key);
-            pairNbt.putString("value", nenMemory.read(new NenMemory.NenMemoryKey(key)));
-            nenMemoryNbt.put(key, pairNbt);
-        }
-        nbt.put("nenMemory", nenMemoryNbt);
+        nbt.put("nenMemory", NenMemory.toNbt(nenMemory));
 
     }
 
     @Inject(method = "readNbt", at = @At("RETURN"))
     public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
-        //nenAbilityEffects Nbt load
-
         // should be string, check is not necessary.
         // key = value anyway, we don't care coz it works like an array, not map
         String[] abilityEffectKeys = nbt.getCompound("nenAbilityEffects").getKeys().toArray(new String[0]);
         for(String key : abilityEffectKeys){
             nenAbilityEffects.add(AbilityEffect.fromNbt(key));
         }
-
         //nenMemory Nbt load
-        NbtCompound nenMemoryNbt = nbt.getCompound("nenMemory");
-        String[] memoryKeys = nbt.getCompound("nenMemory").getKeys().toArray(new String[0]);
-        for (String key : memoryKeys){
-            NbtCompound pairNbt = nenMemoryNbt.getCompound(key);
-            nenMemory.write(new NenMemory.NenMemoryKey(pairNbt.getString("key")), pairNbt.getString("value"));
-        }
+        nenMemory = NenMemory.fromNbt(nbt);
 
     }
     @Inject(method = "tick", at = @At("RETURN"))
@@ -93,6 +77,8 @@ public abstract class EntityNen
     }
 
 //NenAbilityEffects
+
+    // Usage of set methods is UNSAFE! IT DOESN'T CHECK ANYTHING.
     public ArrayList<AbilityEffect> nen$getNenAbilityEffects(){
         return this.nenAbilityEffects;
     }
@@ -101,8 +87,8 @@ public abstract class EntityNen
     }
 
     @Override
-    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster) {
-        nenAbilityEffect.applyEffect((Entity) (Object) this, caster);
+    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster, long nenPower) {
+        nenAbilityEffect.applyEffect((Entity) (Object) this, caster, nenPower);
     }
 
     @Override

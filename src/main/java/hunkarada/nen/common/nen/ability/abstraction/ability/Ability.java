@@ -15,18 +15,24 @@ public abstract class Ability implements CanRegister {
     // how much nen we get from player, nenPower -
     // how actually powerful ability is (after calc NenType of caster and ability,
     // or after applying restriction multipliers).
-    protected PlayerEntity caster;
-    protected long totalCost;
-    protected long nenPower;
+
     protected String id;
     protected long staticCost;
-    protected float dynamicCostPercent;
+    protected double dynamicCostPercent;
     protected NenType nenType;
-    protected int cooldown;
+    protected int initialCooldown;
     protected AbilityEffect abilityEffect;
+    private int cooldown;
+    private PlayerEntity caster;
+    private long totalCost;
+    private long nenPower;
 
     public String getId() {
         return id;
+    }
+
+    Ability(){
+
     }
 
     protected void calcNenPower(){
@@ -35,15 +41,6 @@ public abstract class Ability implements CanRegister {
     }
 
     public abstract void cast(PlayerEntity caster);
-
-    public static String toNbt(Ability ability){
-        return ability.id;
-    }
-
-    public static Ability fromNbt(String id){
-        return AbilityRegistry.getInstance().getFromRegistry(id);
-    }
-
     protected void calcNenCost() {
         IPlayerEntityNen caster = (IPlayerEntityNen) this.caster;
         totalCost = Math.round(this.staticCost + caster.nen$getNenPowerCap() * this.dynamicCostPercent);
@@ -51,19 +48,30 @@ public abstract class Ability implements CanRegister {
 
     protected void prepareCast(PlayerEntity caster){
         this.caster = caster;
-        calcNenCost();
-        calcNenPower();
     }
 
     protected boolean isNotAtCooldown(){
-        //look carefully at ==, not =, it's boolean
         return cooldown == 0;
     }
 
     protected void calcCooldown(){
-        if (cooldown != 0){
+        if (cooldown > 0){
             this.cooldown -= this.cooldown;
         }
+    }
+
+    public long getTotalCost() {
+        calcNenCost();
+        return totalCost;
+    }
+
+    public long getNenPower(){
+        calcNenPower();
+        return nenPower;
+    }
+
+    protected void setInitialCooldown(){
+        cooldown = initialCooldown;
     }
 
     @Override

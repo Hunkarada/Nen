@@ -4,8 +4,13 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.TargetAbility;
 
 public class SelectBlockAbility extends TargetAbility {
     public SelectBlockAbility(){
-       targetType = TargetType.BLOCK;
-       cooldown = 1;
-
+        id = "select_block_ability";
+        targetType = TargetType.BLOCK;
+        spellDistance = 16;
+        staticCost = 0;
+        dynamicCostPercent = 0;
+        abilityEffect = new SelectBlockAbilityEffect();
+        initialCooldown = 0;
     }
+
 }

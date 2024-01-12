@@ -3,7 +3,6 @@ package hunkarada.nen.common.nen.mixin;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
-import hunkarada.nen.common.nen.ability.abilities.EmptyAbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
@@ -64,7 +63,7 @@ public abstract class PlayerEntityNen
         this.nenExp = 0;
         this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
-        this.nenAbilities = new EmptyAbilitySet();
+        this.nenAbilities = new AbilitySet();
     }
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
@@ -76,7 +75,7 @@ public abstract class PlayerEntityNen
         nbt.putInt("nenExp", nenExp);
         nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
-        nbt.putString("nenAbilities", AbilitySet.toNbt(nenAbilities));
+        nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
     }
     // and reading data from NBT.
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
@@ -86,10 +85,14 @@ public abstract class PlayerEntityNen
         this.nenPowerCap = nbt.getLong("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getInt("nenExp");
-        this.nenType = NenType.fromNbt(nbt.getString("nenType"));
+        this.nenType = NenType.fromNbt(nbt);
 //        this.nenRestrictions =
-        this.nenAbilities = AbilitySet.fromNbt(nbt.getString("nenAbilities"));
+        this.nenAbilities = AbilitySet.fromNbt(nbt);
 
+    }
+    @Inject(method = "tick", at = @At("RETURN"))
+    public void nen$tick(CallbackInfo ci){
+        nenAbilities.calcAbilityCooldowns();
     }
     // it's returns boolean value, if false - it's a signal to caller of method,
     // that caster hasn't enough nen, if true - everything is good.
@@ -102,8 +105,6 @@ public abstract class PlayerEntityNen
             return true;
         }
     }
-
-
 
 
     public void nen$giveNen(long value) {

@@ -54,7 +54,7 @@ public class NenCollisionEntity extends Entity {
             if (isMass) {
                 for (Entity entity : filteredList) {
                     IEntityNen entityNen = (IEntityNen) entity;
-                    entityNen.nen$addNenAbilityEffect(abilityEffect, caster);
+                    entityNen.nen$addNenAbilityEffect(abilityEffect, caster, abilityEffect.getNenPower());
                 }
             } else {
                 Entity closestEntity = filteredList.get(0);
@@ -64,7 +64,7 @@ public class NenCollisionEntity extends Entity {
                     }
                 }
                 IEntityNen entityNen = (IEntityNen) closestEntity;
-                entityNen.nen$addNenAbilityEffect(abilityEffect, caster);
+                entityNen.nen$addNenAbilityEffect(abilityEffect, caster, abilityEffect.getNenPower());
             }
         }
 
