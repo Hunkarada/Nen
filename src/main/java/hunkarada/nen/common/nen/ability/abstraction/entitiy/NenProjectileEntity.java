@@ -12,7 +12,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class NenProjectileEntity extends ProjectileEntity {
+public abstract class NenProjectileEntity extends ProjectileEntity {
     public static final Identifier NEN_PROJECTILE_ENTITY = new Identifier(NenMod.MOD_ID, "nen_projectile_entity");
 
     AbilityEffect abilityEffect;
