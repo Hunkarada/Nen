@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NenCollisionEntity extends Entity {
+public abstract class NenCollisionEntity extends Entity {
     public static final Identifier NEN_COLLISION_ENTITY_ID = new Identifier(NenMod.MOD_ID, "nen_collision_entity");
     PlayerEntity caster;
     Box collisionBox;
