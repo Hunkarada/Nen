@@ -67,7 +67,7 @@ public class NenModRegister {
     }
 
     public static void registerKeybindings(){
-        NenKeyBinding.register();
+        NenKeyBinding.registerKeys();
     }
 
     public static void registerHud(){

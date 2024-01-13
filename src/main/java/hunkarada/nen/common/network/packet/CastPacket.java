@@ -12,7 +12,10 @@ public class CastPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
                                PacketByteBuf buf, PacketSender responseSender)
     {
-        IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-        nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(0).cast(player);
+        int value = buf.getInt(0);
+        if (value >= 0 && value <= 4){
+            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+            nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);
+        }
     }
 }
