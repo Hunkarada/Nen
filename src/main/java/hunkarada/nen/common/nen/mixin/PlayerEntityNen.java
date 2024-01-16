@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
@@ -44,6 +45,9 @@ public abstract class PlayerEntityNen
     // but it gives you more nen.
     @Unique
     ArrayList<Restriction> nenRestrictions;
+    // list of available abilities to select.
+    @Unique
+    ArrayList<Ability> nenAvailableAbilities;
     // abilities, which caster can use.
     @Unique
     AbilitySet nenAbilities;
@@ -117,75 +121,40 @@ public abstract class PlayerEntityNen
         }
 
     }
-
-
     public boolean nen$getIsNenAwakened() {
         return isNenAwakened;
     }
-
-    public void nen$setIsNenAwakened(boolean isNenAwakened) {
-        this.isNenAwakened = isNenAwakened;
-    }
-
     public NenType nen$getNenType() {
         return nenType;
     }
-
     public void nen$setNenType(NenType nenType) {
         this.nenType = nenType;
     }
-
-
     public int nen$getNenLvl() {
         return nenLvl;
     }
-
-    public void nen$setNenLvl(int nenLvl) {
-        this.nenLvl = nenLvl;
-    }
-
-
     public long nen$getNenPowerCap() {
         return nenPowerCap;
     }
-
-    public void nen$setNenPowerCap(long nenPowerCap) {
-        this.nenPowerCap = nenPowerCap;
-    }
-
-
     public long nen$getNenPower() {
         return nenPower;
     }
-
-    public void nen$setNenPower(long nenPower) {
-        this.nenPower = nenPower;
-    }
-
     public int nen$getNenExp() {
         return nenExp;
     }
-
-    public void nen$setNenExp(int nenExp) {
-        this.nenExp = nenExp;
+    public void nen$addNenExp(int exp){
+       this.nenExp += exp;
     }
-
-
     public ArrayList<Restriction> nen$getNenRestrictions() {
         return nenRestrictions;
     }
-
-    public void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions) {
-        this.nenRestrictions = nenRestrictions;
-    }
-
     public AbilitySet nen$getNenAbilities() {
         return nenAbilities;
     }
-
-    public void nen$setNenAbilities(AbilitySet nenAbilities) {
-        this.nenAbilities = nenAbilities;
+    public ArrayList<Ability> nen$getNenAvailableAbilities(){
+        return nenAvailableAbilities;
     }
+
 
 
 
