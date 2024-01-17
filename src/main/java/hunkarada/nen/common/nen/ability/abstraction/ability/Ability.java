@@ -31,7 +31,7 @@ public abstract class Ability implements CanRegister {
         return id;
     }
 
-    Ability(){
+    public Ability(){
 
     }
 
@@ -77,5 +77,11 @@ public abstract class Ability implements CanRegister {
     @Override
     public void register() {
         AbilityRegistry.getInstance().addToRegistry(id, this);
+    }
+    // We NEED this to compare abilities, as they all aren't change their behavior at all.
+    // So, we can compare them by class.
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == this.getClass();
     }
 }
