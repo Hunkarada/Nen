@@ -12,7 +12,7 @@ import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenCollisionEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenProjectileEntity;
 import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.EntityType;
 
 public class NenModRegister {
@@ -77,7 +77,7 @@ public class NenModRegister {
         HudRenderCallback.EVENT.register(BattleModeRenderer::onHudRender);
     }
     private static void registerEvents(){
-        ServerPlayConnectionEvents.JOIN.register(new OnPlayerLogin());
+        ServerTickEvents.END_SERVER_TICK.register(new OnPlayerLogin());
     }
 }
 

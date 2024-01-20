@@ -2,15 +2,16 @@ package hunkarada.nen.common.event;
 
 import hunkarada.nen.common.network.ModMessages;
 import hunkarada.nen.common.network.packet.SyncPacket;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 
-public class OnPlayerLogin implements ServerPlayConnectionEvents.Join {
+public class OnPlayerLogin implements ServerTickEvents.EndTick {
     @Override
-    public void onPlayReady(ServerPlayNetworkHandler handler, PacketSender sender, MinecraftServer server) {
-        SyncPacket.send(handler.player, ModMessages.SYNC_PACKET_ID, PacketByteBufs.create());
+    public void onEndTick(MinecraftServer server) {
+        for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()){
+            SyncPacket.send(serverPlayer, ModMessages.SYNC_PACKET_ID, PacketByteBufs.create());
+        }
     }
 }
