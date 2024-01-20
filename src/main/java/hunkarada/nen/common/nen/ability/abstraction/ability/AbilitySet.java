@@ -102,4 +102,12 @@ public class AbilitySet {
         }
         return abilitySet;
     }
+    public static AbilitySet fromNbtPacket(NbtCompound nbt){
+        AbilitySet abilitySet = new AbilitySet();
+        Set<String> keys = nbt.getKeys();
+        for (String key : keys){
+            abilitySet.addAbilityInsteadOfEmptyAbility(AbilityRegistry.getInstance().getFromRegistry(nbt.getString(key)));
+        }
+        return abilitySet;
+    }
 }
