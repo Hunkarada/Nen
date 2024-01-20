@@ -19,9 +19,7 @@ public class TestAbilityEntity extends ThrownItemEntity {
         super(type, world);
     }
 
-    public TestAbilityEntity(LivingEntity livingEntity, World world)  {
-        super(TestEntitie.TEST ,livingEntity, world);
-    }
+    //public TestAbilityEntity(LivingEntity livingEntity, World world)  {super(TestEntitie.TEST ,livingEntity, world);}
 
     @Override
     protected Item getDefaultItem() {
