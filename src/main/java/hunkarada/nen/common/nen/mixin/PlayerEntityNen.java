@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +27,8 @@ public abstract class PlayerEntityNen
         extends LivingEntity
         implements IPlayerEntityNen {
 
+    @Shadow public abstract void tick();
+
     @Unique
     boolean isNenAwakened;
     @Unique
@@ -36,7 +40,9 @@ public abstract class PlayerEntityNen
     @Unique
     int nenLvl;
     @Unique
-    int nenExp;
+    long nenExp;
+    @Unique
+    long nenExpUntilNextLvl;
     // user's Type of nen, if you are a manipulator - you can use manipulation at 100% effectiveness. See ./src/resources/nen_types_explanation.jpg for details.
     @Unique
     NenType nenType;
@@ -44,6 +50,9 @@ public abstract class PlayerEntityNen
     // but it gives you more nen.
     @Unique
     ArrayList<Restriction> nenRestrictions;
+    // list of available abilities to select.
+    @Unique
+    ArrayList<Ability> nenAvailableAbilities;
     // abilities, which caster can use.
     @Unique
     AbilitySet nenAbilities;
@@ -61,6 +70,7 @@ public abstract class PlayerEntityNen
         this.nenPowerCap = 0;
         this.nenLvl = 0;
         this.nenExp = 0;
+        this.nenExpUntilNextLvl = 100;
         this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
         this.nenAbilities = new AbilitySet();
@@ -72,7 +82,8 @@ public abstract class PlayerEntityNen
         nbt.putLong("nenPower", nenPower);
         nbt.putLong("nenPowerCap", nenPowerCap);
         nbt.putInt("nenLvl", nenLvl);
-        nbt.putInt("nenExp", nenExp);
+        nbt.putLong("nenExp", nenExp);
+        nbt.putLong("nenExpUntilNextLvl", nenExpUntilNextLvl);
         nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
@@ -84,7 +95,8 @@ public abstract class PlayerEntityNen
         this.nenPower = nbt.getLong("nenPower");
         this.nenPowerCap = nbt.getLong("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
-        this.nenExp = nbt.getInt("nenExp");
+        this.nenExp = nbt.getLong("nenExp");
+        this.nenExpUntilNextLvl = nbt.getLong("nenExpUntilNextLvl");
         this.nenType = NenType.fromNbt(nbt);
 //        this.nenRestrictions =
         this.nenAbilities = AbilitySet.fromNbt(nbt);
@@ -117,77 +129,68 @@ public abstract class PlayerEntityNen
         }
 
     }
-
-
     public boolean nen$getIsNenAwakened() {
         return isNenAwakened;
     }
-
-    public void nen$setIsNenAwakened(boolean isNenAwakened) {
-        this.isNenAwakened = isNenAwakened;
-    }
-
     public NenType nen$getNenType() {
         return nenType;
     }
-
     public void nen$setNenType(NenType nenType) {
         this.nenType = nenType;
     }
-
-
     public int nen$getNenLvl() {
         return nenLvl;
     }
-
-    public void nen$setNenLvl(int nenLvl) {
-        this.nenLvl = nenLvl;
+    public void nen$addNenLvl(){
+        this.nenLvl += 1;
     }
-
-
     public long nen$getNenPowerCap() {
         return nenPowerCap;
     }
-
-    public void nen$setNenPowerCap(long nenPowerCap) {
-        this.nenPowerCap = nenPowerCap;
-    }
-
-
     public long nen$getNenPower() {
         return nenPower;
     }
-
-    public void nen$setNenPower(long nenPower) {
-        this.nenPower = nenPower;
-    }
-
-    public int nen$getNenExp() {
+    public long nen$getNenExp() {
         return nenExp;
     }
-
-    public void nen$setNenExp(int nenExp) {
-        this.nenExp = nenExp;
+    public void nen$addNenExp(int exp){
+       this.nenExp += exp;
     }
-
-
     public ArrayList<Restriction> nen$getNenRestrictions() {
         return nenRestrictions;
     }
-
-    public void nen$setNenRestrictions(ArrayList<Restriction> nenRestrictions) {
-        this.nenRestrictions = nenRestrictions;
-    }
-
     public AbilitySet nen$getNenAbilities() {
         return nenAbilities;
     }
-
-    public void nen$setNenAbilities(AbilitySet nenAbilities) {
-        this.nenAbilities = nenAbilities;
+    public ArrayList<Ability> nen$getNenAvailableAbilities(){
+        return nenAvailableAbilities;
     }
 
+    public long nen$getNenExpUntilNextLvl() {
+        return nenExpUntilNextLvl;
+    }
 
-
-
+    public void nen$awakePlayer(){
+        this.nenLvl = 1;
+        this.nenAbilities = AbilitySet.generateEmptySet();
+        this.nenType = NenType.randomType();
+    }
+    public void nen$setDataFromPacket(
+            boolean isNenAwakened,
+            long nenPower,
+            long nenPowerCap,
+            int nenLvl,
+            long nenExp,
+            long nenExpUntilNextLvl,
+            NenType nenType,
+            AbilitySet nenAbilities){
+       this.isNenAwakened = isNenAwakened;
+       this.nenPower = nenPower;
+       this.nenPowerCap = nenPowerCap;
+       this.nenLvl = nenLvl;
+       this.nenExp = nenExp;
+       this.nenExpUntilNextLvl = nenExpUntilNextLvl;
+       this.nenType = nenType;
+       this.nenAbilities = nenAbilities;
+    }
 }

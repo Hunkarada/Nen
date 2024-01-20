@@ -26,7 +26,7 @@ public abstract class EntityNen
 
     // effects, which caster has at himself.
     @Unique
-    ArrayList<AbilityEffect> nenAbilityEffects;
+    private ArrayList<AbilityEffect> nenAbilityEffects;
 
     @Unique
     private NenMemory nenMemory;

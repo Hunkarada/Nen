@@ -2,6 +2,9 @@ package hunkarada.nen.common.nen;
 
 import net.minecraft.nbt.NbtCompound;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public enum NenType {
     ENHANCEMENT("Enhancement"), EMISSION("Emission"), MANIPULATION("Manipulation"), SPECIALIZATION("Specialization"), CONJURATION("Conjuration"), TRANSMUTATION("Transmutation"), UNIDENTIFIED("Unidentified");
     private final String id;
@@ -15,8 +18,13 @@ public enum NenType {
     public static String toNbt(NenType nenType){
         return nenType.id;
     }
-    //stupid implementation with switch-case construction,
-    // as it will be much faster, than index calculations, and much simpler to do
+    // gives a random nen type, but NOT UNIDENTIFIED.
+    public static NenType randomType(){
+        ArrayList<NenType> nenTypes = new ArrayList<>();
+        nenTypes.add(NenType.ENHANCEMENT); nenTypes.add(NenType.EMISSION); nenTypes.add(NenType.MANIPULATION); nenTypes.add(NenType.SPECIALIZATION); nenTypes.add(NenType.CONJURATION); nenTypes.add(NenType.TRANSMUTATION);
+        return nenTypes.get(new Random().nextInt(nenTypes.toArray().length));
+    }
+    //stupid implementation with switch-case construction.
     public double calcTypeMultiplier(NenType anotherNenType) {
         switch (this.id){
             case "Enhancement" -> {
@@ -144,6 +152,16 @@ public enum NenType {
             default -> NenType.UNIDENTIFIED;
         };
     }
-
+    public static NenType fromNbt(String id){
+        return switch (id) {
+            case "Enhancement" -> NenType.ENHANCEMENT;
+            case "Emission" -> NenType.EMISSION;
+            case "Manipulation" -> NenType.MANIPULATION;
+            case "Specialization" -> NenType.SPECIALIZATION;
+            case "Conjuration" -> NenType.CONJURATION;
+            case "Transmutation" -> NenType.TRANSMUTATION;
+            default -> NenType.UNIDENTIFIED;
+        };
+    }
 
 }

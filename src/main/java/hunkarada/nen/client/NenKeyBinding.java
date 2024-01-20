@@ -24,39 +24,39 @@ public class NenKeyBinding {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastFirst.wasPressed()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.setInt(0, 0);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
+                buf.writeInt(0);
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastSecond.wasPressed()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.setInt(0, 1);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
+                buf.writeInt(1);
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastThird.wasPressed()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.setInt(0, 2);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
+                buf.writeInt(2);
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastForth.wasPressed()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.setInt(0, 3);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
+                buf.writeInt(3);
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastFifth.wasPressed()) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                buf.setInt(0, 4);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, PacketByteBufs.create());
+                buf.writeInt(4);
+                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -105,6 +105,7 @@ public class NenKeyBinding {
                     keyCastFifth.setBoundKey(InputUtil.UNKNOWN_KEY);
                     MinecraftClient.getInstance().options.hotbarKeys[4].setBoundKey(InputUtil.Type.KEYSYM.createFromCode(GLFW.GLFW_KEY_5));
                 }
+                KeyBinding.updateKeysByCode();
             }
         });
     }
