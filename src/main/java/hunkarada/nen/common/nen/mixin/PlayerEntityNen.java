@@ -165,9 +165,32 @@ public abstract class PlayerEntityNen
     public ArrayList<Ability> nen$getNenAvailableAbilities(){
         return nenAvailableAbilities;
     }
+
+    public long nen$getNenExpUntilNextLvl() {
+        return nenExpUntilNextLvl;
+    }
+
     public void nen$awakePlayer(){
         this.nenLvl = 1;
         this.nenAbilities = AbilitySet.generateEmptySet();
         this.nenType = NenType.randomType();
+    }
+    public void nen$setDataFromPacket(
+            boolean isNenAwakened,
+            long nenPower,
+            long nenPowerCap,
+            int nenLvl,
+            long nenExp,
+            long nenExpUntilNextLvl,
+            NenType nenType,
+            AbilitySet nenAbilities){
+       this.isNenAwakened = isNenAwakened;
+       this.nenPower = nenPower;
+       this.nenPowerCap = nenPowerCap;
+       this.nenLvl = nenLvl;
+       this.nenExp = nenExp;
+       this.nenExpUntilNextLvl = nenExpUntilNextLvl;
+       this.nenType = nenType;
+       this.nenAbilities = nenAbilities;
     }
 }

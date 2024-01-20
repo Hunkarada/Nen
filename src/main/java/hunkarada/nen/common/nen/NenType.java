@@ -152,6 +152,16 @@ public enum NenType {
             default -> NenType.UNIDENTIFIED;
         };
     }
-
+    public static NenType fromNbt(String id){
+        return switch (id) {
+            case "Enhancement" -> NenType.ENHANCEMENT;
+            case "Emission" -> NenType.EMISSION;
+            case "Manipulation" -> NenType.MANIPULATION;
+            case "Specialization" -> NenType.SPECIALIZATION;
+            case "Conjuration" -> NenType.CONJURATION;
+            case "Transmutation" -> NenType.TRANSMUTATION;
+            default -> NenType.UNIDENTIFIED;
+        };
+    }
 
 }
