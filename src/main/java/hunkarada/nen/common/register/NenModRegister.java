@@ -3,6 +3,7 @@ package hunkarada.nen.common.register;
 import hunkarada.nen.client.NenKeyBinding;
 import hunkarada.nen.client.gui.AbilityGridRenderer;
 import hunkarada.nen.client.gui.BattleModeRenderer;
+import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.event.OnPlayerLogin;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
@@ -11,9 +12,17 @@ import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenCollisionEntity;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenProjectileEntity;
 import hunkarada.nen.common.network.ModMessages;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 
 public class NenModRegister {
 
@@ -46,6 +55,7 @@ public class NenModRegister {
     public static EntityType<NenCollisionEntity> NEN_COLLISION_ENTITY;
     public static EntityType<NenProjectileEntity> NEN_PROJECTILE_ENTITY;
     public static EntityType<TestAbilityEntity> TEST_ABILITY_ENTITY;
+    public static EntityType<TestAbilityEntity> TEST;
     //works for both sides
     private static void registerEntities(){
 //        NEN_ABILITY_ENTITY = Registry.register(Registries.ENTITY_TYPE, NenAbilityEntity.NEN_ABILITY_ENTITY_ID,
@@ -54,10 +64,14 @@ public class NenModRegister {
 //                FabricEntityTypeBuilder.create(SpawnGroup.MISC, NenCollisionEntity::new).dimensions(EntityDimensions.fixed(0,0)).build());
 //        NEN_PROJECTILE_ENTITY = Registry.register(Registries.ENTITY_TYPE, NenProjectileEntity.NEN_PROJECTILE_ENTITY,
 //                FabricEntityTypeBuilder.create(SpawnGroup.MISC, NenProjectileEntity::new).dimensions(EntityDimensions.fixed(0, 0)).build());
-    //    TEST_ABILITY_ENTITY = Registry.register(Registries.ENTITY_TYPE, TestAbilityEntity.TEST_ABILITY_ID, FabricEntityTypeBuilder.create(SpawnGroup.MISC, TestAbilityEntity::new).dimensions(EntityDimensions.fixed(0,0)).build());
+        TEST = Registry.register(Registries.ENTITY_TYPE,
+                new Identifier(NenMod.MOD_ID, "nentest"), FabricEntityTypeBuilder.<TestAbilityEntity>create(SpawnGroup.MISC, TestAbilityEntity::new)
+                        .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+
     }
 
-    private static void registerClientEntities(){
+    public static void registerClientEntities(){
+        EntityRendererRegistry.register(TEST, FlyingItemEntityRenderer::new);
 
     }
 
