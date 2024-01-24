@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class OnPlayerLogin implements ServerTickEvents.EndTick {
+public class OnEndServerTick implements ServerTickEvents.EndTick {
     @Override
     public void onEndTick(MinecraftServer server) {
         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()){
