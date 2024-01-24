@@ -1,6 +1,9 @@
 package hunkarada.nen.common.network.packet;
 
 import hunkarada.nen.common.nen.IPlayerEntityNen;
+import hunkarada.nen.common.network.ModMessages;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
@@ -19,5 +22,11 @@ public class CastPacket {
                 nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);
             }
         }
+    }
+
+    public static void send(int index){
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(index);
+        ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
     }
 }

@@ -1,14 +1,11 @@
 package hunkarada.nen.client;
 
-import hunkarada.nen.common.network.ModMessages;
+import hunkarada.nen.common.network.packet.CastPacket;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.network.PacketByteBuf;
 import org.lwjgl.glfw.GLFW;
 
 public class NenKeyBinding {
@@ -23,40 +20,30 @@ public class NenKeyBinding {
     public static void registerKeyActionsCast() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastFirst.wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeInt(0);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
+                CastPacket.send(0);
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastSecond.wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeInt(1);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
+                CastPacket.send(1);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastThird.wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeInt(2);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
+                CastPacket.send(2);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastForth.wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeInt(3);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
+                CastPacket.send(3);
             }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastFifth.wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeInt(4);
-                ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
+                CastPacket.send(4);
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
