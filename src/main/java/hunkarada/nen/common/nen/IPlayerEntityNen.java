@@ -24,6 +24,9 @@ public interface IPlayerEntityNen {
      boolean nen$collectNen(long value);
      void nen$giveNen(long value);
      void nen$awakePlayer();
+     void nen$addAbility(Ability ability, int index);
+     void nen$removeAbility(Ability ability);
+     void nen$swapAbilities(Ability firstAbility, Ability secondAbility);
      void nen$setDataFromPacket(
         boolean isNenAwakened,
         long nenPower,

@@ -193,4 +193,13 @@ public abstract class PlayerEntityNen
        this.nenType = nenType;
        this.nenAbilities = nenAbilities;
     }
+    public void nen$addAbility(Ability ability, int index){
+        this.nenAbilities.addAbility(ability, index);
+    }
+    public void nen$removeAbility(Ability ability){
+       this.nenAbilities.removeAbility(ability);
+    }
+    public void nen$swapAbilities(Ability firstAbility, Ability secondAbility){
+       this.nenAbilities.swapAbilities(firstAbility, secondAbility);
+    }
 }

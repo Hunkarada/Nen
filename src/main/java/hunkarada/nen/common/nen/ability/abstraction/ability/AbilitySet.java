@@ -22,7 +22,7 @@ public class AbilitySet {
     }
     public static AbilitySet generateEmptySet(){
         AbilitySet abilitySet = new AbilitySet();
-        abilitySet.addAbilityInsteadOfEmptyAbility(new EmptyAbility()); abilitySet.addAbilityInsteadOfEmptyAbility(new EmptyAbility()); abilitySet.addAbilityInsteadOfEmptyAbility(new EmptyAbility()); abilitySet.addAbilityInsteadOfEmptyAbility(new EmptyAbility()); abilitySet.addAbilityInsteadOfEmptyAbility(new EmptyAbility());
+        abilitySet.addAbility(new EmptyAbility(), 0); abilitySet.addAbility(new EmptyAbility(), 1); abilitySet.addAbility(new EmptyAbility(), 2); abilitySet.addAbility(new EmptyAbility(), 3); abilitySet.addAbility(new EmptyAbility(), 4);
         return abilitySet;
     }
     public ArrayList<Ability> getAbilitySetCopy(){
@@ -50,38 +50,23 @@ public class AbilitySet {
         }
     }
     public void addAbility(Ability ability, int index){
-       if (!addAbilityInsteadOfEmptyAbility(ability)){
           if (!abilitySet.contains(ability) && index >= 0 && index <= 3){
               abilitySet.set(index, ability);
           }
-       }
     }
-    // THIS SHOULD WORK, BECAUSE ABILITY HAS OVERRIDDEN equals(Object obj). returns true if success.
-    private boolean addAbilityInsteadOfEmptyAbility(Ability ability){
-        if (!abilitySet.contains(ability) && abilitySet.contains(new EmptyAbility())) {
-            abilitySet.add(ability);
-            abilityIds = getAbilityIds();
-            abilityMap = getAbilityMap();
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public void removeAbility(Ability ability){
         if (abilitySet.contains(ability)) {
-            abilitySet.indexOf(ability);
+            abilitySet.set(abilitySet.indexOf(ability), new EmptyAbility());
             abilityIds = getAbilityIds();
             abilityMap = getAbilityMap();
         }
     }
 
-    public void swapAbilities(int firstIndex, int secondIndex){
-        Ability firstAbility = abilitySet.get(firstIndex);
-        Ability secondAbility = abilitySet.get(secondIndex);
-        abilitySet.set(secondIndex, firstAbility);
-        abilitySet.set(firstIndex, secondAbility);
+    public void swapAbilities(Ability firstAbility, Ability secondAbility){
+        if (abilitySet.contains(firstAbility) && abilitySet.contains(secondAbility)) {
+            abilitySet.set(abilitySet.indexOf(secondAbility), firstAbility);
+            abilitySet.set(abilitySet.indexOf(firstAbility), secondAbility);
+        }
     }
 
     public static NbtCompound toNbt(AbilitySet nenAbilitySet){
@@ -97,17 +82,36 @@ public class AbilitySet {
         NbtCompound nbtAbilities = nbt.getCompound("nenAbilities");
         AbilitySet abilitySet = new AbilitySet();
         Set<String> keys = nbtAbilities.getKeys();
+        int index = 0;
         for (String key : keys){
-           abilitySet.addAbilityInsteadOfEmptyAbility(AbilityRegistry.getInstance().getFromRegistry(nbtAbilities.getString(key)));
+           abilitySet.addAbility(AbilityRegistry.getInstance().getFromRegistry(nbtAbilities.getString(key)), index);
+           index += 1;
         }
         return abilitySet;
     }
     public static AbilitySet fromNbtPacket(NbtCompound nbt){
         AbilitySet abilitySet = new AbilitySet();
         Set<String> keys = nbt.getKeys();
+        int index = 0;
         for (String key : keys){
-            abilitySet.addAbilityInsteadOfEmptyAbility(AbilityRegistry.getInstance().getFromRegistry(nbt.getString(key)));
+            abilitySet.addAbility(AbilityRegistry.getInstance().getFromRegistry(nbt.getString(key)), index);
+            index += 1;
         }
         return abilitySet;
+    }
+
+    public enum AbilitySetActions {
+        ADD(0), REMOVE(1), SWAP(2);
+
+        AbilitySetActions(int ignoredI) {
+
+        }
+        public int toInt(){
+            return switch (this){
+                case ADD -> 0;
+                case REMOVE -> 1;
+                case SWAP -> 2;
+            };
+        }
     }
 }
