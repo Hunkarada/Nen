@@ -16,7 +16,7 @@ public class CastPacket {
     {
         // validate is player available to cast abilities and validate range of a packet is 0-4.
         IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-        if (nenPlayer.nen$getIsNenAwakened()) {
+        if (!player.isDisconnected()) {
             int value = buf.readInt();
             if (value >= 0 && value <= 4) {
                 nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);

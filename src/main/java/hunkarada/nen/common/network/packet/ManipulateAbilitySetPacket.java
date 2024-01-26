@@ -34,18 +34,20 @@ public class ManipulateAbilitySetPacket {
     }
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
                                PacketByteBuf buf, PacketSender responseSender){
-        switch (buf.readInt()){
-            case 0 -> {
-                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                nenPlayer.nen$addAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
-            }
-            case 1 -> {
-                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                nenPlayer.nen$removeAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
-            }
-            case 2 -> {
-                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                nenPlayer.nen$swapAbilities(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+        if (!player.isDisconnected()){
+            switch (buf.readInt()){
+                case 0 -> {
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    nenPlayer.nen$addAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
+                }
+                case 1 -> {
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    nenPlayer.nen$removeAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                }
+                case 2 -> {
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    nenPlayer.nen$swapAbilities(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                }
             }
         }
 

@@ -18,7 +18,8 @@ public class AwakeNenPacket {
         &&      player.getStatHandler().getStat(Stats.CRAFTED.getOrCreateStat(Registries.ITEM.get(Identifier.of("minecraft", "beacon")))) >=1
         &&      player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.SPRINT_ONE_CM)) >= 1000000
         &&      player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DAMAGE_DEALT)) >= 1000
-        &&      player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DAMAGE_TAKEN)) >= 100)
+        &&      player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DAMAGE_TAKEN)) >= 100
+        &&      !player.isDisconnected())
         {
             IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
             nenPlayer.nen$awakePlayer();
