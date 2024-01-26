@@ -1,14 +1,16 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.nen.IPlayerEntityNen;
+import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 
 public abstract class TargetAbility extends Ability {
-
+    protected NenAbilityEntity visualEntity;
     protected TargetType targetType;
     private HitResult target;
     protected double spellDistance;
@@ -30,6 +32,7 @@ public abstract class TargetAbility extends Ability {
                             abilityEffect.applyEffect(
                                     blockTarget.getBlockPos(), caster, getNenPower()
                             );
+                            spawnVisualEntities();
                             setInitialCooldown();
                         }
                         else {
@@ -41,6 +44,7 @@ public abstract class TargetAbility extends Ability {
                             abilityEffect.applyEffect(
                                     ((EntityHitResult) target).getEntity(), caster, getNenPower()
                             );
+                            spawnVisualEntities();
                             setInitialCooldown();
                         }
                         else {
@@ -63,4 +67,8 @@ public abstract class TargetAbility extends Ability {
     public enum TargetType {
         ENTITY, BLOCK, MIXED
     }
+
+    protected abstract void spawnVisualEntities();
+    protected abstract void spawnVisualEntity(Vec3d pos);
+    protected abstract Vec3d calcVisualEntityPos();
 }
