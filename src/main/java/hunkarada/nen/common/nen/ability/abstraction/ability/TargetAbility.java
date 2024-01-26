@@ -15,13 +15,13 @@ public abstract class TargetAbility extends Ability {
 
     @Override
     public void cast(PlayerEntity caster) {
-        if (isNotAtCooldown()){
+        // took away nen from caster with check.
+        IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
+        if (isNotAtCooldown() && nenCaster.nen$getIsNenAwakened()){
             // getting target
             getTargetByLookVector(caster);
             // calculate cost and other things
             prepareCast(caster);
-            // took away nen from caster with check.
-            IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
             if (nenCaster.nen$collectNen(this.getTotalCost())){
                 switch (target.getType()){
                     case BLOCK -> {
