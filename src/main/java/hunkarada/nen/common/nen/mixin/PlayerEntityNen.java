@@ -194,7 +194,9 @@ public abstract class PlayerEntityNen
        this.nenAbilities = nenAbilities;
     }
     public void nen$addAbility(Ability ability, int index){
-        this.nenAbilities.addAbility(ability, index);
+        if (nenAvailableAbilities.contains(ability)) {
+            this.nenAbilities.addAbility(ability, index);
+        }
     }
     public void nen$removeAbility(Ability ability){
        this.nenAbilities.removeAbility(ability);
