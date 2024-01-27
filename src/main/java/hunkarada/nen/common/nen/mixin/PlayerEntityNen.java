@@ -5,6 +5,7 @@ import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
 import hunkarada.nen.common.nen.ability.abstraction.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
@@ -54,7 +55,7 @@ public abstract class PlayerEntityNen
     ArrayList<Restriction> nenRestrictions;
     // list of available abilities to select.
     @Unique
-    ArrayList<NenClass> nenUnlockedClasses;
+    NenClassSet nenUnlockedClasses;
     // abilities, which caster can use.
     @Unique
     AbilitySet nenAbilities;
@@ -77,8 +78,8 @@ public abstract class PlayerEntityNen
         this.nenExpUntilNextLvl = 100;
         this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
-        this.nenAbilities = new AbilitySet();
-        this.nenUnlockedClasses = new ArrayList<>();
+        this.nenAbilities = AbilitySet.generateEmptySet();
+        this.nenUnlockedClasses = new NenClassSet();
         this.nenClass = new EmptyNenClass();
     }
     // method for saving data to NBT.
@@ -93,7 +94,7 @@ public abstract class PlayerEntityNen
         nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
-//        nbt.put("nenUnlockedClasses", nenUnlockedClasses);
+        nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
     }
     // and reading data from NBT.
@@ -108,6 +109,7 @@ public abstract class PlayerEntityNen
         this.nenType = NenType.fromNbt(nbt);
 //        this.nenRestrictions =
         this.nenAbilities = AbilitySet.fromNbt(nbt);
+        this.nenUnlockedClasses = NenClassSet.fromNbt(nbt);
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
     }
     @Inject(method = "tick", at = @At("RETURN"))
@@ -170,7 +172,7 @@ public abstract class PlayerEntityNen
     public AbilitySet nen$getNenAbilities() {
         return nenAbilities;
     }
-    public ArrayList<NenClass> nen$getNenUnlockedClasses(){
+    public NenClassSet nen$getNenUnlockedClasses(){
         return nenUnlockedClasses;
     }
     public NenClass nen$getNenClass(){
@@ -182,7 +184,6 @@ public abstract class PlayerEntityNen
 
     public void nen$awakePlayer(){
         this.nenLvl = 1;
-        this.nenAbilities = AbilitySet.generateEmptySet();
         this.nenType = NenType.randomType();
     }
     public void nen$setDataFromPacket(
@@ -193,7 +194,9 @@ public abstract class PlayerEntityNen
             long nenExp,
             long nenExpUntilNextLvl,
             NenType nenType,
-            AbilitySet nenAbilities){
+            AbilitySet nenAbilities,
+            NenClassSet nenUnlockedClasses,
+            NenClass nenClass){
        this.isNenAwakened = isNenAwakened;
        this.nenPower = nenPower;
        this.nenPowerCap = nenPowerCap;
@@ -202,6 +205,8 @@ public abstract class PlayerEntityNen
        this.nenExpUntilNextLvl = nenExpUntilNextLvl;
        this.nenType = nenType;
        this.nenAbilities = nenAbilities;
+       this.nenUnlockedClasses = nenUnlockedClasses;
+       this.nenClass = nenClass;
     }
     // add, remove and swap abilities in hotbar, this is not available abilities.
     public void nen$addAbility(Ability ability, int index){

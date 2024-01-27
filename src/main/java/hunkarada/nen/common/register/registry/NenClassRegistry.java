@@ -19,7 +19,7 @@ public class NenClassRegistry implements Registry<NenClass> {
     public NenClass getFromRegistry(String key) {
         NenClass value = registry.get(key);
         if (value == null){
-            throw new NullPointerException("You should register Ability");
+            throw new NullPointerException("You should register NenClass");
         }
         try {
             value = value.getClass().getConstructor().newInstance();

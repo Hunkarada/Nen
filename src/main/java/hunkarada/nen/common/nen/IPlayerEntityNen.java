@@ -2,6 +2,7 @@ package hunkarada.nen.common.nen;
 
 
 import hunkarada.nen.common.nen.ability.abstraction.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
@@ -21,7 +22,7 @@ public interface IPlayerEntityNen {
      void nen$addNenExp(int exp);
      AbilitySet nen$getNenAbilities();
      ArrayList<Restriction> nen$getNenRestrictions();
-     ArrayList<NenClass> nen$getNenUnlockedClasses();
+     NenClassSet nen$getNenUnlockedClasses();
      NenClass nen$getNenClass();
      boolean nen$collectNen(long value);
      void nen$giveNen(long value);
@@ -30,12 +31,14 @@ public interface IPlayerEntityNen {
      void nen$removeAbility(Ability ability);
      void nen$swapAbilities(Ability firstAbility, Ability secondAbility);
      void nen$setDataFromPacket(
-        boolean isNenAwakened,
-        long nenPower,
-        long nenPowerCap,
-        int nenLvl,
-        long nenExp,
-        long nenExpUntilNextLvl,
-        NenType nenType,
-        AbilitySet nenAbilities);
+             boolean isNenAwakened,
+             long nenPower,
+             long nenPowerCap,
+             int nenLvl,
+             long nenExp,
+             long nenExpUntilNextLvl,
+             NenType nenType,
+             AbilitySet nenAbilities,
+             NenClassSet nenUnlockedClasses,
+             NenClass nenClass);
 }
