@@ -93,7 +93,7 @@ public abstract class PlayerEntityNen
         nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
-        nbt.put("nenUnlockedClasses", nenUnlockedClasses);
+//        nbt.put("nenUnlockedClasses", nenUnlockedClasses);
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
     }
     // and reading data from NBT.
@@ -216,5 +216,5 @@ public abstract class PlayerEntityNen
        this.nenAbilities.swapAbilities(firstAbility, secondAbility);
     }
 
-    public void nen$
+//    public void nen$
 }

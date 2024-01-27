@@ -31,14 +31,14 @@ public abstract class NenCollisionEntity extends Entity {
     }
 
     public void calcRadius(){
-        radius = ((Math.max(collisionBox.getXLength(), collisionBox.getZLength())) / 2);
+        radius = ((Math.max(collisionBox.getLengthX(), collisionBox.getLengthZ())) / 2);
     }
 
     // Here we check for any collision with entities.
     // If we found more than one entity,
     // we cast ability on the closest entity or on all of them (depends on @param isMass)
     protected void checkForCollision(){
-        List<Entity> entityList = this.world.getOtherEntities(this, collisionBox);
+        List<Entity> entityList = this.getWorld().getOtherEntities(this, collisionBox);
         if (!entityList.isEmpty()) {
             Vec3d center = collisionBox.getCenter();
             List<Entity> filteredList = new ArrayList<>();

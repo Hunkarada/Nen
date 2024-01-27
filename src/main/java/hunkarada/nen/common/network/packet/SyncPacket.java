@@ -16,9 +16,12 @@ import java.util.Objects;
 public class SyncPacket {
     public static void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         client.executeTask(() -> {
-            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) Objects.requireNonNull(client.player);
-            nenPlayer.nen$setDataFromPacket(buf.readBoolean(), buf.readLong(), buf.readLong(), buf.readInt(), buf.readLong(), buf.readLong(), NenType.fromNbt(buf.readString()), AbilitySet.fromNbtPacket(Objects.requireNonNull(buf.readNbt())));
-
+            try {
+                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) Objects.requireNonNull(client.player);
+                nenPlayer.nen$setDataFromPacket(buf.readBoolean(), buf.readLong(), buf.readLong(), buf.readInt(), buf.readLong(), buf.readLong(), NenType.fromNbt(buf.readString()), AbilitySet.fromNbtPacket(Objects.requireNonNull(buf.readNbt())));
+            }
+            catch (NullPointerException ignored){
+            }
         });
     }
     public static void send(ServerPlayerEntity player, Identifier channelName, PacketByteBuf buf) {
