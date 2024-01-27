@@ -1,8 +1,8 @@
 package hunkarada.nen.common.nen;
 
 
-import hunkarada.nen.common.nen.ability.abstraction.NenClass;
-import hunkarada.nen.common.nen.ability.abstraction.NenClassSet;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
@@ -41,4 +41,8 @@ public interface IPlayerEntityNen {
              AbilitySet nenAbilities,
              NenClassSet nenUnlockedClasses,
              NenClass nenClass);
+     void nen$addExp(long nenExp);
+     void nen$checkLvlUp();
+     void nen$lvlUp();
+     void nen$regenNen();
 }

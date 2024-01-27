@@ -1,7 +1,7 @@
 package hunkarada.nen.common.register.registry;
 
 import hunkarada.nen.common.abstractions.Registry;
-import hunkarada.nen.common.nen.ability.abstraction.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

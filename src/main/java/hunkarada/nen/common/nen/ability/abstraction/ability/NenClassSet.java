@@ -1,6 +1,5 @@
-package hunkarada.nen.common.nen.ability.abstraction;
+package hunkarada.nen.common.nen.ability.abstraction.ability;
 
-import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.register.registry.NenClassRegistry;
 import net.minecraft.nbt.NbtCompound;
 

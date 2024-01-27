@@ -2,8 +2,8 @@ package hunkarada.nen.common.network.packet;
 
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
-import hunkarada.nen.common.nen.ability.abstraction.NenClass;
-import hunkarada.nen.common.nen.ability.abstraction.NenClassSet;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

@@ -23,7 +23,7 @@ public abstract class NenProjectileEntity extends ProjectileEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        Entity entity =  entityHitResult.getEntity();
+        Entity entity = entityHitResult.getEntity();
         abilityEffect.applyEffect(entity, (PlayerEntity) this.getOwner(), abilityEffect.getNenPower());
 
     }

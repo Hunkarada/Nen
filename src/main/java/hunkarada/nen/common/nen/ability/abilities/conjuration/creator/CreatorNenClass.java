@@ -1,7 +1,7 @@
 package hunkarada.nen.common.nen.ability.abilities.conjuration.creator;
 
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;
-import hunkarada.nen.common.nen.ability.abstraction.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
 
 import java.util.ArrayList;
 
