@@ -4,6 +4,8 @@ import hunkarada.nen.client.NenKeyBinding;
 import hunkarada.nen.client.gui.AbilityGridRenderer;
 import hunkarada.nen.client.gui.BattleModeRenderer;
 import hunkarada.nen.common.event.OnEndServerTick;
+import hunkarada.nen.common.nen.ability.abilities.EmptyAbility;
+import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
 import hunkarada.nen.common.network.ModMessages;
@@ -22,20 +24,22 @@ public class NenModRegister {
         registerEntities();
         registerAbilities();
         registerEffects();
-        registerAbilitySets();
+        registerNenClasses();
         registerNetwork();
         registerEvents();
     }
 
     private static void registerAbilities(){
         new SelectBlockAbility().register();
+        new EmptyAbility().register();
     }
 
     private static void registerEffects(){
         new SelectBlockAbilityEffect().register();
     }
 
-    private static void registerAbilitySets(){
+    private static void registerNenClasses(){
+        new EmptyNenClass().register();
     }
     //works for both sides
     private static void registerEntities(){

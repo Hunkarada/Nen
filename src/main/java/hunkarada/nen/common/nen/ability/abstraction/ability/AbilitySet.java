@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class AbilitySet {
-    protected ArrayList<Ability> abilitySet = new ArrayList<>();
+    protected ArrayList<Ability> abilitySet = new ArrayList<>(5);
     protected ArrayList<String> abilityIds = getAbilityIds();
     protected HashMap<String, Ability> abilityMap = getAbilityMap();
     public AbilitySet() {
@@ -22,7 +22,11 @@ public class AbilitySet {
     }
     public static AbilitySet generateEmptySet(){
         AbilitySet abilitySet = new AbilitySet();
-        abilitySet.addAbility(new EmptyAbility(), 0); abilitySet.addAbility(new EmptyAbility(), 1); abilitySet.addAbility(new EmptyAbility(), 2); abilitySet.addAbility(new EmptyAbility(), 3); abilitySet.addAbility(new EmptyAbility(), 4);
+        abilitySet.abilitySet.add(new EmptyAbility());
+        abilitySet.abilitySet.add(new EmptyAbility());
+        abilitySet.abilitySet.add(new EmptyAbility());
+        abilitySet.abilitySet.add(new EmptyAbility());
+        abilitySet.abilitySet.add(new EmptyAbility());
         return abilitySet;
     }
     public ArrayList<Ability> getAbilitySetCopy(){
@@ -51,6 +55,15 @@ public class AbilitySet {
     }
     public void addAbility(Ability ability, int index){
           if (!abilitySet.contains(ability) && index >= 0 && index <= 3){
+              // this fixes, that abilitySet is empty at the stage of loading data from disk,
+              // and set() faild because of that.
+              if (abilitySet.isEmpty()){
+                  abilitySet.add(new EmptyAbility());
+                  abilitySet.add(new EmptyAbility());
+                  abilitySet.add(new EmptyAbility());
+                  abilitySet.add(new EmptyAbility());
+                  abilitySet.add(new EmptyAbility());
+              }
               abilitySet.set(index, ability);
           }
     }
