@@ -14,7 +14,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public class SyncPacket {
     public static void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
@@ -22,8 +21,7 @@ public class SyncPacket {
             IPlayerEntityNen nenPlayer = null;
             try {
                 nenPlayer = (IPlayerEntityNen) Objects.requireNonNull(client.player);
-            } catch (NullPointerException exception) {
-                Logger.getAnonymousLogger().warning("Sync packet from Nen mod was sent to client, but client can't handle it, because of loading player into the world! This shouldn't be issue, but if it is - send bug report to Nen mod developer.");
+            } catch (NullPointerException ignore) {
             }
             if (nenPlayer != null) {
                 nenPlayer.nen$setDataFromPacket(buf.readBoolean(), buf.readLong(), buf.readLong(), buf.readInt(), buf.readLong(), buf.readLong(), NenType.fromNbt(buf.readString()), AbilitySet.fromNbtPacket(Objects.requireNonNull(buf.readNbt())), NenClassSet.fromNbtPacket(Objects.requireNonNull(buf.readNbt())), NenClass.fromNbt(buf.readString()));
