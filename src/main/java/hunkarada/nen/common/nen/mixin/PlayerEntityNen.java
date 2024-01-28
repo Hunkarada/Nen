@@ -61,6 +61,10 @@ public abstract class PlayerEntityNen
     AbilitySet nenAbilities;
     @Unique
     NenClass nenClass;
+    @Unique
+    int nenRegenValueHundreds;
+    @Unique
+    int nenRegenHundredsPerTick;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -81,6 +85,8 @@ public abstract class PlayerEntityNen
         this.nenAbilities = AbilitySet.generateEmptySet();
         this.nenUnlockedClasses = new NenClassSet();
         this.nenClass = new EmptyNenClass();
+        this.nenRegenValueHundreds = 0;
+        this.nenRegenHundredsPerTick = 0;
     }
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
@@ -96,6 +102,8 @@ public abstract class PlayerEntityNen
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
+        nbt.putInt("nenRegenValueHundreds", nenRegenValueHundreds);
+        nbt.putInt("nenRegenHundredsPerTick", nenRegenHundredsPerTick);
     }
     // and reading data from NBT.
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
@@ -111,6 +119,8 @@ public abstract class PlayerEntityNen
         this.nenAbilities = AbilitySet.fromNbt(nbt);
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt);
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
+        this.nenRegenValueHundreds = nbt.getInt("nenRegenValueHundreds");
+        this.nenRegenHundredsPerTick = nbt.getInt("nenRegenHundredsPerTick");
     }
     @Inject(method = "tick", at = @At("RETURN"))
     public void nen$tick(CallbackInfo ci){
@@ -184,9 +194,10 @@ public abstract class PlayerEntityNen
 
     public void nen$awakePlayer(){
         this.nenLvl = 1;
-        this.nenPowerCap = 1000;
+        this.nenPowerCap = 10000;
         this.nenExpToNextLvl = 100;
         this.nenType = NenType.randomType();
+        this.nenRegenHundredsPerTick = 50;
     }
     public void nen$setDataFromPacket(
             boolean isNenAwakened,
@@ -224,23 +235,41 @@ public abstract class PlayerEntityNen
     }
     public void nen$addExp(long nenExp){
         this.nenExp += nenExp;
-        nen$checkLvlUp();
+        // method is checking and lvl up player, if true. if false - breaks loop.
+        while (true){
+            if (!nen$checkLvlUp()){
+                break;
+            }
+        }
     }
-    public void nen$checkLvlUp(){
+    public boolean nen$checkLvlUp(){
         if (nenExp >= nenExpToNextLvl){
             nenExp -= nenExpToNextLvl;
             nen$lvlUp();
+            return true;
+        }
+        else {
+            return false;
         }
     }
     public void nen$lvlUp(){
         nenLvl += 1;
-        nenPowerCap += 100;
+        nenPowerCap += 1000;
         nenExpToNextLvl += (long) (nenExpToNextLvl*0.1);
+        nenRegenHundredsPerTick += 5;
     }
     public void nen$regenNen(){
-        //we should regen nen in 1000 seconds, in ticks its 1000*20.
         if (getMaxHealth() == getHealth()) {
-            nenPower += nenPowerCap / 20000;
+           nenRegenValueHundreds += nenRegenHundredsPerTick;
+           if (nenRegenValueHundreds >= 100){
+               int buffer = (nenRegenValueHundreds % 100);
+               nenRegenValueHundreds -= buffer;
+               nenPower += (nenRegenValueHundreds / 100);
+               if (nenPower > nenPowerCap){
+                   nenPower = nenPowerCap;
+               }
+               nenRegenValueHundreds = buffer;
+           }
         }
     }
 }

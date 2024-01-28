@@ -42,7 +42,7 @@ public interface IPlayerEntityNen {
              NenClassSet nenUnlockedClasses,
              NenClass nenClass);
      void nen$addExp(long nenExp);
-     void nen$checkLvlUp();
+     boolean nen$checkLvlUp();
      void nen$lvlUp();
      void nen$regenNen();
 }
