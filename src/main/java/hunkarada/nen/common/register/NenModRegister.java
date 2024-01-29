@@ -3,7 +3,7 @@ package hunkarada.nen.common.register;
 import hunkarada.nen.client.NenKeyBinding;
 import hunkarada.nen.client.gui.AbilityGridRenderer;
 import hunkarada.nen.client.gui.BattleModeRenderer;
-import hunkarada.nen.common.network.s2c.OnEndServerTick;
+import hunkarada.nen.common.network.event.OnEndServerTick;
 import hunkarada.nen.common.nen.ability.abilities.EmptyAbility;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbility;

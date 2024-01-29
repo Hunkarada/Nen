@@ -1,4 +1,4 @@
-package hunkarada.nen.common.network.s2c;
+package hunkarada.nen.common.network.event;
 
 import hunkarada.nen.common.network.ModMessages;
 import hunkarada.nen.common.network.packet.SyncPacket;
