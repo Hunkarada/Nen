@@ -17,15 +17,15 @@ public abstract class Ability implements CanRegister {
     // or after applying restriction multipliers).
 
     protected String id;
-    protected long staticCost;
+    protected double staticCost;
     protected double dynamicCostPercent;
     protected NenType nenType;
     protected int initialCooldown;
     protected AbilityEffect abilityEffect;
     private int cooldown;
     private PlayerEntity caster;
-    private long totalCost;
-    private long nenPower;
+    private double totalCost;
+    private double nenPower;
 
     public String getId() {
         return id;
@@ -37,7 +37,7 @@ public abstract class Ability implements CanRegister {
 
     protected void calcNenPower(){
         IPlayerEntityNen nenCaster = (IPlayerEntityNen) this.caster;
-        nenPower = Math.round(totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType()));
+        nenPower = totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType());
     }
 
     public abstract void cast(PlayerEntity caster);
@@ -60,12 +60,12 @@ public abstract class Ability implements CanRegister {
         }
     }
 
-    public long getTotalCost() {
+    public double getTotalCost() {
         calcNenCost();
         return totalCost;
     }
 
-    public long getNenPower(){
+    public double getNenPower(){
         calcNenPower();
         return nenPower;
     }

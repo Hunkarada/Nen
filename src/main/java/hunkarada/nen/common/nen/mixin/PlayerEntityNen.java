@@ -32,10 +32,10 @@ public abstract class PlayerEntityNen
     @Unique
     boolean isNenAwakened;
     @Unique
-    long nenPower;
+    double nenPower;
     // nen power cap is the maximum capacity of nen user, nen power is the current amount on nen
     @Unique
-    long nenPowerCap;
+    double nenPowerCap;
     // nen level is current level of nen user. more lvl - more nenCap and more ability points.
     @Unique
     int nenLvl;
@@ -59,12 +59,13 @@ public abstract class PlayerEntityNen
     @Unique
     NenClass nenClass;
     @Unique
-    int nenRegenValueHundreds;
+    double nenRegenValue;
     @Unique
-    int nenRegenHundredsPerTick;
     boolean isNenActive;
+    @Unique
     boolean isNenBlocked;
-    boolean isNenHiden;
+    @Unique
+    boolean isNenHidden;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -85,15 +86,15 @@ public abstract class PlayerEntityNen
         this.nenAbilities = AbilitySet.generateEmptySet();
         this.nenUnlockedClasses = new NenClassSet();
         this.nenClass = new EmptyNenClass();
-        this.nenRegenValueHundreds = 0;
-        this.nenRegenHundredsPerTick = 0;
+        this.nenRegenValue = 0;
     }
+
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
-    public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci){
+    public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putBoolean("isNenAwakened", isNenAwakened);
-        nbt.putLong("nenPower", nenPower);
-        nbt.putLong("nenPowerCap", nenPowerCap);
+        nbt.putDouble("nenPower", nenPower);
+        nbt.putDouble("nenPowerCap", nenPowerCap);
         nbt.putInt("nenLvl", nenLvl);
         nbt.putLong("nenExp", nenExp);
         nbt.putLong("nenExpUntilNextLvl", nenExpToNextLvl);
@@ -102,15 +103,15 @@ public abstract class PlayerEntityNen
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
-        nbt.putInt("nenRegenValueHundreds", nenRegenValueHundreds);
-        nbt.putInt("nenRegenHundredsPerTick", nenRegenHundredsPerTick);
+        nbt.putDouble("nenRegenValue", nenRegenValue);
     }
+
     // and reading data from NBT.
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
-    public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci){
+    public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         this.isNenAwakened = nbt.getBoolean("isNenAwakened");
-        this.nenPower = nbt.getLong("nenPower");
-        this.nenPowerCap = nbt.getLong("nenPowerCap");
+        this.nenPower = nbt.getDouble("nenPower");
+        this.nenPowerCap = nbt.getDouble("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getLong("nenExp");
         this.nenExpToNextLvl = nbt.getLong("nenExpUntilNextLvl");
@@ -119,86 +120,100 @@ public abstract class PlayerEntityNen
         this.nenAbilities = AbilitySet.fromNbt(nbt);
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt);
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
-        this.nenRegenValueHundreds = nbt.getInt("nenRegenValueHundreds");
-        this.nenRegenHundredsPerTick = nbt.getInt("nenRegenHundredsPerTick");
+        this.nenRegenValue = nbt.getDouble("nenRegenValue");
     }
+
     @Inject(method = "tick", at = @At("RETURN"))
-    public void nen$tick(CallbackInfo ci){
+    public void nen$tick(CallbackInfo ci) {
         nenAbilities.calcAbilityCooldowns();
     }
+
     // it's returns boolean value, if false - it's a signal to caller of method,
     // that caster hasn't enough nen, if true - everything is good.
-    public boolean nen$collectNen(long value) {
-        if ((this.nenPower - value) < 0){
+    public boolean nen$collectNen(double value) {
+        if ((this.nenPower - value) < 0) {
             return false;
-        }
-        else {
+        } else {
             this.nenPower -= value;
             return true;
         }
     }
 
 
-    public void nen$giveNen(long value) {
-        long power = this.nenPower + value;
+    public void nen$giveNen(double value) {
+        double power = this.nenPower + value;
         if (power > this.nenPowerCap) {
             this.nenPower = this.nenPowerCap;
-        }
-        else {
+        } else {
             this.nenPower = power;
         }
 
     }
+
     public boolean nen$getIsNenAwakened() {
         return isNenAwakened;
     }
+
     public NenType nen$getNenType() {
         return nenType;
     }
+
     public void nen$setNenType(NenType nenType) {
         this.nenType = nenType;
     }
+
     public int nen$getNenLvl() {
         return nenLvl;
     }
-    public void nen$addNenLvl(){
+
+    public void nen$addNenLvl() {
         this.nenLvl += 1;
     }
-    public long nen$getNenPowerCap() {
+
+    public double nen$getNenPowerCap() {
         return nenPowerCap;
     }
-    public long nen$getNenPower() {
+
+    public double nen$getNenPower() {
         return nenPower;
     }
+
     public long nen$getNenExp() {
         return nenExp;
     }
-    public void nen$addNenExp(int exp){
-       this.nenExp += exp;
+
+    public void nen$addNenExp(int exp) {
+        this.nenExp += exp;
     }
+
     public ArrayList<Restriction> nen$getNenRestrictions() {
         return nenRestrictions;
     }
+
     public AbilitySet nen$getNenAbilities() {
         return nenAbilities;
     }
-    public NenClassSet nen$getNenUnlockedClasses(){
+
+    public NenClassSet nen$getNenUnlockedClasses() {
         return nenUnlockedClasses;
     }
-    public NenClass nen$getNenClass(){
+
+    public NenClass nen$getNenClass() {
         return nenClass;
     }
+
     public long nen$getNenExpUntilNextLvl() {
         return nenExpToNextLvl;
     }
 
-    public void nen$awakePlayer(){
+    public void nen$awakePlayer() {
         this.nenLvl = 1;
-        this.nenPowerCap = 10000;
+        this.nenPowerCap = 1000;
         this.nenExpToNextLvl = 100;
         this.nenType = NenType.randomType();
-        this.nenRegenHundredsPerTick = 50;
+        this.nenRegenValue = 0.05;
     }
+
     public void nen$setDataFromPacket(
             boolean isNenAwakened,
             long nenPower,
@@ -209,67 +224,67 @@ public abstract class PlayerEntityNen
             NenType nenType,
             AbilitySet nenAbilities,
             NenClassSet nenUnlockedClasses,
-            NenClass nenClass){
-       this.isNenAwakened = isNenAwakened;
-       this.nenPower = nenPower;
-       this.nenPowerCap = nenPowerCap;
-       this.nenLvl = nenLvl;
-       this.nenExp = nenExp;
-       this.nenExpToNextLvl = nenExpUntilNextLvl;
-       this.nenType = nenType;
-       this.nenAbilities = nenAbilities;
-       this.nenUnlockedClasses = nenUnlockedClasses;
-       this.nenClass = nenClass;
+            NenClass nenClass) {
+        this.isNenAwakened = isNenAwakened;
+        this.nenPower = nenPower;
+        this.nenPowerCap = nenPowerCap;
+        this.nenLvl = nenLvl;
+        this.nenExp = nenExp;
+        this.nenExpToNextLvl = nenExpUntilNextLvl;
+        this.nenType = nenType;
+        this.nenAbilities = nenAbilities;
+        this.nenUnlockedClasses = nenUnlockedClasses;
+        this.nenClass = nenClass;
     }
+
     // add, remove and swap abilities in hotbar, this is not available abilities.
-    public void nen$addAbility(Ability ability, int index){
+    public void nen$addAbility(Ability ability, int index) {
         if (nenUnlockedClasses.contains(ability)) {
             this.nenAbilities.addAbility(ability, index);
         }
     }
-    public void nen$removeAbility(Ability ability){
-       this.nenAbilities.removeAbility(ability);
+
+    public void nen$removeAbility(Ability ability) {
+        this.nenAbilities.removeAbility(ability);
     }
-    public void nen$swapAbilities(Ability firstAbility, Ability secondAbility){
-       this.nenAbilities.swapAbilities(firstAbility, secondAbility);
+
+    public void nen$swapAbilities(Ability firstAbility, Ability secondAbility) {
+        this.nenAbilities.swapAbilities(firstAbility, secondAbility);
     }
-    public void nen$addExp(long nenExp){
+
+    public void nen$addExp(long nenExp) {
         this.nenExp += nenExp;
         // method is checking and lvl up player, if true. if false - breaks loop.
-        while (true){
-            if (!nen$checkLvlUp()){
+        while (true) {
+            if (!nen$checkLvlUp()) {
                 break;
             }
         }
     }
-    public boolean nen$checkLvlUp(){
-        if (nenExp >= nenExpToNextLvl){
+
+    public boolean nen$checkLvlUp() {
+        if (nenExp >= nenExpToNextLvl) {
             nenExp -= nenExpToNextLvl;
             nen$lvlUp();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    public void nen$lvlUp(){
+
+    public void nen$lvlUp() {
         nenLvl += 1;
-        nenPowerCap += 1000;
-        nenExpToNextLvl += (long) (nenExpToNextLvl*0.1);
-        nenRegenHundredsPerTick += 5;
+        nenPowerCap += 100;
+        nenExpToNextLvl += (long) (nenExpToNextLvl * 0.1);
+        nenRegenValue += 0.0025;
     }
-    public void nen$regenNen(){
+
+    public void nen$regenNen() {
         if (getMaxHealth() == getHealth()) {
-           nenRegenValueHundreds += nenRegenHundredsPerTick;
-           if (nenRegenValueHundreds >= 100){
-               int buffer = (nenRegenValueHundreds % 100);
-               nenRegenValueHundreds -= buffer;
-               nenPower += (nenRegenValueHundreds / 100);
-               if (nenPower > nenPowerCap){
-                   nenPower = nenPowerCap;
-               }
-               nenRegenValueHundreds = buffer;
-           }
+            nenPower += nenRegenValue;
+            if (nenPower > nenPowerCap) {
+                nenPower = nenPowerCap;
+            }
         }
     }
 }

@@ -87,7 +87,7 @@ public abstract class EntityNen
     }
 
     @Override
-    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster, long nenPower) {
+    public void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster, double nenPower) {
         nenAbilityEffect.applyEffect((Entity) (Object) this, caster, nenPower);
     }
 

@@ -10,13 +10,13 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Scanner;
 
 public abstract class AbilityEffect implements CanRegister {
-    protected long nenPower;
+    protected double nenPower;
     protected PlayerEntity caster;
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
 
-    public void applyEffect(Entity target, PlayerEntity caster, long nenPower){
+    public void applyEffect(Entity target, PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
         firstTickEffect(target);
@@ -29,7 +29,7 @@ public abstract class AbilityEffect implements CanRegister {
 
 
     }
-    public void applyEffect(BlockPos target, PlayerEntity caster, long nenPower){
+    public void applyEffect(BlockPos target, PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
         firstTickEffect(target);
@@ -41,7 +41,7 @@ public abstract class AbilityEffect implements CanRegister {
 
     public abstract void durationalEffect(Entity target);
 
-    public long getNenPower(){
+    public double getNenPower(){
         return nenPower;
     }
 

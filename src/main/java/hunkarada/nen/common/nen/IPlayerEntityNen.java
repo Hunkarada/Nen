@@ -15,8 +15,8 @@ public interface IPlayerEntityNen {
      void nen$setNenType(NenType nenType);
      int nen$getNenLvl();
      void nen$addNenLvl();
-     long nen$getNenPowerCap();
-     long nen$getNenPower();
+     double nen$getNenPowerCap();
+     double nen$getNenPower();
      long nen$getNenExp();
      long nen$getNenExpUntilNextLvl();
      void nen$addNenExp(int exp);
@@ -24,8 +24,8 @@ public interface IPlayerEntityNen {
      ArrayList<Restriction> nen$getNenRestrictions();
      NenClassSet nen$getNenUnlockedClasses();
      NenClass nen$getNenClass();
-     boolean nen$collectNen(long value);
-     void nen$giveNen(long value);
+     boolean nen$collectNen(double value);
+     void nen$giveNen(double value);
      void nen$awakePlayer();
      void nen$addAbility(Ability ability, int index);
      void nen$removeAbility(Ability ability);
