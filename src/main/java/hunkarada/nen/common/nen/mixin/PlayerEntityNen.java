@@ -4,10 +4,10 @@ import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
-import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
-import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +16,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,8 +28,6 @@ import java.util.ArrayList;
 public abstract class PlayerEntityNen
         extends LivingEntity
         implements IPlayerEntityNen {
-
-    @Shadow public abstract void tick();
 
     @Unique
     boolean isNenAwakened;
@@ -65,6 +62,9 @@ public abstract class PlayerEntityNen
     int nenRegenValueHundreds;
     @Unique
     int nenRegenHundredsPerTick;
+    boolean isNenActive;
+    boolean isNenBlocked;
+    boolean isNenHiden;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
