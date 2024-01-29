@@ -32,11 +32,10 @@ public class NenClassSet {
     }
 
     public static NenClassSet fromNbt(NbtCompound nbt){
-        NbtCompound nbtUnlockedClasses = nbt.getCompound("nenUnlockedClasses");
         NenClassSet classSet = new NenClassSet();
-        Set<String> keys = nbtUnlockedClasses.getKeys();
+        Set<String> keys = nbt.getKeys();
         for (String key : keys){
-            classSet.addClass(NenClassRegistry.getInstance().getFromRegistry(nbtUnlockedClasses.getString(key)));
+            classSet.addClass(NenClassRegistry.getInstance().getFromRegistry(nbt.getString(key)));
         }
         return classSet;
     }

@@ -6,10 +6,14 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 
 public interface IPlayerEntityNen {
+     NbtCompound nen$saveDataToNbt();
+     void nen$loadDataFromNbtDisk(NbtCompound nbt);
+     void nen$loadDataFromNbt(NbtCompound nbt);
      boolean nen$getIsNenAwakened();
      NenType nen$getNenType();
      void nen$setNenType(NenType nenType);
@@ -30,17 +34,6 @@ public interface IPlayerEntityNen {
      void nen$addAbility(Ability ability, int index);
      void nen$removeAbility(Ability ability);
      void nen$swapAbilities(Ability firstAbility, Ability secondAbility);
-     void nen$setDataFromPacket(
-             boolean isNenAwakened,
-             long nenPower,
-             long nenPowerCap,
-             int nenLvl,
-             long nenExp,
-             long nenExpUntilNextLvl,
-             NenType nenType,
-             AbilitySet nenAbilities,
-             NenClassSet nenUnlockedClasses,
-             NenClass nenClass);
      void nen$addExp(long nenExp);
      boolean nen$checkLvlUp();
      void nen$lvlUp();

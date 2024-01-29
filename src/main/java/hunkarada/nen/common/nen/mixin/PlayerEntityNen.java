@@ -88,10 +88,8 @@ public abstract class PlayerEntityNen
         this.nenClass = new EmptyNenClass();
         this.nenRegenValue = 0;
     }
-
-    // method for saving data to NBT.
-    @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
-    public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+    public NbtCompound nen$saveDataToNbt(){
+        NbtCompound nbt = new NbtCompound();
         nbt.putBoolean("isNenAwakened", isNenAwakened);
         nbt.putDouble("nenPower", nenPower);
         nbt.putDouble("nenPowerCap", nenPowerCap);
@@ -104,23 +102,38 @@ public abstract class PlayerEntityNen
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
         nbt.putDouble("nenRegenValue", nenRegenValue);
+        return nbt;
+    }
+    public void nen$loadDataFromNbtDisk(NbtCompound nbt){
+        NbtCompound nen = nbt.getCompound("nen");
+        nen$loadDataFromNbt(nen);
     }
 
-    // and reading data from NBT.
-    @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
-    public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+    public void nen$loadDataFromNbt(NbtCompound nbt){
         this.isNenAwakened = nbt.getBoolean("isNenAwakened");
         this.nenPower = nbt.getDouble("nenPower");
         this.nenPowerCap = nbt.getDouble("nenPowerCap");
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getLong("nenExp");
         this.nenExpToNextLvl = nbt.getLong("nenExpUntilNextLvl");
-        this.nenType = NenType.fromNbt(nbt);
+        this.nenType = NenType.fromNbt(nbt.getString("nenType"));
 //        this.nenRestrictions =
-        this.nenAbilities = AbilitySet.fromNbt(nbt);
-        this.nenUnlockedClasses = NenClassSet.fromNbt(nbt);
+        this.nenAbilities = AbilitySet.fromNbt(nbt.getCompound("nenAbilities"));
+        this.nenUnlockedClasses = NenClassSet.fromNbt(nbt.getCompound("nenUnlockedClasses"));
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
         this.nenRegenValue = nbt.getDouble("nenRegenValue");
+    }
+
+    // method for saving data to NBT.
+    @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
+    public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        nbt.put("nen", nen$saveDataToNbt());
+    }
+
+    // and reading data from NBT.
+    @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
+    public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+        nen$loadDataFromNbtDisk(nbt);
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
@@ -212,29 +225,6 @@ public abstract class PlayerEntityNen
         this.nenExpToNextLvl = 100;
         this.nenType = NenType.randomType();
         this.nenRegenValue = 0.05;
-    }
-
-    public void nen$setDataFromPacket(
-            boolean isNenAwakened,
-            long nenPower,
-            long nenPowerCap,
-            int nenLvl,
-            long nenExp,
-            long nenExpUntilNextLvl,
-            NenType nenType,
-            AbilitySet nenAbilities,
-            NenClassSet nenUnlockedClasses,
-            NenClass nenClass) {
-        this.isNenAwakened = isNenAwakened;
-        this.nenPower = nenPower;
-        this.nenPowerCap = nenPowerCap;
-        this.nenLvl = nenLvl;
-        this.nenExp = nenExp;
-        this.nenExpToNextLvl = nenExpUntilNextLvl;
-        this.nenType = nenType;
-        this.nenAbilities = nenAbilities;
-        this.nenUnlockedClasses = nenUnlockedClasses;
-        this.nenClass = nenClass;
     }
 
     // add, remove and swap abilities in hotbar, this is not available abilities.

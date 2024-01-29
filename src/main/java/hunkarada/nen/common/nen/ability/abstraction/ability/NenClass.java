@@ -10,11 +10,11 @@ public abstract class NenClass implements CanRegister {
     protected Ability ultimateClassAbility;
     protected Ability movementClassAbility;
     protected ArrayList<Ability> classAvailableAbilities;
-    protected int passiveResist;
-    protected int activeResist;
+    protected double passiveResist;
+    protected double activeResist;
     // not more, than 2!
-    protected int passiveDamageMultiplier;
-    protected int activeDamageMultiplier;
+    protected double passiveDamageMultiplier;
+    protected double activeDamageMultiplier;
     public NenClass(){
 
     }

@@ -92,12 +92,11 @@ public class AbilitySet {
     }
 
     public static AbilitySet fromNbt(NbtCompound nbt){
-        NbtCompound nbtAbilities = nbt.getCompound("nenAbilities");
         AbilitySet abilitySet = new AbilitySet();
-        Set<String> keys = nbtAbilities.getKeys();
+        Set<String> keys = nbt.getKeys();
         int index = 0;
         for (String key : keys){
-           abilitySet.addAbility(AbilityRegistry.getInstance().getFromRegistry(nbtAbilities.getString(key)), index);
+           abilitySet.addAbility(AbilityRegistry.getInstance().getFromRegistry(nbt.getString(key)), index);
            index += 1;
         }
         return abilitySet;
