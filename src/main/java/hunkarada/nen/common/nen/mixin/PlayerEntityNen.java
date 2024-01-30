@@ -66,6 +66,14 @@ public abstract class PlayerEntityNen
     boolean isNenBlocked;
     @Unique
     boolean isNenHidden;
+    @Unique
+    double passiveResist;
+    @Unique
+    double activeResist;
+    @Unique
+    protected double passiveDamageMultiplier;
+    @Unique
+    protected double activeDamageMultiplier;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);

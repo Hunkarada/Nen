@@ -1,5 +1,6 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
+import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenAbilityEntity;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +30,7 @@ public abstract class TargetAbility extends Ability {
                     case BLOCK -> {
                         if (targetType == TargetType.BLOCK || targetType == TargetType.MIXED){
                             BlockHitResult blockTarget = (BlockHitResult) target;
-                            abilityEffect.applyEffect(
+                            abilityEffect.applyEffectOnBlock(
                                     blockTarget.getBlockPos(), caster, getNenPower()
                             );
                             spawnVisualEntities();
@@ -41,9 +42,9 @@ public abstract class TargetAbility extends Ability {
                     }
                     case ENTITY -> {
                         if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
-                            abilityEffect.applyEffect(
-                                    ((EntityHitResult) target).getEntity(), caster, getNenPower()
-                            );
+                            EntityHitResult entity = (EntityHitResult) target;
+                            IEntityNen entityNen = (IEntityNen) entity;
+                            entityNen.nen$applyNenAbilityEffect(abilityEffect, caster, getNenPower());
                             spawnVisualEntities();
                             setInitialCooldown();
                         }

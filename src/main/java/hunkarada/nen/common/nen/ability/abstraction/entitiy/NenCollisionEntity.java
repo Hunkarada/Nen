@@ -2,7 +2,7 @@ package hunkarada.nen.common.nen.ability.abstraction.entitiy;
 
 import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.IEntityNen;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +19,7 @@ public abstract class NenCollisionEntity extends Entity {
     public static final Identifier NEN_COLLISION_ENTITY_ID = new Identifier(NenMod.MOD_ID, "nen_collision_entity");
     PlayerEntity caster;
     Box collisionBox;
-    AbilityEffect abilityEffect;
+    Ability ability;
     int lifetime;
     double radius;
     boolean isSphere;
@@ -54,7 +54,7 @@ public abstract class NenCollisionEntity extends Entity {
             if (isMass) {
                 for (Entity entity : filteredList) {
                     IEntityNen entityNen = (IEntityNen) entity;
-                    entityNen.nen$addNenAbilityEffect(abilityEffect, caster, abilityEffect.getNenPower());
+                    entityNen.nen$applyNenAbilityEffect(ability.getAbilityEffect(), this.caster, ability.getNenPower());
                 }
             } else {
                 Entity closestEntity = filteredList.get(0);
@@ -64,7 +64,7 @@ public abstract class NenCollisionEntity extends Entity {
                     }
                 }
                 IEntityNen entityNen = (IEntityNen) closestEntity;
-                entityNen.nen$addNenAbilityEffect(abilityEffect, caster, abilityEffect.getNenPower());
+                entityNen.nen$applyNenAbilityEffect(ability.getAbilityEffect(), this.caster, ability.getNenPower());
             }
         }
 

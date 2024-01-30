@@ -11,7 +11,7 @@ public interface IEntityNen {
     ArrayList<AbilityEffect> nen$getNenAbilityEffects();
     void nen$setNenAbilityEffects(ArrayList<AbilityEffect> nenAbilityEffects);
 
-    void nen$addNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity caster, double nenPower);
+    void nen$applyNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity Player, double nenPower);
     void nen$removeNenAbilityEffect(AbilityEffect nenAbilityEffect);
 
     //NenMemory

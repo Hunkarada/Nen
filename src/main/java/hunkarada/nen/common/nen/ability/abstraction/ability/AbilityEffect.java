@@ -1,7 +1,6 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanRegister;
-import hunkarada.nen.common.nen.IEntityNen;
 import hunkarada.nen.common.register.registry.EffectRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,35 +14,37 @@ public abstract class AbilityEffect implements CanRegister {
     protected String id;
     protected int duration;
     protected boolean isFirstTick = true;
-
-    public void applyEffect(Entity target, PlayerEntity caster, double nenPower){
+    protected boolean isBuff;
+    protected boolean isOneTimeApplied;
+    public void prepareEffect(PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
-        firstTickEffect(target);
-        isFirstTick = false;
-        if (duration != 0){
-            // need to realize Entity mixin
-            IEntityNen nenTarget = (IEntityNen) target;
-            nenTarget.nen$addNenAbilityEffect(this, caster, nenPower);
-        }
-
-
+        // need to realize Entity mixin
     }
-    public void applyEffect(BlockPos target, PlayerEntity caster, double nenPower){
+    public void applyEffectOnBlock(BlockPos target, PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
         firstTickEffect(target);
-        // as we can't apply ability effect on blocks - we don't switch isFirstTick
+        // as we can't apply ability effect on blocks - we don't switch isFirstTick, anyway, it doesn't matter.
+    }
+    public void removeEffect(Entity target){
+        onRemoveEffect(target);
     }
     protected abstract void firstTickEffect(Entity target);
 
     protected abstract void firstTickEffect(BlockPos target);
 
-    public abstract void durationalEffect(Entity target);
-
-    public double getNenPower(){
-        return nenPower;
+    public void tickableEffect(Entity target){
+        if (isFirstTick){
+            firstTickEffect(target);
+            isFirstTick = false;
+        }
+        else if (!isOneTimeApplied){
+            durationalEffect(target);
+        }
     }
+    protected abstract void durationalEffect(Entity target);
+    protected abstract void onRemoveEffect(Entity target);
 
     public static String toNbt(AbilityEffect effect){
         return effect.id + " " + effect.duration + " " + effect.isFirstTick + " " + effect.nenPower;
@@ -70,6 +71,7 @@ public abstract class AbilityEffect implements CanRegister {
     public final void register() {
         EffectRegistry.getInstance().addToRegistry(id, this);
     }
+
 // Logic here is:
 // if duration is more or equals, than 1 - we decrease it by one,
 // if == 0, then method returns false, and we remove effect, if duration == -1, this effect can't expire at all.
@@ -84,6 +86,10 @@ public abstract class AbilityEffect implements CanRegister {
             this.duration -= 1;
             return true;
         }
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == this.getClass();
     }
 
 }

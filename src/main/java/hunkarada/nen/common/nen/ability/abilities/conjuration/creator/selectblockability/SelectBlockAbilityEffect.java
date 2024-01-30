@@ -10,19 +10,28 @@ public class SelectBlockAbilityEffect extends AbilityEffect {
 
 
     @Override
-    protected void firstTickEffect(Entity target) {
+    public void firstTickEffect(Entity target) {
 
     }
 
     @Override
-    protected void firstTickEffect(BlockPos target) {
-        System.out.println("HUI");
+    public void firstTickEffect(BlockPos target) {
         IEntityNen casterNen = (IEntityNen) caster;
         casterNen.nen$writeToNenMemory(NenMemory.SELECTED_BLOCK, target.toShortString());
     }
 
     @Override
+    public void tickableEffect(Entity target) {
+
+    }
+
+    @Override
     public void durationalEffect(Entity target) {
+
+    }
+
+    @Override
+    public void onRemoveEffect(Entity target) {
 
     }
 }

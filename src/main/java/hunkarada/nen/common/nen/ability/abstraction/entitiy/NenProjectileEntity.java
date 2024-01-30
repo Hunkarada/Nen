@@ -1,7 +1,9 @@
 package hunkarada.nen.common.nen.ability.abstraction.entitiy;
 
 import hunkarada.nen.common.NenMod;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
+import hunkarada.nen.common.nen.IEntityNen;
+import hunkarada.nen.common.nen.IPlayerEntityNen;
+import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +17,7 @@ import net.minecraft.world.World;
 public abstract class NenProjectileEntity extends ProjectileEntity {
     public static final Identifier NEN_PROJECTILE_ENTITY = new Identifier(NenMod.MOD_ID, "nen_projectile_entity");
 
-    AbilityEffect abilityEffect;
+    Ability ability;
     public NenProjectileEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -24,7 +26,8 @@ public abstract class NenProjectileEntity extends ProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         Entity entity = entityHitResult.getEntity();
-        abilityEffect.applyEffect(entity, (PlayerEntity) this.getOwner(), abilityEffect.getNenPower());
+        IEntityNen entityNen = (IEntityNen) entity;
+        entityNen.nen$applyNenAbilityEffect(ability.getAbilityEffect(), (PlayerEntity) this.getOwner(), ability.getNenPower());
 
     }
 
@@ -32,7 +35,8 @@ public abstract class NenProjectileEntity extends ProjectileEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
         BlockPos blockPos = blockHitResult.getBlockPos();
-        abilityEffect.applyEffect(blockPos, (PlayerEntity) this.getOwner(), abilityEffect.getNenPower());
+        IPlayerEntityNen caster = (IPlayerEntityNen) this.getOwner();
+        ability.getAbilityEffect().applyEffectOnBlock(blockPos, (PlayerEntity) this.getOwner(), ability.getNenPower());
     }
 
     @Override

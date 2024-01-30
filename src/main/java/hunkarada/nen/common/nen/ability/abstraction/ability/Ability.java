@@ -69,6 +69,9 @@ public abstract class Ability implements CanRegister {
         calcNenPower();
         return nenPower;
     }
+    public AbilityEffect getAbilityEffect(){
+        return abilityEffect;
+    }
 
     protected void setInitialCooldown(){
         cooldown = initialCooldown;
