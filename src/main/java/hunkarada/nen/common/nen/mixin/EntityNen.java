@@ -71,7 +71,7 @@ public abstract class EntityNen
     public void nen$tick(CallbackInfo ci){
         for (AbilityEffect effect : nenAbilityEffects){
             if (effect.calcDuration()){
-                effect.tickableEffect((Entity) (Object) this);
+                effect.tickEffect((Entity) (Object) this);
             }
             else {
                 nen$removeNenAbilityEffect(effect);

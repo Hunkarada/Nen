@@ -34,7 +34,7 @@ public abstract class AbilityEffect implements CanRegister {
 
     protected abstract void firstTickEffect(BlockPos target);
 
-    public void tickableEffect(Entity target){
+    public void tickEffect(Entity target){
         if (isFirstTick){
             firstTickEffect(target);
             isFirstTick = false;

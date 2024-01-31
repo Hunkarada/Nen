@@ -21,7 +21,7 @@ public class SelectBlockAbilityEffect extends AbilityEffect {
     }
 
     @Override
-    public void tickableEffect(Entity target) {
+    public void tickEffect(Entity target) {
 
     }
 
