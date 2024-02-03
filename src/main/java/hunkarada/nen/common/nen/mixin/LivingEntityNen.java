@@ -14,24 +14,32 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityNen extends Entity {
-    @Shadow private float movementSpeed;
 
     public LivingEntityNen(EntityType<?> type, World world) {
         super(type, world);
     }
+    @Shadow private float movementSpeed;
+
+    @Shadow public abstract void setMovementSpeed(float movementSpeed);
+
     @ModifyVariable(method = "getMovementSpeed()F", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public LivingEntity applyMovementMultiplierNen(LivingEntity value){
-        if ((LivingEntity)(Object)this instanceof PlayerEntity){
-            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) this;
+        if (value instanceof PlayerEntity){
+            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) value;
+            float oldMovementSpeed = movementSpeed;
             if (nenPlayer.nen$getIsNenAwakened() && nenPlayer.nen$getIsNenActive()) {
-                return value.movementSpeed * nenPlayer.nen$getActiveSpeedMultiplier();
+                value.setMovementSpeed(movementSpeed * nenPlayer.nen$getActiveSpeedMultiplier());
+                return value;
+                setMovementSpeed(oldMovementSpeed);
             } else if (nenPlayer.nen$getIsNenAwakened()) {
-                return value.movementSpeed * nenPlayer.nen$getPassiveSpeedMultiplier();
+                value.setMovementSpeed(movementSpeed * nenPlayer.nen$getPassiveSpeedMultiplier());
+                return value;
+                value.setMovementSpeed(oldMovementSpeed);
             }
             else {
-                return movementSpeed;
+                return value;
             }
         }
-        return movementSpeed;
+        return value;
     }
 }
