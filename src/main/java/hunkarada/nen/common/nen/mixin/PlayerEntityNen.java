@@ -11,15 +11,19 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 
@@ -67,13 +71,13 @@ public abstract class PlayerEntityNen
     @Unique
     boolean isNenHidden;
     @Unique
-    double passiveResist;
+    float passiveResist;
     @Unique
-    double activeResist;
+    float activeResist;
     @Unique
-    protected double passiveDamageMultiplier;
+    protected float passiveDamageMultiplier;
     @Unique
-    protected double activeDamageMultiplier;
+    protected float activeDamageMultiplier;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -81,7 +85,7 @@ public abstract class PlayerEntityNen
 
 
     //here we are add variables for each entity.
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "<init>", at = @At("TAIL"))
     public void LivingEntityNen(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
         this.isNenAwakened = false;
         this.nenPower = 0;
@@ -133,18 +137,18 @@ public abstract class PlayerEntityNen
     }
 
     // method for saving data to NBT.
-    @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.put("nen", nen$saveDataToNbt());
     }
 
     // and reading data from NBT.
-    @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void nen$readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         nen$loadDataFromNbtDisk(nbt);
     }
 
-    @Inject(method = "tick", at = @At("RETURN"))
+    @Inject(method = "tick", at = @At("TAIL"))
     public void nen$tick(CallbackInfo ci) {
         nenAbilities.calcAbilityCooldowns();
     }
@@ -283,6 +287,39 @@ public abstract class PlayerEntityNen
             if (nenPower > nenPowerCap) {
                 nenPower = nenPowerCap;
             }
+        }
+    }
+
+    public void nen$setNenClass(NenClass nenClass){
+        this.nenClass = nenClass;
+//        applyNenResistsAndModifiers(nenClass.);
+    }
+    public void applyNenResistsAndModifiers(double activeResist, double passiveResist, double activeDamageMultiplier, double passiveDamageMultiplier){
+    }
+    @Inject(method = "damage", at = @At("TAIL"))
+    public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir){
+        if (isNenAwakened) {
+            if (!source.isIn(DamageTypeTags.BYPASSES_ARMOR) || source.isIn(DamageTypeTags.IS_FALL)) {
+                if (isNenActive) {
+                    amount = amount * activeResist;
+                } else {
+                    amount = amount * passiveResist;
+                }
+            }
+        }
+    }
+    @ModifyVariable(method = "attack", at = @At("LOAD"), ordinal = 0)
+    public float attack(float f){
+        if (isNenAwakened){
+            if (isNenActive){
+                return f * activeDamageMultiplier;
+            }
+            else {
+                return f * passiveDamageMultiplier;
+            }
+        }
+        else {
+            return f;
         }
     }
 }

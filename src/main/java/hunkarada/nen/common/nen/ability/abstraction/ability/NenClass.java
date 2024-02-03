@@ -8,13 +8,14 @@ import java.util.ArrayList;
 public abstract class NenClass implements CanRegister {
     protected String id;
     protected Ability ultimateClassAbility;
-    protected Ability movementClassAbility;
     protected ArrayList<Ability> classAvailableAbilities;
-    protected double passiveResist;
-    protected double activeResist;
+    protected float passiveResist;
+    protected float activeResist;
     // not more, than 2!
-    protected double passiveDamageMultiplier;
-    protected double activeDamageMultiplier;
+    protected float passiveDamageMultiplier;
+    protected float activeDamageMultiplier;
+    protected float passiveSpeedMultiplier;
+    protected float activeSpeedMultiplier;
     public NenClass(){
 
     }
