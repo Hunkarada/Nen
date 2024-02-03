@@ -75,9 +75,13 @@ public abstract class PlayerEntityNen
     @Unique
     float activeResist;
     @Unique
-    protected float passiveDamageMultiplier;
+    float passiveDamageMultiplier;
     @Unique
-    protected float activeDamageMultiplier;
+    float activeDamageMultiplier;
+    @Unique
+    float passiveSpeedMultiplier;
+    @Unique
+    float activeSpeedMultiplier;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);

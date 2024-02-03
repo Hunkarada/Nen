@@ -38,4 +38,7 @@ public interface IPlayerEntityNen {
      boolean nen$checkLvlUp();
      void nen$lvlUp();
      void nen$regenNen();
+     boolean nen$getIsNenActive();
+     float nen$getActiveSpeedMultiplier();
+     float nen$getPassiveSpeedMultiplier();
 }
