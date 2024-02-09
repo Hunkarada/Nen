@@ -70,6 +70,8 @@ public abstract class PlayerEntityNen
     @Unique
     boolean isNenBlocked;
     @Unique
+    int nenBlockedTime;
+    @Unique
     boolean isNenHidden;
     @Unique
     boolean isCanSeeHidden;
@@ -299,17 +301,57 @@ public abstract class PlayerEntityNen
     public void nen$switchNenAura(){
         if (!isNenBlocked){
             isNenActive = !isNenActive;
+            if (isNenHidden){
+                nen$hideNenSwitch();
+            }
             nen$updateAttributes();
+            //event here
         }
     }
     public void nen$blockNen(int time){
-
+        isNenBlocked = true;
+        nenBlockedTime = time;
+        if (!isNenHidden){
+            nen$hideNenSwitch();
+        }
+        if (isNenActive){
+            nen$switchNenAura();
+        }
+        if (isCanSeeHidden){
+            nen$seeNenSwitch();
+        }
+        //event here
+    }
+    public void nen$unblockNen(){
+        isNenBlocked = false;
+        // SHOULD BE HIDDEN, NO CHECK.
+        nen$hideNenSwitch();
+        //event here
     }
     public void nen$hideNenSwitch(){
-
+        if (!isNenBlocked){
+            isNenHidden = !isNenHidden;
+            if (isNenActive){
+                nen$switchNenAura();
+            }
+            if (isCanSeeHidden){
+                nen$seeNenSwitch();
+            }
+        }
+        else {
+            isNenHidden = true;
+            if (isNenActive){
+                nen$switchNenAura();
+            }
+            if (isCanSeeHidden){
+                nen$seeNenSwitch();
+            }
+        }
     }
     public void nen$seeNenSwitch(){
-
+        if (!isNenBlocked){
+            isCanSeeHidden = !isCanSeeHidden;
+        }
     }
 
     public void nen$updateAttributes(){
