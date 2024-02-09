@@ -16,7 +16,6 @@ public interface IPlayerEntityNen {
      void nen$loadDataFromNbt(NbtCompound nbt);
      boolean nen$getIsNenAwakened();
      NenType nen$getNenType();
-     void nen$setNenType(NenType nenType);
      int nen$getNenLvl();
      void nen$addNenLvl();
      double nen$getNenPowerCap();
@@ -41,4 +40,5 @@ public interface IPlayerEntityNen {
      boolean nen$getIsNenActive();
      float nen$getActiveSpeedMultiplier();
      float nen$getPassiveSpeedMultiplier();
+     void nen$updateAttributes();
 }
