@@ -1,5 +1,6 @@
 package hunkarada.nen.common.nen.mixin;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.NenType;
@@ -11,21 +12,21 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 // This class is mixing into every LivingEntity, and this adds Nen data to all living creatures in minecraft.
 @Mixin(PlayerEntity.class)
@@ -71,6 +72,8 @@ public abstract class PlayerEntityNen
     @Unique
     boolean isNenHidden;
     @Unique
+    boolean isCanSeeHidden;
+    @Unique
     float passiveResist;
     @Unique
     float activeResist;
@@ -103,6 +106,9 @@ public abstract class PlayerEntityNen
         this.nenUnlockedClasses = new NenClassSet();
         this.nenClass = new EmptyNenClass();
         this.nenRegenValue = 0;
+        this.activeSpeedMultiplier = 1.0F;
+        this.activeDamageMultiplier = 10.0F;
+        this.activeResist = 0.1F;
     }
     public NbtCompound nen$saveDataToNbt(){
         NbtCompound nbt = new NbtCompound();
@@ -155,6 +161,7 @@ public abstract class PlayerEntityNen
     @Inject(method = "tick", at = @At("TAIL"))
     public void nen$tick(CallbackInfo ci) {
         nenAbilities.calcAbilityCooldowns();
+        nen$regenNen();
     }
 
     // it's returns boolean value, if false - it's a signal to caller of method,
@@ -185,10 +192,6 @@ public abstract class PlayerEntityNen
 
     public NenType nen$getNenType() {
         return nenType;
-    }
-
-    public void nen$setNenType(NenType nenType) {
-        this.nenType = nenType;
     }
 
     public int nen$getNenLvl() {
@@ -293,37 +296,33 @@ public abstract class PlayerEntityNen
             }
         }
     }
+    public void nen$switchNenAura(){
+        if (!isNenBlocked){
+            isNenActive = !isNenActive;
+            up
+        }
+    }
+    public void nen$blockNen(int time){
 
-    public void nen$setNenClass(NenClass nenClass){
-        this.nenClass = nenClass;
-//        applyNenResistsAndModifiers(nenClass.);
     }
-    public void applyNenResistsAndModifiers(double activeResist, double passiveResist, double activeDamageMultiplier, double passiveDamageMultiplier){
+    public void nen$hideNenSwitch(){
+
     }
-    @Inject(method = "damage", at = @At("TAIL"))
-    public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir){
-        if (isNenAwakened) {
-            if (!source.isIn(DamageTypeTags.BYPASSES_ARMOR) || source.isIn(DamageTypeTags.IS_FALL)) {
-                if (isNenActive) {
-                    amount = amount * activeResist;
-                } else {
-                    amount = amount * passiveResist;
-                }
-            }
-        }
+    public void nen$seeNenSwitch(){
+
     }
-    @ModifyVariable(method = "attack", at = @At("LOAD"), ordinal = 0)
-    public float attack(float f){
-        if (isNenAwakened){
-            if (isNenActive){
-                return f * activeDamageMultiplier;
-            }
-            else {
-                return f * passiveDamageMultiplier;
-            }
-        }
-        else {
-            return f;
-        }
+
+    public void nen$setNenClass(){
+        ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ArrayListMultimap.create();
+        // a ? b : c = if (a){b}; else{c}
+        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(185123212, 9125370),"nen_class_speed_boost", isNenActive ? activeSpeedMultiplier : passiveSpeedMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributeModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(new UUID(1014532, 842386493),"nen_class_armor_boost", isNenActive ? activeResist : passiveResist, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(new UUID(8572034, 10932748),"nen_class_damage_boost", isNenActive ? activeDamageMultiplier : passiveDamageMultiplier , EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? 0.5 : 1.0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+
+        this.getAttributes().addTemporaryModifiers(attributeModifiers);
+    }
+    public float nen$getActiveSpeedMultiplier(){
+        return activeSpeedMultiplier;
     }
 }
