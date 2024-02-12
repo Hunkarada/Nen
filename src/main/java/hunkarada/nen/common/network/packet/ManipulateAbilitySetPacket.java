@@ -38,15 +38,15 @@ public class ManipulateAbilitySetPacket {
             switch (buf.readInt()){
                 case 0 -> {
                     IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$addAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
+                    nenPlayer.nen$addAbilityToHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
                 }
                 case 1 -> {
                     IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$removeAbility(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                    nenPlayer.nen$removeAbilityFromHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
                 }
                 case 2 -> {
                     IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$swapAbilities(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                    nenPlayer.nen$swapAbilitiesOnHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
                 }
             }
         }
