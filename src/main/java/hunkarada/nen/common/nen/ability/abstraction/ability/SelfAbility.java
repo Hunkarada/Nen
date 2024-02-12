@@ -8,7 +8,7 @@ public abstract class SelfAbility extends Ability {
     @Override
     public void cast(PlayerEntity caster){
         IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
-        if (isNotAtCooldown() && nenCaster.nen$getIsNenAwakened()){
+        if (isNotAtCooldown() && nenCaster.nen$getIsNenAwakened() && nenCaster.nen$getIsNenActive()){
             // calculate cost and other things
             prepareCast(caster);
             if (nenCaster.nen$collectNen(this.getTotalCost())){

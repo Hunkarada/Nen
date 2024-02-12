@@ -20,7 +20,7 @@ public abstract class TargetAbility extends Ability {
     public void cast(PlayerEntity caster) {
         // took away nen from caster with check.
         IPlayerEntityNen nenCaster = (IPlayerEntityNen) caster;
-        if (isNotAtCooldown() && nenCaster.nen$getIsNenAwakened()){
+        if (isNotAtCooldown() && nenCaster.nen$getIsNenAwakened() && nenCaster.nen$getIsNenActive()){
             // getting target
             getTargetByLookVector(caster);
             // calculate cost and other things
