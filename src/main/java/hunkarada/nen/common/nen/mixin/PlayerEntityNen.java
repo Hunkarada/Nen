@@ -108,9 +108,17 @@ public abstract class PlayerEntityNen
         this.nenUnlockedClasses = new NenClassSet();
         this.nenClass = new EmptyNenClass();
         this.nenRegenValue = 0;
+        this.isNenActive = false;
+        this.isNenBlocked = false;
+        this.nenBlockedTime = 0;
+        this.isNenHidden = false;
+        this.isCanSeeHidden = false;
+        this.passiveResist = 1.0F;
+        this.activeResist = 1.0F;
+        this.passiveDamageMultiplier = 1.0F;
+        this.activeDamageMultiplier = 1.0F;
+        this.passiveSpeedMultiplier = 1.0F;
         this.activeSpeedMultiplier = 1.0F;
-        this.activeDamageMultiplier = 10.0F;
-        this.activeResist = 0.1F;
     }
     public NbtCompound nen$saveDataToNbt(){
         NbtCompound nbt = new NbtCompound();
@@ -126,6 +134,17 @@ public abstract class PlayerEntityNen
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
         nbt.putDouble("nenRegenValue", nenRegenValue);
+        nbt.putBoolean("isNenActive", isNenActive);
+        nbt.putBoolean("isNenBlocked", isNenBlocked);
+        nbt.putInt("nenBlockedTime", nenBlockedTime);
+        nbt.putBoolean("isNenHidden", isNenHidden);
+        nbt.putBoolean("isCanSeeHidden", isCanSeeHidden);
+        nbt.putFloat("passiveResist", passiveResist);
+        nbt.putFloat("activeResist", activeResist);
+        nbt.putFloat("passiveDamageMultiplier", passiveDamageMultiplier);
+        nbt.putFloat("activeDamageMultiplier", activeDamageMultiplier);
+        nbt.putFloat("passiveSpeedMultiplier", passiveSpeedMultiplier);
+        nbt.putFloat("activeSpeedMultiplier", activeSpeedMultiplier);
         return nbt;
     }
     public void nen$loadDataFromNbtDisk(NbtCompound nbt){
@@ -146,6 +165,17 @@ public abstract class PlayerEntityNen
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt.getCompound("nenUnlockedClasses"));
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
         this.nenRegenValue = nbt.getDouble("nenRegenValue");
+        this.isNenActive = nbt.getBoolean("isNenActive");
+        this.isNenBlocked = nbt.getBoolean("isNenBlocked");
+        this.nenBlockedTime = nbt.getInt("nenBlockedTime");
+        this.isNenHidden = nbt.getBoolean("isNenHidden");
+        this.isCanSeeHidden = nbt.getBoolean("isCanSeeHidden");
+        this.passiveResist = nbt.getFloat("passiveResist");
+        this.activeResist = nbt.getFloat("activeResist");
+        this.passiveDamageMultiplier = nbt.getFloat("passiveDamageMultiplier");
+        this.activeDamageMultiplier = nbt.getFloat("activeDamageMultiplier");
+        this.passiveSpeedMultiplier = nbt.getFloat("passiveSpeedMultiplier");
+        this.activeSpeedMultiplier = nbt.getFloat("activeSpeedMultiplier");
     }
 
     // method for saving data to NBT.
@@ -249,17 +279,17 @@ public abstract class PlayerEntityNen
     }
 
     // add, remove and swap abilities in hotbar, this is not available abilities.
-    public void nen$addAbility(Ability ability, int index) {
+    public void nen$addAbilityToHotbar(Ability ability, int index) {
         if (nenUnlockedClasses.contains(ability)) {
             this.nenAbilities.addAbility(ability, index);
         }
     }
 
-    public void nen$removeAbility(Ability ability) {
+    public void nen$removeAbilityFromHotbar(Ability ability) {
         this.nenAbilities.removeAbility(ability);
     }
 
-    public void nen$swapAbilities(Ability firstAbility, Ability secondAbility) {
+    public void nen$swapAbilitiesOnHotbar(Ability firstAbility, Ability secondAbility) {
         this.nenAbilities.swapAbilities(firstAbility, secondAbility);
     }
 
@@ -331,27 +361,23 @@ public abstract class PlayerEntityNen
     public void nen$hideNenSwitch(){
         if (!isNenBlocked){
             isNenHidden = !isNenHidden;
-            if (isNenActive){
-                nen$switchNenAura();
-            }
-            if (isCanSeeHidden){
-                nen$seeNenSwitch();
-            }
         }
         else {
             isNenHidden = true;
-            if (isNenActive){
-                nen$switchNenAura();
-            }
-            if (isCanSeeHidden){
-                nen$seeNenSwitch();
-            }
         }
+        if (isNenActive){
+            nen$switchNenAura();
+        }
+        if (isCanSeeHidden){
+            nen$seeNenSwitch();
+        }
+        // event here
     }
     public void nen$seeNenSwitch(){
         if (!isNenBlocked){
             isCanSeeHidden = !isCanSeeHidden;
         }
+        // event here
     }
 
     public void nen$updateAttributes(){
@@ -363,8 +389,5 @@ public abstract class PlayerEntityNen
         attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? 0.5 : 1.0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
 
         this.getAttributes().addTemporaryModifiers(attributeModifiers);
-    }
-    public float nen$getActiveSpeedMultiplier(){
-        return activeSpeedMultiplier;
     }
 }

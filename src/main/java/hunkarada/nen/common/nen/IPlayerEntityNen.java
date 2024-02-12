@@ -30,15 +30,18 @@ public interface IPlayerEntityNen {
      boolean nen$collectNen(double value);
      void nen$giveNen(double value);
      void nen$awakePlayer();
-     void nen$addAbility(Ability ability, int index);
-     void nen$removeAbility(Ability ability);
-     void nen$swapAbilities(Ability firstAbility, Ability secondAbility);
+     void nen$addAbilityToHotbar(Ability ability, int index);
+     void nen$removeAbilityFromHotbar(Ability ability);
+     void nen$swapAbilitiesOnHotbar(Ability firstAbility, Ability secondAbility);
      void nen$addExp(long nenExp);
      boolean nen$checkLvlUp();
      void nen$lvlUp();
      void nen$regenNen();
      boolean nen$getIsNenActive();
-     float nen$getActiveSpeedMultiplier();
-     float nen$getPassiveSpeedMultiplier();
      void nen$updateAttributes();
+     void nen$switchNenAura();
+     void nen$blockNen(int time);
+     void nen$unblockNen();
+     void nen$hideNenSwitch();
+     void nen$seeNenSwitch();
 }
