@@ -3,6 +3,7 @@ package hunkarada.nen.common.register;
 import hunkarada.nen.client.NenKeyBinding;
 import hunkarada.nen.client.gui.AbilityGridRenderer;
 import hunkarada.nen.client.gui.BattleModeRenderer;
+import hunkarada.nen.common.nen.event.ReturnDataOnPlayerDeath;
 import hunkarada.nen.common.network.event.OnEndServerTick;
 import hunkarada.nen.common.nen.ability.abilities.EmptyAbility;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
@@ -10,6 +11,7 @@ import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectbloc
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.selectblockability.SelectBlockAbilityEffect;
 import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class NenModRegister {
@@ -77,5 +79,6 @@ public class NenModRegister {
     }
     private static void registerEvents(){
         ServerTickEvents.END_SERVER_TICK.register(new OnEndServerTick());
+        ServerPlayerEvents.COPY_FROM.register(new ReturnDataOnPlayerDeath());
     }
 }
