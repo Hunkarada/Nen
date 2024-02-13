@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public interface IPlayerEntityNen {
      NbtCompound nen$saveDataToNbt();
-     void nen$loadDataFromNbtDisk(NbtCompound nbt);
      void nen$loadDataFromNbt(NbtCompound nbt);
      boolean nen$getIsNenAwakened();
      NenType nen$getNenType();

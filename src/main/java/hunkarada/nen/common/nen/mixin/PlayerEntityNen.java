@@ -147,7 +147,8 @@ public abstract class PlayerEntityNen
         nbt.putFloat("activeSpeedMultiplier", activeSpeedMultiplier);
         return nbt;
     }
-    public void nen$loadDataFromNbtDisk(NbtCompound nbt){
+    @Unique
+    private void nen$loadDataFromNbtDisk(NbtCompound nbt){
         NbtCompound nen = nbt.getCompound("nen");
         nen$loadDataFromNbt(nen);
     }
