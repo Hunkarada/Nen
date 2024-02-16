@@ -318,7 +318,7 @@ public abstract class PlayerEntityNen
         nenLvl += 1;
         nenPowerCap += 100;
         nenExpToNextLvl += (long) (nenExpToNextLvl * 0.1);
-        nenRegenValue += 0.0025;
+        nenRegenValue += 0.005;
     }
 
     public void nen$regenNen() {
