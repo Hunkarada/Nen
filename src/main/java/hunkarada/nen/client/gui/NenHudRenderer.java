@@ -9,7 +9,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 
-public class NenGuiRenderer {
+public class NenHudRenderer {
     // after experiments, I understood, that coordinate system is equal to monitor resolution / 4.
     // oh, no, it doesn't, it is because of gui scaling.
     public static void onHudRender(DrawContext drawContext, float v){
@@ -21,9 +21,8 @@ public class NenGuiRenderer {
         BufferBuilder buffer = tessellator.getBuffer();
         Matrix4f positionMatrix = drawContext.getMatrices().peek().getPositionMatrix();
         RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
+//        RenderSystem.enableDepthTest();
 
-        int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
         int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
 
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
@@ -43,17 +42,16 @@ public class NenGuiRenderer {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
+//        RenderSystem.enableDepthTest();
 
-        int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
         int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
 
         IPlayerEntityNen playerEntityNen = (IPlayerEntityNen) MinecraftClient.getInstance().player;
         double value = playerEntityNen != null ? playerEntityNen.nen$getNenPower() / playerEntityNen.nen$getNenPowerCap() : 0f;
 
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
-        buffer.vertex(positionMatrix, 4, scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture(0f, 0f).next();
-        buffer.vertex(positionMatrix,4, scaledHeight, 0).color(1F, 1F, 1F, 1F).texture(0f, 1f).next();
+        buffer.vertex(positionMatrix, 3.3f, scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture(0f, 0f).next();
+        buffer.vertex(positionMatrix,3.3f, scaledHeight, 0).color(1F, 1F, 1F, 1F).texture(0f, 1f).next();
         buffer.vertex(positionMatrix, (float) ((value * 117)), scaledHeight, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
         buffer.vertex(positionMatrix, (float) ((value * 117)),scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0f).next();
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);

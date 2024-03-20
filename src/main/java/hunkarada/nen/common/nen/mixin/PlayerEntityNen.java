@@ -76,9 +76,9 @@ public abstract class PlayerEntityNen
     @Unique
     boolean isCanSeeHidden;
     @Unique
-    float passiveResist;
+    float passiveArmorMultiplier;
     @Unique
-    float activeResist;
+    float activeArmorMultiplier;
     @Unique
     float passiveDamageMultiplier;
     @Unique
@@ -113,8 +113,8 @@ public abstract class PlayerEntityNen
         this.nenBlockedTime = 0;
         this.isNenHidden = false;
         this.isCanSeeHidden = false;
-        this.passiveResist = 1.0F;
-        this.activeResist = 1.0F;
+        this.passiveArmorMultiplier = 1.0F;
+        this.activeArmorMultiplier = 1.0F;
         this.passiveDamageMultiplier = 1.0F;
         this.activeDamageMultiplier = 1.0F;
         this.passiveSpeedMultiplier = 1.0F;
@@ -139,8 +139,8 @@ public abstract class PlayerEntityNen
         nbt.putInt("nenBlockedTime", nenBlockedTime);
         nbt.putBoolean("isNenHidden", isNenHidden);
         nbt.putBoolean("isCanSeeHidden", isCanSeeHidden);
-        nbt.putFloat("passiveResist", passiveResist);
-        nbt.putFloat("activeResist", activeResist);
+        nbt.putFloat("passiveArmorMultiplier", passiveArmorMultiplier);
+        nbt.putFloat("activeArmorMultiplier", activeArmorMultiplier);
         nbt.putFloat("passiveDamageMultiplier", passiveDamageMultiplier);
         nbt.putFloat("activeDamageMultiplier", activeDamageMultiplier);
         nbt.putFloat("passiveSpeedMultiplier", passiveSpeedMultiplier);
@@ -171,8 +171,8 @@ public abstract class PlayerEntityNen
         this.nenBlockedTime = nbt.getInt("nenBlockedTime");
         this.isNenHidden = nbt.getBoolean("isNenHidden");
         this.isCanSeeHidden = nbt.getBoolean("isCanSeeHidden");
-        this.passiveResist = nbt.getFloat("passiveResist");
-        this.activeResist = nbt.getFloat("activeResist");
+        this.passiveArmorMultiplier = nbt.getFloat("passiveResist");
+        this.activeArmorMultiplier = nbt.getFloat("activeResist");
         this.passiveDamageMultiplier = nbt.getFloat("passiveDamageMultiplier");
         this.activeDamageMultiplier = nbt.getFloat("activeDamageMultiplier");
         this.passiveSpeedMultiplier = nbt.getFloat("passiveSpeedMultiplier");
@@ -385,7 +385,7 @@ public abstract class PlayerEntityNen
         ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ArrayListMultimap.create();
         // a ? b : c = if (a){b}; else{c}
         attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(185123212, 9125370),"nen_class_speed_boost", isNenActive ? activeSpeedMultiplier : passiveSpeedMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributeModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(new UUID(1014532, 842386493),"nen_class_armor_boost", isNenActive ? activeResist : passiveResist, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+        attributeModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(new UUID(1014532, 842386493),"nen_class_armor_boost", isNenActive ? activeArmorMultiplier : passiveArmorMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
         attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(new UUID(8572034, 10932748),"nen_class_damage_boost", isNenActive ? activeDamageMultiplier : passiveDamageMultiplier , EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
         attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? 0.5 : 1.0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
 

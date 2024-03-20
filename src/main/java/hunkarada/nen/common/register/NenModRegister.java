@@ -1,9 +1,8 @@
 package hunkarada.nen.common.register;
 
 import hunkarada.nen.client.NenKeyBinding;
-import hunkarada.nen.client.gui.AbilityGridRenderer;
-import hunkarada.nen.client.gui.NenGuiRenderer;
-import hunkarada.nen.common.nen.event.ReturnDataOnPlayerDeath;
+import hunkarada.nen.client.gui.NenHudRenderer;
+import hunkarada.nen.common.nen.event.OnPlayerDeath;
 import hunkarada.nen.common.network.event.OnEndServerTick;
 import hunkarada.nen.common.nen.ability.abilities.EmptyAbility;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
@@ -74,11 +73,10 @@ public class NenModRegister {
     }
 
     private static void registerHud(){
-        HudRenderCallback.EVENT.register(AbilityGridRenderer::onHudRender);
-        HudRenderCallback.EVENT.register(NenGuiRenderer::onHudRender);
+        HudRenderCallback.EVENT.register(NenHudRenderer::onHudRender);
     }
     private static void registerEvents(){
         ServerTickEvents.END_SERVER_TICK.register(new OnEndServerTick());
-        ServerPlayerEvents.COPY_FROM.register(new ReturnDataOnPlayerDeath());
+        ServerPlayerEvents.COPY_FROM.register(new OnPlayerDeath());
     }
 }
