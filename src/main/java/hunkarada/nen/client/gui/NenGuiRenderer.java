@@ -6,7 +6,6 @@ import hunkarada.nen.common.nen.IPlayerEntityNen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 
@@ -14,26 +13,53 @@ public class NenGuiRenderer {
     // after experiments, I understood, that coordinate system is equal to monitor resolution / 4.
     // oh, no, it doesn't, it is because of gui scaling.
     public static void onHudRender(DrawContext drawContext, float v){
+        renderStaticHud(drawContext, v);
         renderNenBar(drawContext, v);
     }
-    private static void renderNenBar(DrawContext drawContext, float v){
-        MatrixStack matrixStack = drawContext.getMatrices();
-        Matrix4f positionMatrix = drawContext.getMatrices().peek().getPositionMatrix();
+    private static void renderStaticHud(DrawContext drawContext, float v){
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
+        Matrix4f positionMatrix = drawContext.getMatrices().peek().getPositionMatrix();
+        RenderSystem.enableBlend();
+        RenderSystem.enableDepthTest();
 
         int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
         int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+
+        buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
+        buffer.vertex(positionMatrix, 0, scaledHeight - 120, 0.1f).color(1f, 1f, 1f, 1f).texture(0f, 0f).next();
+        buffer.vertex(positionMatrix, 0, scaledHeight, 0.1f).color(1f, 1f, 1f, 1f).texture(0f, 1f).next();
+        buffer.vertex(positionMatrix, 120, scaledHeight, 0.1f).color(1f, 1f, 1f, 1f).texture(1f, 1f).next();
+        buffer.vertex(positionMatrix, 120, scaledHeight - 120, 0.1f).color(1f, 1f, 1f, 1f).texture(1f, 0f).next();
+
+        RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
+        RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_hud.png"));
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+
+        tessellator.draw();
+    }
+    private static void renderNenBar(DrawContext drawContext, float v){
+        Matrix4f positionMatrix = drawContext.getMatrices().peek().getPositionMatrix();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
+        RenderSystem.enableBlend();
+        RenderSystem.enableDepthTest();
+
+        int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+
         IPlayerEntityNen playerEntityNen = (IPlayerEntityNen) MinecraftClient.getInstance().player;
         double value = playerEntityNen != null ? playerEntityNen.nen$getNenPower() / playerEntityNen.nen$getNenPowerCap() : 0f;
+
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
-        buffer.vertex(positionMatrix, scaledWidth * 0.05f, scaledHeight * 0.85f, 0).color(1F, 1F, 1F, 1F).texture(0, 0).next();
-        buffer.vertex(positionMatrix,scaledWidth * 0.05f, scaledHeight * 0.95f, 0).color(1F, 1F, 1F, 1F).texture(0, 1f).next();
-        buffer.vertex(positionMatrix, (float) (scaledWidth * (0.05f + value * 0.2)), scaledHeight * 0.95f, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
-        buffer.vertex(positionMatrix, (float) (scaledWidth * (0.05f + value * 0.2)),scaledHeight * 0.85f, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0).next();
+        buffer.vertex(positionMatrix, 4, scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture(0f, 0f).next();
+        buffer.vertex(positionMatrix,4, scaledHeight, 0).color(1F, 1F, 1F, 1F).texture(0f, 1f).next();
+        buffer.vertex(positionMatrix, (float) ((value * 117)), scaledHeight, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
+        buffer.vertex(positionMatrix, (float) ((value * 117)),scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0f).next();
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
         RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_bar.png"));
         RenderSystem.setShaderColor(1, 1, 1, 1);
+
         tessellator.draw();
     }
 }
