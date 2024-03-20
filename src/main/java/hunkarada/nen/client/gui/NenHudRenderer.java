@@ -21,15 +21,15 @@ public class NenHudRenderer {
         BufferBuilder buffer = tessellator.getBuffer();
         Matrix4f positionMatrix = drawContext.getMatrices().peek().getPositionMatrix();
         RenderSystem.enableBlend();
-//        RenderSystem.enableDepthTest();
+        RenderSystem.enableDepthTest();
 
         int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
 
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
-        buffer.vertex(positionMatrix, 0, scaledHeight - 120, 0.1f).color(1f, 1f, 1f, 1f).texture(0f, 0f).next();
-        buffer.vertex(positionMatrix, 0, scaledHeight, 0.1f).color(1f, 1f, 1f, 1f).texture(0f, 1f).next();
-        buffer.vertex(positionMatrix, 120, scaledHeight, 0.1f).color(1f, 1f, 1f, 1f).texture(1f, 1f).next();
-        buffer.vertex(positionMatrix, 120, scaledHeight - 120, 0.1f).color(1f, 1f, 1f, 1f).texture(1f, 0f).next();
+        buffer.vertex(positionMatrix, 0, scaledHeight - 120, 0f).color(1f, 1f, 1f, 1f).texture(0f, 0f).next();
+        buffer.vertex(positionMatrix, 0, scaledHeight, 0f).color(1f, 1f, 1f, 1f).texture(0f, 1f).next();
+        buffer.vertex(positionMatrix, 120, scaledHeight, 0f).color(1f, 1f, 1f, 1f).texture(1f, 1f).next();
+        buffer.vertex(positionMatrix, 120, scaledHeight - 120, 0f).color(1f, 1f, 1f, 1f).texture(1f, 0f).next();
 
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
         RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_hud.png"));
@@ -42,7 +42,7 @@ public class NenHudRenderer {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         RenderSystem.enableBlend();
-//        RenderSystem.enableDepthTest();
+        RenderSystem.enableDepthTest();
 
         int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
 
@@ -50,10 +50,10 @@ public class NenHudRenderer {
         double value = playerEntityNen != null ? playerEntityNen.nen$getNenPower() / playerEntityNen.nen$getNenPowerCap() : 0f;
 
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
-        buffer.vertex(positionMatrix, 3.3f, scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture(0f, 0f).next();
-        buffer.vertex(positionMatrix,3.3f, scaledHeight, 0).color(1F, 1F, 1F, 1F).texture(0f, 1f).next();
-        buffer.vertex(positionMatrix, (float) ((value * 117)), scaledHeight, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
-        buffer.vertex(positionMatrix, (float) ((value * 117)),scaledHeight - 20, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0f).next();
+        buffer.vertex(positionMatrix, 3.1f, scaledHeight - 18.7f, 0).color(1F, 1F, 1F, 1F).texture(0f, 0f).next();
+        buffer.vertex(positionMatrix,3.1f, scaledHeight - 3, 0).color(1F, 1F, 1F, 1F).texture(0f, 1f).next();
+        buffer.vertex(positionMatrix, (float) ((value * 117)), scaledHeight - 3, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
+        buffer.vertex(positionMatrix, (float) ((value * 117)),scaledHeight - 18.7f, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0f).next();
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
         RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_bar.png"));
         RenderSystem.setShaderColor(1, 1, 1, 1);
