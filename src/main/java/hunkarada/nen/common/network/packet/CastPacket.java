@@ -14,13 +14,15 @@ public class CastPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
                                PacketByteBuf buf, PacketSender responseSender)
     {
-        if (!player.isDisconnected()) {
-            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-            int value = buf.readInt();
-            if (value >= 0 && value <= 4) {
-                nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);
+        server.execute(() -> {
+            if (!player.isDisconnected()) {
+                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                int value = buf.readInt();
+                if (value >= 0 && value <= 4) {
+                    nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);
+                }
             }
-        }
+        });
     }
 
     public static void send(int index){

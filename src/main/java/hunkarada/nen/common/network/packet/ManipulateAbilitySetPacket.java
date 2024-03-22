@@ -34,22 +34,24 @@ public class ManipulateAbilitySetPacket {
     }
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
                                PacketByteBuf buf, PacketSender responseSender){
-        if (!player.isDisconnected()){
-            switch (buf.readInt()){
-                case 0 -> {
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$addAbilityToHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
-                }
-                case 1 -> {
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$removeAbilityFromHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
-                }
-                case 2 -> {
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                    nenPlayer.nen$swapAbilitiesOnHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+        server.execute(() -> {
+            if (!player.isDisconnected()){
+                switch (buf.readInt()){
+                    case 0 -> {
+                        IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                        nenPlayer.nen$addAbilityToHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), buf.readInt());
+                    }
+                    case 1 -> {
+                        IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                        nenPlayer.nen$removeAbilityFromHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                    }
+                    case 2 -> {
+                        IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                        nenPlayer.nen$swapAbilitiesOnHotbar(AbilityRegistry.getInstance().getFromRegistry(buf.readString()), AbilityRegistry.getInstance().getFromRegistry(buf.readString()));
+                    }
                 }
             }
-        }
+        });
 
     }
 }
