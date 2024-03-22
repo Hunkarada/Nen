@@ -329,7 +329,7 @@ public abstract class PlayerEntityNen
             }
         }
     }
-    public void nen$switchNenAura(){
+    public void nen$activateNenSwitch(){
         if (!isNenBlocked){
             isNenActive = !isNenActive;
             if (isNenHidden){
@@ -346,10 +346,10 @@ public abstract class PlayerEntityNen
             nen$hideNenSwitch();
         }
         if (isNenActive){
-            nen$switchNenAura();
+            nen$activateNenSwitch();
         }
         if (isCanSeeHidden){
-            nen$seeNenSwitch();
+            nen$canSeeNenSwitch();
         }
         //event here
     }
@@ -362,19 +362,17 @@ public abstract class PlayerEntityNen
     public void nen$hideNenSwitch(){
         if (!isNenBlocked){
             isNenHidden = !isNenHidden;
-        }
-        else {
-            isNenHidden = true;
+            nen$updateAttributes();
         }
         if (isNenActive){
-            nen$switchNenAura();
+            nen$activateNenSwitch();
         }
         if (isCanSeeHidden){
-            nen$seeNenSwitch();
+            nen$canSeeNenSwitch();
         }
         // event here
     }
-    public void nen$seeNenSwitch(){
+    public void nen$canSeeNenSwitch(){
         if (!isNenBlocked){
             isCanSeeHidden = !isCanSeeHidden;
         }
@@ -384,10 +382,14 @@ public abstract class PlayerEntityNen
     public void nen$updateAttributes(){
         ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ArrayListMultimap.create();
         // a ? b : c = if (a){b}; else{c}
-        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(185123212, 9125370),"nen_class_speed_boost", isNenActive ? activeSpeedMultiplier : passiveSpeedMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+//        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(185123212, 9125370),"nen_class_speed_boost", isNenActive ? activeSpeedMultiplier : passiveSpeedMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
         attributeModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(new UUID(1014532, 842386493),"nen_class_armor_boost", isNenActive ? activeArmorMultiplier : passiveArmorMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
         attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(new UUID(8572034, 10932748),"nen_class_damage_boost", isNenActive ? activeDamageMultiplier : passiveDamageMultiplier , EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? 0.5 : 1.0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+        // what is happening here?
+        // I SET MULTIPLY_TOTAL AND IT ADDS TO TOTAL VALUE??????
+        // or, maybe it just multiplies like x * (y-1), where y is my value???
+        // why it works like that?
+        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? -0.5f : 0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
 
         this.getAttributes().addTemporaryModifiers(attributeModifiers);
     }
