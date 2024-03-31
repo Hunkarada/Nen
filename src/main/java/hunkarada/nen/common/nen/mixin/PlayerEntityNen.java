@@ -145,6 +145,7 @@ public abstract class PlayerEntityNen
     private void nen$loadDataFromNbtDisk(NbtCompound nbt){
         NbtCompound nen = nbt.getCompound("nen");
         nen$loadDataFromNbt(nen);
+        nen$updateAttributes();
     }
 
     public void nen$loadDataFromNbt(NbtCompound nbt){
