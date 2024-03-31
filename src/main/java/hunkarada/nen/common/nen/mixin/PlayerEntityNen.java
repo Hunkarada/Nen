@@ -3,7 +3,6 @@ package hunkarada.nen.common.nen.mixin;
 import com.google.common.collect.ArrayListMultimap;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
-import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
 import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
@@ -48,9 +47,6 @@ public abstract class PlayerEntityNen
     long nenExp;
     @Unique
     long nenExpToNextLvl;
-    // user's Type of nen, if you are a manipulator - you can use manipulation at 100% effectiveness. See ./src/resources/nen_types_explanation.jpg for details.
-    @Unique
-    NenType nenType;
     // restrictions are something that restricts you and punish you if you won't follow restriction,
     // but it gives you more nen.
     @Unique
@@ -102,7 +98,6 @@ public abstract class PlayerEntityNen
         this.nenLvl = 0;
         this.nenExp = 0;
         this.nenExpToNextLvl = 100;
-        this.nenType = NenType.UNIDENTIFIED;
 //        this.nenRestrictions = new ArrayList<>();
         this.nenAbilities = AbilitySet.generateEmptySet();
         this.nenUnlockedClasses = new NenClassSet();
@@ -128,7 +123,6 @@ public abstract class PlayerEntityNen
         nbt.putInt("nenLvl", nenLvl);
         nbt.putLong("nenExp", nenExp);
         nbt.putLong("nenExpUntilNextLvl", nenExpToNextLvl);
-        nbt.putString("nenType", NenType.toNbt(nenType));
 //        nbt.putString("nenRestrictions", );
         nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
@@ -160,7 +154,6 @@ public abstract class PlayerEntityNen
         this.nenLvl = nbt.getInt("nenLvl");
         this.nenExp = nbt.getLong("nenExp");
         this.nenExpToNextLvl = nbt.getLong("nenExpUntilNextLvl");
-        this.nenType = NenType.fromNbt(nbt.getString("nenType"));
 //        this.nenRestrictions =
         this.nenAbilities = AbilitySet.fromNbt(nbt.getCompound("nenAbilities"));
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt.getCompound("nenUnlockedClasses"));
@@ -223,10 +216,6 @@ public abstract class PlayerEntityNen
         return isNenAwakened;
     }
 
-    public NenType nen$getNenType() {
-        return nenType;
-    }
-
     public int nen$getNenLvl() {
         return nenLvl;
     }
@@ -275,7 +264,6 @@ public abstract class PlayerEntityNen
         this.nenLvl = 1;
         this.nenPowerCap = 1000;
         this.nenExpToNextLvl = 100;
-        this.nenType = NenType.randomType();
         this.nenRegenValue = 0.05;
     }
 

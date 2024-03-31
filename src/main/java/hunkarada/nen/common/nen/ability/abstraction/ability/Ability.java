@@ -3,7 +3,6 @@ package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import hunkarada.nen.common.abstractions.CanRegister;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
-import hunkarada.nen.common.nen.NenType;
 import hunkarada.nen.common.register.registry.AbilityRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -19,7 +18,6 @@ public abstract class Ability implements CanRegister {
     protected String id;
     protected double staticCost;
     protected double dynamicCostPercent;
-    protected NenType nenType;
     protected int initialCooldown;
     protected AbilityEffect abilityEffect;
     private int cooldown;
@@ -37,7 +35,8 @@ public abstract class Ability implements CanRegister {
 
     protected void calcNenPower(){
         IPlayerEntityNen nenCaster = (IPlayerEntityNen) this.caster;
-        nenPower = totalCost * nenType.calcTypeMultiplier(nenCaster.nen$getNenType());
+        // TODO: nenPower = totalCost * eachRestrictionMultiplier from player
+        nenPower = totalCost;
     }
 
     public abstract void cast(PlayerEntity caster);

@@ -14,7 +14,6 @@ public interface IPlayerEntityNen {
      NbtCompound nen$saveDataToNbt();
      void nen$loadDataFromNbt(NbtCompound nbt);
      boolean nen$getIsNenAwakened();
-     NenType nen$getNenType();
      int nen$getNenLvl();
      void nen$addNenLvl();
      double nen$getNenPowerCap();
