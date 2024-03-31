@@ -11,7 +11,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,9 +24,7 @@ import java.util.ArrayList;
 public abstract class EntityNen
         implements IEntityNen {
 
-    @Shadow public abstract boolean equals(Object o);
-
-    // effects, which caster has at himself.
+    // effects, which entity has at himself.
     @Unique
     private ArrayList<AbilityEffect> nenAbilityEffects;
 
@@ -42,21 +39,20 @@ public abstract class EntityNen
 
     }
 
-    @Inject(method = "writeNbt", at = @At("RETURN"))
-    public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
+    public NbtCompound nen$saveNenEntityToNbt(){
+        NbtCompound nbt = new NbtCompound();
+
         NbtCompound abilityEffectsNbt = new NbtCompound();
         for (AbilityEffect effect : nenAbilityEffects){
             abilityEffectsNbt.putString(AbilityEffect.toNbt(effect), AbilityEffect.toNbt(effect));
         }
         nbt.put("nenAbilityEffects", abilityEffectsNbt);
-
         //nenMemory Nbt save
         nbt.put("nenMemory", NenMemory.toNbt(nenMemory));
 
+        return nbt;
     }
-
-    @Inject(method = "readNbt", at = @At("RETURN"))
-    public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
+    public void nen$loadNenEntityFromNbt(NbtCompound nbt){
         // should be string, check is not necessary.
         // key = value anyway, we don't care coz it works like an array, not map
         String[] abilityEffectKeys = nbt.getCompound("nenAbilityEffects").getKeys().toArray(new String[0]);
@@ -65,7 +61,17 @@ public abstract class EntityNen
         }
         //nenMemory Nbt load
         nenMemory = NenMemory.fromNbt(nbt);
+    }
 
+    @Inject(method = "writeNbt", at = @At("RETURN"))
+    public void nen$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
+        nbt.put("entityNen", nen$saveNenEntityToNbt());
+    }
+
+    @Inject(method = "readNbt", at = @At("RETURN"))
+    public void nen$readNbt(NbtCompound nbt, CallbackInfo ci){
+        NbtCompound unpackedNbt = nbt.getCompound("entityNen");
+        nen$loadNenEntityFromNbt(unpackedNbt);
     }
     @Inject(method = "tick", at = @At("RETURN"))
     public void nen$tick(CallbackInfo ci){

@@ -2,6 +2,7 @@ package hunkarada.nen.common.nen;
 
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 
@@ -19,4 +20,6 @@ public interface IEntityNen {
     void nen$setNenMemory(NenMemory nenMemory);
     void nen$writeToNenMemory(NenMemory.NenMemoryKey id, String data);
     String nen$readFromNenMemory(NenMemory.NenMemoryKey id);
+    NbtCompound nen$saveNenEntityToNbt();
+    void nen$loadNenEntityFromNbt(NbtCompound packedNbt);
 }
