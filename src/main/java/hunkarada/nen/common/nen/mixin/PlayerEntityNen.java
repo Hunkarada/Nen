@@ -142,8 +142,8 @@ public abstract class PlayerEntityNen
         return nbt;
     }
     @Unique
-    private void nen$loadDataFromNbtDisk(NbtCompound nbt){
-        NbtCompound nen = nbt.getCompound("nen");
+    private void nen$loadDataFromNbtDisk(NbtCompound packedNbt){
+        NbtCompound nen = packedNbt.getCompound("playerNen");
         nen$loadDataFromNbt(nen);
         nen$updateAttributes();
     }
@@ -176,7 +176,7 @@ public abstract class PlayerEntityNen
     // method for saving data to NBT.
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     public void nen$writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.put("nen", nen$saveDataToNbt());
+        nbt.put("playerNen", nen$saveDataToNbt());
     }
 
     // and reading data from NBT.
