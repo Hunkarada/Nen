@@ -15,7 +15,7 @@ public class NenClassSet {
     }
     public boolean contains(Ability ability){
         for (NenClass nenClass : classSet) {
-            if (nenClass.classAvailableAbilities.contains(ability)){
+            if (nenClass.classAbilities.contains(ability)){
                 return true;
             }
         }

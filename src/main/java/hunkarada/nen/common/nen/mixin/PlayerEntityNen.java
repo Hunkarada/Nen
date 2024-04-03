@@ -4,7 +4,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
-import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
@@ -124,7 +123,6 @@ public abstract class PlayerEntityNen
         nbt.putLong("nenExp", nenExp);
         nbt.putLong("nenExpUntilNextLvl", nenExpToNextLvl);
 //        nbt.putString("nenRestrictions", );
-        nbt.put("nenAbilities", AbilitySet.toNbt(nenAbilities));
         nbt.put("nenUnlockedClasses", NenClassSet.toNbt(nenUnlockedClasses));
         nbt.putString("nenClass", NenClass.toNbt(nenClass));
         nbt.putDouble("nenRegenValue", nenRegenValue);
@@ -146,6 +144,7 @@ public abstract class PlayerEntityNen
         NbtCompound nen = packedNbt.getCompound("playerNen");
         nen$loadDataFromNbt(nen);
         nen$updateAttributes();
+        nen$updateNenAbilities();
     }
 
     public void nen$loadDataFromNbt(NbtCompound nbt){
@@ -156,7 +155,6 @@ public abstract class PlayerEntityNen
         this.nenExp = nbt.getLong("nenExp");
         this.nenExpToNextLvl = nbt.getLong("nenExpUntilNextLvl");
 //        this.nenRestrictions =
-        this.nenAbilities = AbilitySet.fromNbt(nbt.getCompound("nenAbilities"));
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt.getCompound("nenUnlockedClasses"));
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
         this.nenRegenValue = nbt.getDouble("nenRegenValue");
@@ -189,6 +187,9 @@ public abstract class PlayerEntityNen
     public void nen$tick(CallbackInfo ci) {
         nenAbilities.calcAbilityCooldowns();
         nen$regenNen();
+    }
+    public void nen$updateNenAbilities(){
+        this.nenAbilities.setAbilityList(nenClass.getClassAbilities());
     }
 
     // it's returns boolean value, if false - it's a signal to caller of method,
@@ -266,21 +267,6 @@ public abstract class PlayerEntityNen
         this.nenPowerCap = 1000;
         this.nenExpToNextLvl = 100;
         this.nenRegenValue = 0.05;
-    }
-
-    // add, remove and swap abilities in hotbar, this is not available abilities.
-    public void nen$addAbilityToHotbar(Ability ability, int index) {
-        if (nenUnlockedClasses.contains(ability)) {
-            this.nenAbilities.addAbility(ability, index);
-        }
-    }
-
-    public void nen$removeAbilityFromHotbar(Ability ability) {
-        this.nenAbilities.removeAbility(ability);
-    }
-
-    public void nen$swapAbilitiesOnHotbar(Ability firstAbility, Ability secondAbility) {
-        this.nenAbilities.swapAbilities(firstAbility, secondAbility);
     }
 
     public void nen$addExp(long nenExp) {

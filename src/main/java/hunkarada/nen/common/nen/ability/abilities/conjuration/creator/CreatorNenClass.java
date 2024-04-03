@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CreatorNenClass extends NenClass {
    CreatorNenClass(){
-       classAvailableAbilities = new ArrayList<>();
-       classAvailableAbilities.set(4, new SelectBlockAbility());
+       classAbilities = new ArrayList<>();
+       classAbilities.set(4, new SelectBlockAbility());
    }
 }

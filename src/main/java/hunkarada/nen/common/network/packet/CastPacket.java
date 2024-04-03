@@ -19,7 +19,7 @@ public class CastPacket {
                 IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
                 int value = buf.readInt();
                 if (value >= 0 && value <= 4) {
-                    nenPlayer.nen$getNenAbilities().getAbilitySetCopy().get(value).cast(player);
+                    nenPlayer.nen$getNenAbilities().getAbilitySet().get(value).cast(player);
                 }
             }
         });

@@ -34,7 +34,7 @@ public abstract class Ability implements CanRegister {
     }
 
     protected void calcNenPower(){
-        IPlayerEntityNen nenCaster = (IPlayerEntityNen) this.caster;
+       // IPlayerEntityNen nenCaster = (IPlayerEntityNen) this.caster;
         // TODO: nenPower = totalCost * eachRestrictionMultiplier from player
         nenPower = totalCost;
     }

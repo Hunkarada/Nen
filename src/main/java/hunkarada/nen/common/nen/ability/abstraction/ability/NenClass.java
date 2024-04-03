@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public abstract class NenClass implements CanRegister {
     protected String id;
-    protected Ability ultimateClassAbility;
-    protected ArrayList<Ability> classAvailableAbilities;
+    protected ArrayList<Ability> classAbilities;
     protected float passiveResist;
     protected float activeResist;
     // not more, than 2!
@@ -25,8 +24,8 @@ public abstract class NenClass implements CanRegister {
     public static NenClass fromNbt(String id){
         return NenClassRegistry.getInstance().getFromRegistry(id);
     }
-    public ArrayList<Ability> getClassAvailableAbilities() {
-        return classAvailableAbilities;
+    public ArrayList<Ability> getClassAbilities() {
+        return classAbilities;
     }
     public String getId(){
         return this.id;

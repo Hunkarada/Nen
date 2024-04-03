@@ -1,10 +1,9 @@
 package hunkarada.nen.common.nen;
 
 
+import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
-import hunkarada.nen.common.nen.ability.abstraction.ability.Ability;
-import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.nbt.NbtCompound;
 
@@ -21,6 +20,7 @@ public interface IPlayerEntityNen {
      long nen$getNenExp();
      long nen$getNenExpUntilNextLvl();
      void nen$addNenExp(int exp);
+     void nen$updateNenAbilities();
      AbilitySet nen$getNenAbilities();
      ArrayList<Restriction> nen$getNenRestrictions();
      NenClassSet nen$getNenUnlockedClasses();
@@ -28,9 +28,6 @@ public interface IPlayerEntityNen {
      boolean nen$collectNen(double value);
      void nen$giveNen(double value);
      void nen$awakePlayer();
-     void nen$addAbilityToHotbar(Ability ability, int index);
-     void nen$removeAbilityFromHotbar(Ability ability);
-     void nen$swapAbilitiesOnHotbar(Ability firstAbility, Ability secondAbility);
      void nen$addExp(long nenExp);
      boolean nen$checkLvlUp();
      void nen$lvlUp();

@@ -7,11 +7,12 @@ import java.util.ArrayList;
 public class EmptyNenClass extends NenClass {
     public EmptyNenClass(){
         id = "empty_nen_class";
-        ultimateClassAbility = new EmptyAbility();
-        classAvailableAbilities = new ArrayList<>();
-        classAvailableAbilities.add(new EmptyAbility());
-        classAvailableAbilities.add(new EmptyAbility());
-        classAvailableAbilities.add(new EmptyAbility());
-        classAvailableAbilities.add(new EmptyAbility());
+        classAbilities = new ArrayList<>();
+        classAbilities.add(new EmptyAbility());
+        classAbilities.add(new EmptyAbility());
+        classAbilities.add(new EmptyAbility());
+        classAbilities.add(new EmptyAbility());
+        classAbilities.add(new EmptyAbility());
+        classAbilities.add(new EmptyAbility());
     }
 }
