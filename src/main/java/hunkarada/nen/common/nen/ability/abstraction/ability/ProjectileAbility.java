@@ -23,9 +23,6 @@ public abstract class ProjectileAbility extends Ability {
                 spawnProjectileEntities();
                 setInitialCooldown();
             }
-            else {
-                nenCaster.nen$giveNen(this.getTotalCost());
-            }
         }
     }
 }

@@ -36,9 +36,6 @@ public abstract class TargetAbility extends Ability {
                             spawnVisualEntities();
                             setInitialCooldown();
                         }
-                        else {
-                            nenCaster.nen$giveNen(this.getTotalCost());
-                        }
                     }
                     case ENTITY -> {
                         if (targetType == TargetType.ENTITY || targetType == TargetType.MIXED){
@@ -48,12 +45,7 @@ public abstract class TargetAbility extends Ability {
                             spawnVisualEntities();
                             setInitialCooldown();
                         }
-                        else {
-                            nenCaster.nen$giveNen(this.getTotalCost());
-                        }
-
                     }
-                    case MISS -> nenCaster.nen$giveNen(this.getTotalCost());
                 }
             }
 

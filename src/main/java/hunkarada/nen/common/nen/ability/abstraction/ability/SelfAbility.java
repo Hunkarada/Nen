@@ -16,9 +16,6 @@ public abstract class SelfAbility extends Ability {
                 target.nen$applyNenAbilityEffect(abilityEffect, caster, getNenPower());
                 setInitialCooldown();
             }
-            else {
-                nenCaster.nen$giveNen(this.getTotalCost());
-            }
         }
     }
 }

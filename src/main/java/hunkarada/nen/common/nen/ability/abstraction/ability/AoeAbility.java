@@ -21,9 +21,6 @@ public abstract class AoeAbility extends Ability {
                 spawnAoeEntities();
                 setInitialCooldown();
             }
-            else {
-                nenCaster.nen$giveNen(this.getTotalCost());
-            }
         }
     }
 }
