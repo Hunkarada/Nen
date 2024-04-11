@@ -7,8 +7,7 @@ import java.util.Set;
 
 public class NenMemory {
     private final HashMap<String, String> data = new HashMap<>();
-    public static final NenMemoryKey SELECTED_BLOCK = new NenMemoryKey("selected_block");
-
+    public static final NenMemoryKey THROW_BLOCK_ABILITY_EFFECT_STAGE = new NenMemoryKey("throw_block_ability_effect_stage");
     public static class NenMemoryKey {
         String encapsulatedKey;
 
