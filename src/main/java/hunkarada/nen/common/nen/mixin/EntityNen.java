@@ -98,7 +98,12 @@ public abstract class EntityNen
     @Override
     public void nen$applyNenAbilityEffect(AbilityEffect nenAbilityEffect, PlayerEntity player, double nenPower) {
         nenAbilityEffect.prepareEffect(player, nenPower);
-        this.nenAbilityEffects.add(nenAbilityEffect);
+        if (nenAbilityEffect.getIsInstant()){
+            nenAbilityEffect.applyInstantEffectOnEntity((Entity) (Object) this, player, nenPower);
+        }
+        else {
+            this.nenAbilityEffects.add(nenAbilityEffect);
+        }
     }
 
     @Override

@@ -9,13 +9,15 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Scanner;
 
 public abstract class AbilityEffect implements CanRegister {
-    protected double nenPower;
-    protected PlayerEntity caster;
+    private double nenPower;
+    private PlayerEntity caster;
     protected String id;
-    protected int duration;
-    protected boolean isFirstTick = true;
-    protected boolean isBuff;
-    protected boolean isOneTimeApplied;
+
+    // if you want to instant ability - set duration to 1 (it won't be instant, but will cast on the next tick);
+    private int duration;
+    private boolean isInstant;
+    private boolean isBuff;
+
     public void prepareEffect(PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
@@ -24,30 +26,28 @@ public abstract class AbilityEffect implements CanRegister {
     public void applyEffectOnBlock(BlockPos target, PlayerEntity caster, double nenPower){
         this.nenPower = nenPower;
         this.caster = caster;
-        firstTickEffect(target);
-        // as we can't apply ability effect on blocks - we don't switch isFirstTick, anyway, it doesn't matter.
+        instantEffect(target);
+    }
+    public void applyInstantEffectOnEntity(Entity target, PlayerEntity caster, double nenPower){
+        this.nenPower = nenPower;
+        this.caster = caster;
+        instantEffect(target);
     }
     public void removeEffect(Entity target){
         onRemoveEffect(target);
     }
-    protected abstract void firstTickEffect(Entity target);
+    protected abstract void instantEffect(Entity target);
 
-    protected abstract void firstTickEffect(BlockPos target);
+    protected abstract void instantEffect(BlockPos target);
 
     public void tickEffect(Entity target){
-        if (isFirstTick){
-            firstTickEffect(target);
-            isFirstTick = false;
-        }
-        else if (!isOneTimeApplied){
-            durationalEffect(target);
-        }
+        durationalEffect(target);
     }
     protected abstract void durationalEffect(Entity target);
     protected abstract void onRemoveEffect(Entity target);
 
     public static String toNbt(AbilityEffect effect){
-        return effect.id + " " + effect.duration + " " + effect.isFirstTick + " " + effect.nenPower;
+        return effect.id + " " + effect.duration + " " + effect.isInstant + " " + effect.nenPower;
     }
 
     public static AbilityEffect fromNbt(String id){
@@ -55,15 +55,31 @@ public abstract class AbilityEffect implements CanRegister {
         scanner.useDelimiter(" ");
         String effectId = scanner.next();
         int duration = Integer.parseInt(scanner.next());
-        boolean isFirstTick = Boolean.parseBoolean(scanner.next());
+        boolean isInstant = Boolean.parseBoolean(scanner.next());
         long nenPower = Long.parseLong(scanner.next());
 
         AbilityEffect effect = EffectRegistry.getInstance().getFromRegistry(effectId);
         effect.duration = duration;
-        effect.isFirstTick = isFirstTick;
+        effect.isInstant = isInstant;
         effect.nenPower = nenPower;
 
         return effect;
+    }
+
+    protected void setDuration(int duration){
+        this.duration = duration;
+    }
+    protected void setIsBuff(boolean isBuff){
+        this.isBuff = isBuff;
+    }
+    protected PlayerEntity getCaster(){
+        return caster;
+    }
+    public boolean getIsInstant(){
+        return isInstant;
+    }
+    protected void setIsInstant(boolean isInstant){
+        this.isInstant = isInstant;
     }
 
 
