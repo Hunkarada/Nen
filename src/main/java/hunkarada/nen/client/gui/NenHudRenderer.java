@@ -32,7 +32,7 @@ public class NenHudRenderer {
         buffer.vertex(positionMatrix, 122, scaledHeight - 142, 0f).color(1f, 1f, 1f, 1f).texture(1f, 0f).next();
 
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
-        RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_hud.png"));
+        RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "textures/nen/nen_hud.png"));
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         tessellator.draw();
@@ -55,7 +55,7 @@ public class NenHudRenderer {
         buffer.vertex(positionMatrix, (float) ((value * 119)), scaledHeight - 3, 0).color(1F, 1F, 1F, 1F).texture((float) value, 1f).next();
         buffer.vertex(positionMatrix, (float) ((value * 119)),scaledHeight - 18.7f, 0).color(1F, 1F, 1F, 1F).texture((float) value, 0f).next();
         RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
-        RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "nen_bar.png"));
+        RenderSystem.setShaderTexture(0, new Identifier(NenMod.MOD_ID, "textures/nen/nen_bar.png"));
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         tessellator.draw();
