@@ -18,7 +18,7 @@ public class CastPacket {
             if (!player.isDisconnected()) {
                 IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
                 int value = buf.readInt();
-                if (value >= 0 && value <= 4) {
+                if (value >= 0 && value <= 5) {
                     nenPlayer.nen$getNenAbilities().getAbilitySet().get(value).cast(player);
                 }
             }

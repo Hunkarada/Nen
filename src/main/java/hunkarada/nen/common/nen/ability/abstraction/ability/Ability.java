@@ -30,8 +30,9 @@ public abstract class Ability implements CanRegister {
     }
 
     public Ability(){
-
+        setupAbility();
     }
+    public abstract void setupAbility();
 
     protected void calcNenPower(){
        // IPlayerEntityNen nenCaster = (IPlayerEntityNen) this.caster;
@@ -70,6 +71,9 @@ public abstract class Ability implements CanRegister {
     }
     public AbilityEffect getAbilityEffect(){
         return abilityEffect;
+    }
+    public PlayerEntity getCaster(){
+        return caster;
     }
 
     protected void setInitialCooldown(){

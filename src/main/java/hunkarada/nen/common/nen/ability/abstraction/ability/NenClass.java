@@ -16,7 +16,8 @@ public abstract class NenClass implements CanRegister {
     protected float passiveSpeedMultiplier;
     protected float activeSpeedMultiplier;
     public NenClass(){
-
+        setClassId();
+        generateClassAbilities();
     }
     public static String toNbt(NenClass nenClass){
         return nenClass.id;
@@ -30,6 +31,8 @@ public abstract class NenClass implements CanRegister {
     public String getId(){
         return this.id;
     }
+    public abstract void generateClassAbilities();
+    public abstract void setClassId();
     @Override
     public boolean equals(Object obj) {
         return obj.getClass() == this.getClass();

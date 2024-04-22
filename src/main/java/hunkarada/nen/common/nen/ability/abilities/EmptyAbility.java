@@ -6,8 +6,13 @@ import net.minecraft.entity.player.PlayerEntity;
 public class EmptyAbility extends Ability {
     public EmptyAbility(){
         super();
+    }
+
+    @Override
+    public void setupAbility(){
         this.id = "empty_ability";
     }
+
     @Override
     public void cast(PlayerEntity caster) {
 

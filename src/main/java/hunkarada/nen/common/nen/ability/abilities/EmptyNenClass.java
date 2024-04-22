@@ -6,7 +6,10 @@ import java.util.ArrayList;
 
 public class EmptyNenClass extends NenClass {
     public EmptyNenClass(){
-        id = "empty_nen_class";
+        super();
+    }
+    @Override
+    public void generateClassAbilities(){
         classAbilities = new ArrayList<>();
         classAbilities.add(new EmptyAbility());
         classAbilities.add(new EmptyAbility());
@@ -14,5 +17,10 @@ public class EmptyNenClass extends NenClass {
         classAbilities.add(new EmptyAbility());
         classAbilities.add(new EmptyAbility());
         classAbilities.add(new EmptyAbility());
+    }
+
+    @Override
+    public void setClassId() {
+        this.id = "empty_nen_class";
     }
 }

@@ -1,7 +1,5 @@
 package hunkarada.nen.common.nen.ability.abstraction.ability;
 
-import hunkarada.nen.common.nen.ability.abilities.EmptyAbility;
-
 import java.util.ArrayList;
 
 public class AbilitySet {
@@ -9,16 +7,6 @@ public class AbilitySet {
     public AbilitySet() {
     }
 
-    public static AbilitySet generateEmptySet(){
-        AbilitySet abilitySet = new AbilitySet();
-        abilitySet.abilityList.add(new EmptyAbility());
-        abilitySet.abilityList.add(new EmptyAbility());
-        abilitySet.abilityList.add(new EmptyAbility());
-        abilitySet.abilityList.add(new EmptyAbility());
-        abilitySet.abilityList.add(new EmptyAbility());
-        abilitySet.abilityList.add(new EmptyAbility());
-        return abilitySet;
-    }
     public ArrayList<Ability> getAbilitySet(){
         return abilityList;
     }

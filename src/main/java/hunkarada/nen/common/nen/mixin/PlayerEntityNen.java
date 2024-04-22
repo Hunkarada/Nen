@@ -3,7 +3,7 @@ package hunkarada.nen.common.nen.mixin;
 import com.google.common.collect.ArrayListMultimap;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
-import hunkarada.nen.common.nen.ability.abilities.EmptyNenClass;
+import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.CreatorNenClass;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilitySet;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClass;
 import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
@@ -13,11 +13,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,6 +35,7 @@ public abstract class PlayerEntityNen
         extends LivingEntity
         implements IPlayerEntityNen {
 
+    @Shadow @Final private PlayerAbilities abilities;
     @Unique
     boolean isNenAwakened;
     @Unique
@@ -98,9 +102,10 @@ public abstract class PlayerEntityNen
         this.nenExp = 0;
         this.nenExpToNextLvl = 100;
 //        this.nenRestrictions = new ArrayList<>();
-        this.nenAbilities = AbilitySet.generateEmptySet();
+        this.nenClass = new CreatorNenClass();
+        this.nenAbilities = new AbilitySet();
+        this.nenAbilities.setAbilityList(nenClass.getClassAbilities());
         this.nenUnlockedClasses = new NenClassSet();
-        this.nenClass = new EmptyNenClass();
         this.nenRegenValue = 0;
         this.isNenActive = false;
         this.isNenBlocked = false;
@@ -157,6 +162,8 @@ public abstract class PlayerEntityNen
 //        this.nenRestrictions =
         this.nenUnlockedClasses = NenClassSet.fromNbt(nbt.getCompound("nenUnlockedClasses"));
         this.nenClass = NenClass.fromNbt(nbt.getString("nenClass"));
+        // setting up abilities from class
+        this.nenAbilities.setAbilityList(this.nenClass.getClassAbilities());
         this.nenRegenValue = nbt.getDouble("nenRegenValue");
         this.isNenActive = nbt.getBoolean("isNenActive");
         this.isNenBlocked = nbt.getBoolean("isNenBlocked");

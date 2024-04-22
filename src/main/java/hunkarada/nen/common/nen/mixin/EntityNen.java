@@ -2,7 +2,7 @@ package hunkarada.nen.common.nen.mixin;
 
 
 import hunkarada.nen.common.nen.IEntityNen;
-import hunkarada.nen.common.nen.NenMemory;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenMemory;
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

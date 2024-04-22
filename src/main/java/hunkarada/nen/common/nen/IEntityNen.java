@@ -1,6 +1,7 @@
 package hunkarada.nen.common.nen;
 
 import hunkarada.nen.common.nen.ability.abstraction.ability.AbilityEffect;
+import hunkarada.nen.common.nen.ability.abstraction.ability.NenMemory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 

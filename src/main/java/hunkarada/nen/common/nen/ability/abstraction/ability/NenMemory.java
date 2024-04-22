@@ -1,4 +1,4 @@
-package hunkarada.nen.common.nen;
+package hunkarada.nen.common.nen.ability.abstraction.ability;
 
 import net.minecraft.nbt.NbtCompound;
 

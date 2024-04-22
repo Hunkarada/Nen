@@ -15,6 +15,7 @@ public class NenKeyBinding {
     private static KeyBinding keyCastThird;
     private static KeyBinding keyCastForth;
     private static KeyBinding keyCastFifth;
+    private static KeyBinding keyCastSixth;
     private static KeyBinding keyActivateNen;
     private static KeyBinding keyHideNen;
     private static KeyBinding keyCanSeeNen;
@@ -46,6 +47,11 @@ public class NenKeyBinding {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyCastFifth.wasPressed()) {
                 CastPacket.send(4);
+            }
+        });
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (keyCastSixth.wasPressed()){
+                CastPacket.send(5);
             }
         });
 
@@ -102,6 +108,12 @@ public class NenKeyBinding {
 
         keyCastFifth = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.nen.cast_fifth_spell",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN,
+                KEY_CATEGORY_TRANSLATE
+        ));
+        keyCastSixth = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.nen.cast_sixth_spell",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_UNKNOWN,
                 KEY_CATEGORY_TRANSLATE
