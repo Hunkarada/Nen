@@ -149,7 +149,6 @@ public abstract class PlayerEntityNen
         NbtCompound nen = packedNbt.getCompound("playerNen");
         nen$loadDataFromNbt(nen);
         nen$updateAttributes();
-        nen$updateNenAbilities();
     }
 
     public void nen$loadDataFromNbt(NbtCompound nbt){
@@ -194,9 +193,6 @@ public abstract class PlayerEntityNen
     public void nen$tick(CallbackInfo ci) {
         nenAbilities.calcAbilityCooldowns();
         nen$regenNen();
-    }
-    public void nen$updateNenAbilities(){
-        this.nenAbilities.setAbilityList(nenClass.getClassAbilities());
     }
 
     // it's returns boolean value, if false - it's a signal to caller of method,

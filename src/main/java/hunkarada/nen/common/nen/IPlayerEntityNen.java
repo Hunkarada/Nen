@@ -20,7 +20,6 @@ public interface IPlayerEntityNen {
      long nen$getNenExp();
      long nen$getNenExpUntilNextLvl();
      void nen$addNenExp(int exp);
-     void nen$updateNenAbilities();
      AbilitySet nen$getNenAbilities();
      ArrayList<Restriction> nen$getNenRestrictions();
      NenClassSet nen$getNenUnlockedClasses();
