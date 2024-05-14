@@ -79,10 +79,6 @@ public abstract class NenCollisionEntity extends Entity {
         }
     }
 
-    @Override
-    protected void initDataTracker() {
-
-    }
 
     @Override
     public void tick(){

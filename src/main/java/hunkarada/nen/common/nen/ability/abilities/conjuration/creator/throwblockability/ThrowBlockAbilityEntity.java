@@ -3,6 +3,7 @@ package hunkarada.nen.common.nen.ability.abilities.conjuration.creator.throwbloc
 import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.ability.abstraction.entitiy.NenProjectileEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -12,6 +13,11 @@ public class ThrowBlockAbilityEntity extends NenProjectileEntity {
     public ThrowBlockAbilityEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
         setAbility(new ThrowBlockAbility());
+    }
+
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+
     }
 
     @Override

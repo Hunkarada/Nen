@@ -32,7 +32,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     // GeckoLib for animations
-    modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.4:4.4.2"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}"
 }
 
 processResources {

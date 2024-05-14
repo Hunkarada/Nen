@@ -1,33 +1,37 @@
 package hunkarada.nen.common.network.packet;
 
+import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
-import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
 
-public class CastPacket {
-    public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
-                               PacketByteBuf buf, PacketSender responseSender)
-    {
-        server.execute(() -> {
-            if (!player.isDisconnected()) {
-                IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
-                int value = buf.readInt();
-                if (value >= 0 && value <= 5) {
-                    nenPlayer.nen$getNenAbilities().getAbilitySet().get(value).cast(player);
-                }
+public record CastPacket(int value) implements CustomPayload {
+    public static final CustomPayload.Id<CastPacket> ID = new Id<>(new Identifier(NenMod.MOD_ID, "cast_packet"));
+    public static final PacketCodec<RegistryByteBuf, CastPacket> CODEC = CustomPayload.codecOf(CastPacket::write, CastPacket::new);
+    @Override
+    public CustomPayload.Id<? extends CustomPayload> getId() {
+        return ID;
+    }
+    public CastPacket(RegistryByteBuf buf){
+        this(buf.readInt());
+    }
+    public void write(RegistryByteBuf buf){
+        buf.writeInt(value);
+    }
+    public static void receive(CastPacket payload, ServerPlayNetworking.Context context) {
+        if (!context.player().isDisconnected()) {
+            IPlayerEntityNen nenPlayer = (IPlayerEntityNen) context.player();
+            if (payload.value >= 0 && payload.value <= 5) {
+                nenPlayer.nen$getNenAbilities().getAbilitySet().get(payload.value).cast(context.player());
             }
-        });
+        }
+    }
+    public static void send(int index){
+        ClientPlayNetworking.send(new CastPacket(index));
     }
 
-    public static void send(int index){
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(index);
-        ClientPlayNetworking.send(ModMessages.CAST_PACKET_ID, buf);
-    }
 }

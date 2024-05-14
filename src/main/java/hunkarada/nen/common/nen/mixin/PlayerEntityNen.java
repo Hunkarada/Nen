@@ -1,6 +1,5 @@
 package hunkarada.nen.common.nen.mixin;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.mojang.authlib.GameProfile;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
 import hunkarada.nen.common.nen.ability.abilities.conjuration.creator.CreatorNenClass;
@@ -10,24 +9,17 @@ import hunkarada.nen.common.nen.ability.abstraction.ability.NenClassSet;
 import hunkarada.nen.common.nen.restriction.Restriction;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 // This class is mixing into every LivingEntity, and this adds Nen data to all living creatures in minecraft.
 @Mixin(PlayerEntity.class)
@@ -35,7 +27,7 @@ public abstract class PlayerEntityNen
         extends LivingEntity
         implements IPlayerEntityNen {
 
-    @Shadow @Final private PlayerAbilities abilities;
+//    @Shadow @Final private PlayerAbilities abilities;
     @Unique
     boolean isNenAwakened;
     @Unique
@@ -74,18 +66,6 @@ public abstract class PlayerEntityNen
     boolean isNenHidden;
     @Unique
     boolean isCanSeeHidden;
-    @Unique
-    float passiveArmorMultiplier;
-    @Unique
-    float activeArmorMultiplier;
-    @Unique
-    float passiveDamageMultiplier;
-    @Unique
-    float activeDamageMultiplier;
-    @Unique
-    float passiveSpeedMultiplier;
-    @Unique
-    float activeSpeedMultiplier;
 
     protected PlayerEntityNen(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -112,12 +92,6 @@ public abstract class PlayerEntityNen
         this.nenBlockedTime = 0;
         this.isNenHidden = false;
         this.isCanSeeHidden = false;
-        this.passiveArmorMultiplier = 1.0F;
-        this.activeArmorMultiplier = 1.0F;
-        this.passiveDamageMultiplier = 1.0F;
-        this.activeDamageMultiplier = 1.0F;
-        this.passiveSpeedMultiplier = 1.0F;
-        this.activeSpeedMultiplier = 1.0F;
     }
     public NbtCompound nen$saveDataToNbt(){
         NbtCompound nbt = new NbtCompound();
@@ -136,12 +110,6 @@ public abstract class PlayerEntityNen
         nbt.putInt("nenBlockedTime", nenBlockedTime);
         nbt.putBoolean("isNenHidden", isNenHidden);
         nbt.putBoolean("isCanSeeHidden", isCanSeeHidden);
-        nbt.putFloat("passiveArmorMultiplier", passiveArmorMultiplier);
-        nbt.putFloat("activeArmorMultiplier", activeArmorMultiplier);
-        nbt.putFloat("passiveDamageMultiplier", passiveDamageMultiplier);
-        nbt.putFloat("activeDamageMultiplier", activeDamageMultiplier);
-        nbt.putFloat("passiveSpeedMultiplier", passiveSpeedMultiplier);
-        nbt.putFloat("activeSpeedMultiplier", activeSpeedMultiplier);
         return nbt;
     }
     @Unique
@@ -169,12 +137,6 @@ public abstract class PlayerEntityNen
         this.nenBlockedTime = nbt.getInt("nenBlockedTime");
         this.isNenHidden = nbt.getBoolean("isNenHidden");
         this.isCanSeeHidden = nbt.getBoolean("isCanSeeHidden");
-        this.passiveArmorMultiplier = nbt.getFloat("passiveResist");
-        this.activeArmorMultiplier = nbt.getFloat("activeResist");
-        this.passiveDamageMultiplier = nbt.getFloat("passiveDamageMultiplier");
-        this.activeDamageMultiplier = nbt.getFloat("activeDamageMultiplier");
-        this.passiveSpeedMultiplier = nbt.getFloat("passiveSpeedMultiplier");
-        this.activeSpeedMultiplier = nbt.getFloat("activeSpeedMultiplier");
     }
 
     // method for saving data to NBT.
@@ -357,18 +319,4 @@ public abstract class PlayerEntityNen
         // event here
     }
 
-    public void nen$updateAttributes(){
-        ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributeModifiers = ArrayListMultimap.create();
-        // a ? b : c = if (a){b}; else{c}
-//        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(185123212, 9125370),"nen_class_speed_boost", isNenActive ? activeSpeedMultiplier : passiveSpeedMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributeModifiers.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(new UUID(1014532, 842386493),"nen_class_armor_boost", isNenActive ? activeArmorMultiplier : passiveArmorMultiplier, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-        attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(new UUID(8572034, 10932748),"nen_class_damage_boost", isNenActive ? activeDamageMultiplier : passiveDamageMultiplier , EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-        // what is happening here?
-        // I SET MULTIPLY_TOTAL AND IT ADDS TO TOTAL VALUE??????
-        // or, maybe it just multiplies like x * (y-1), where y is my value???
-        // why it works like that?
-        attributeModifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(new UUID(1968754, 1708117), "nen_hidden_speed_debuff", isNenHidden ? -0.5f : 0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-
-        this.getAttributes().addTemporaryModifiers(attributeModifiers);
-    }
 }

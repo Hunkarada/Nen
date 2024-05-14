@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityAttachments;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -65,8 +66,8 @@ public class NenModRegister {
         THROW_BLOCK_ABILITY_ENTITY = Registry.register(Registries.ENTITY_TYPE, ThrowBlockAbilityEntity.THROW_BLOCK_ABILITY_ENTITY_ID,
                 new EntityType<>(ThrowBlockAbilityEntity::new, SpawnGroup.MISC,
                         true, false, true, false, ImmutableSet.<Block>builder().build(),
-                        new EntityDimensions(1, 1, true),
-                        64, 1, FeatureSet.empty())
+                        new EntityDimensions(1, 1, 0.5f, EntityAttachments.builder().build(1, 1), true),
+                        64, 1, 1, FeatureSet.empty())
         );
     }
     public static EntityType<ThrowBlockAbilityEntity> THROW_BLOCK_ABILITY_ENTITY;

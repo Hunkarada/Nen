@@ -38,8 +38,4 @@ public abstract class NenProjectileEntity extends ProjectileEntity {
         this.ability = ability;
     }
 
-    @Override
-    protected void initDataTracker() {
-
-    }
 }

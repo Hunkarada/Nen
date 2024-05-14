@@ -17,10 +17,6 @@ public abstract class NenAbilityEntity extends Entity {
         super(type, world);
     }
 
-    @Override
-    protected void initDataTracker() {
-
-    }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {

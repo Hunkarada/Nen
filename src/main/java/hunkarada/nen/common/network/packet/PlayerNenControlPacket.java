@@ -1,41 +1,52 @@
 package hunkarada.nen.common.network.packet;
 
+import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
-import hunkarada.nen.common.network.ModMessages;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
 
-public class PlayerNenControlPacket {
-    public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
-                               PacketByteBuf buf, PacketSender responseSender){
-        server.execute(() -> {
-            switch (buf.readInt()) {
+public record PlayerNenControlPacket(int value) implements CustomPayload {
+    public static final CustomPayload.Id<PlayerNenControlPacket> ID = new CustomPayload.Id<>(new Identifier(NenMod.MOD_ID, "player_nen_control_packet"));
+    public static final PacketCodec<RegistryByteBuf, PlayerNenControlPacket> CODEC = CustomPayload.codecOf(PlayerNenControlPacket::write, PlayerNenControlPacket::new);
+
+    public PlayerNenControlPacket(RegistryByteBuf buf){
+        this(buf.readInt());
+    }
+    public void write(RegistryByteBuf buf){
+        buf.writeInt(value);
+    }
+    public static void receive(PlayerNenControlPacket payload, ServerPlayNetworking.Context context){
+        context.player().server.execute(() -> {
+            switch (payload.value) {
                 // activate nen
                 case 0 -> {
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) context.player();
                     nenPlayer.nen$activateNenSwitch();
                 }
                 case 1 -> {
                 // hide nen
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) context.player();
                     nenPlayer.nen$hideNenSwitch();
                 }
                 // can see nen
                 case 2 -> {
-                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
+                    IPlayerEntityNen nenPlayer = (IPlayerEntityNen) context.player();
                     nenPlayer.nen$canSeeNenSwitch();
                 }
             }
         });
     }
     public static void send(int index) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(index);
-        ClientPlayNetworking.send(ModMessages.PLAYER_NEN_CONTROL_PACKET, buf);
+        PlayerNenControlPacket payload = new PlayerNenControlPacket(index);
+        ClientPlayNetworking.send(payload);
+    }
+
+    @Override
+    public Id<? extends CustomPayload> getId() {
+        return ID;
     }
 }
