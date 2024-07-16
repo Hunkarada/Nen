@@ -90,7 +90,7 @@ public class NenModRegister {
     }
 
     private static void registerHud(){
-        HudRenderCallback.EVENT.register(NenHudRenderer::onHudRender);
+        HudRenderCallback.EVENT.register((drawContext, drawContext2) -> NenHudRenderer.onHudRender(drawContext));
     }
     private static void registerEvents(){
         ServerTickEvents.END_SERVER_TICK.register(new OnEndServerTick());

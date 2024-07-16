@@ -37,7 +37,7 @@ public class ThrowBlockAbility extends ProjectileAbility {
     @Override
     protected void spawnProjectileEntity(ArrayList<Vec3d> posAndDirection) {
         ThrowBlockAbilityEntity abilityEntity = new ThrowBlockAbilityEntity(NenModRegister.THROW_BLOCK_ABILITY_ENTITY, getCaster().getWorld());
-        abilityEntity.setPosition(posAndDirection.remove(0));
+        abilityEntity.setPosition(posAndDirection.removeFirst());
 //        abilityEntity.setVelocity(posAndDirection.remove(0));
 
         getCaster().getWorld().spawnEntity(abilityEntity);

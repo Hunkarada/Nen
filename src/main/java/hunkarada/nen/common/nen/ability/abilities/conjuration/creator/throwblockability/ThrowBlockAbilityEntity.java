@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class ThrowBlockAbilityEntity extends NenProjectileEntity {
-    public static final Identifier THROW_BLOCK_ABILITY_ENTITY_ID = new Identifier(NenMod.MOD_ID,"throw_block_ability");
+    public static final Identifier THROW_BLOCK_ABILITY_ENTITY_ID = Identifier.of(NenMod.MOD_ID,"throw_block_ability");
     public ThrowBlockAbilityEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
         setAbility(new ThrowBlockAbility());

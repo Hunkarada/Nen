@@ -10,8 +10,8 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record PlayerNenControlPacket(int value) implements CustomPayload {
-    public static final CustomPayload.Id<PlayerNenControlPacket> ID = new CustomPayload.Id<>(new Identifier(NenMod.MOD_ID, "player_nen_control_packet"));
-    public static final PacketCodec<RegistryByteBuf, PlayerNenControlPacket> CODEC = CustomPayload.codecOf(PlayerNenControlPacket::write, PlayerNenControlPacket::new);
+    public static final CustomPayload.Id<PlayerNenControlPacket> ID = new CustomPayload.Id<>(Identifier.of(NenMod.MOD_ID, "player_nen_control_packet"));
+    public static final PacketCodec<RegistryByteBuf, PlayerNenControlPacket> CODEC = CustomPayload.codecOf(PlayerNenControlPacket::write, PlayerNenControlPacket::new).cast();
 
     public PlayerNenControlPacket(RegistryByteBuf buf){
         this(buf.readInt());

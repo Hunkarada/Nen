@@ -10,8 +10,8 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record CastPacket(int value) implements CustomPayload {
-    public static final CustomPayload.Id<CastPacket> ID = new Id<>(new Identifier(NenMod.MOD_ID, "cast_packet"));
-    public static final PacketCodec<RegistryByteBuf, CastPacket> CODEC = CustomPayload.codecOf(CastPacket::write, CastPacket::new);
+    public static final CustomPayload.Id<CastPacket> ID = new Id<>(Identifier.of(NenMod.MOD_ID, "cast_packet"));
+    public static final PacketCodec<RegistryByteBuf, CastPacket> CODEC = CustomPayload.codecOf(CastPacket::write, CastPacket::new).cast();
     @Override
     public CustomPayload.Id<? extends CustomPayload> getId() {
         return ID;

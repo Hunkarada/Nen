@@ -12,8 +12,8 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 
 public record AwakeNenPacket() implements CustomPayload {
-    public static final CustomPayload.Id<AwakeNenPacket> ID = new Id<>(new Identifier(NenMod.MOD_ID, "awake_nen_packet"));
-    public static final PacketCodec<RegistryByteBuf, AwakeNenPacket> CODEC = CustomPayload.codecOf(AwakeNenPacket::write, AwakeNenPacket::new);
+    public static final CustomPayload.Id<AwakeNenPacket> ID = new Id<>(Identifier.of(NenMod.MOD_ID, "awake_nen_packet"));
+    public static final PacketCodec<RegistryByteBuf, AwakeNenPacket> CODEC = CustomPayload.codecOf(AwakeNenPacket::write, AwakeNenPacket::new).cast();
 
     public AwakeNenPacket(RegistryByteBuf buf){
        this();

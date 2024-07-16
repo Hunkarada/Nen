@@ -14,8 +14,8 @@ import net.minecraft.util.Identifier;
 import java.util.Objects;
 
 public record SyncPacket(NbtCompound nbtPlayerData) implements CustomPayload {
-    public static final CustomPayload.Id<SyncPacket> ID = new Id<>(new Identifier(NenMod.MOD_ID, "sync_packet"));
-    public static final PacketCodec<RegistryByteBuf, SyncPacket> CODEC = PacketCodec.of(SyncPacket::write, SyncPacket::new).cast();
+    public static final CustomPayload.Id<SyncPacket> ID = new Id<>(Identifier.of(NenMod.MOD_ID, "sync_packet"));
+    public static final PacketCodec<RegistryByteBuf, SyncPacket> CODEC = CustomPayload.codecOf(SyncPacket::write, SyncPacket::new).cast();
     public SyncPacket(RegistryByteBuf buf){
         this(buf.readNbt());
     }
@@ -27,7 +27,6 @@ public record SyncPacket(NbtCompound nbtPlayerData) implements CustomPayload {
         IPlayerEntityNen nenPlayer = (IPlayerEntityNen) player;
         SyncPacket payload = new SyncPacket(nenPlayer.nen$saveDataToNbt());
         ServerPlayNetworking.send(player, payload);
-
     }
 
     @Override

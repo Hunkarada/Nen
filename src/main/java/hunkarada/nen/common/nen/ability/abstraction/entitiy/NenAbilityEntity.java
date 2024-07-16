@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public abstract class NenAbilityEntity extends Entity {
-    public static final Identifier NEN_ABILITY_ENTITY_ID = new Identifier(NenMod.MOD_ID, "nen_ability_entity");
+    public static final Identifier NEN_ABILITY_ENTITY_ID = Identifier.of(NenMod.MOD_ID, "nen_ability_entity");
     int lifetime;
     PlayerEntity caster;
 

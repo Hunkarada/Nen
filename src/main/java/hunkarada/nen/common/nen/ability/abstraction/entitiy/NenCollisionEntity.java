@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class NenCollisionEntity extends Entity {
-    public static final Identifier NEN_COLLISION_ENTITY_ID = new Identifier(NenMod.MOD_ID, "nen_collision_entity");
+    public static final Identifier NEN_COLLISION_ENTITY_ID = Identifier.of(NenMod.MOD_ID, "nen_collision_entity");
     PlayerEntity caster;
     Box collisionBox;
     Ability ability;
@@ -57,7 +57,7 @@ public abstract class NenCollisionEntity extends Entity {
                     entityNen.nen$applyNenAbilityEffect(ability.getAbilityEffect(), this.caster, ability.getNenPower());
                 }
             } else {
-                Entity closestEntity = filteredList.get(0);
+                Entity closestEntity = filteredList.getFirst();
                 for (Entity entity : filteredList) {
                     if (entity.getBlockPos().getSquaredDistance(center) < closestEntity.getBlockPos().getSquaredDistance(center)) {
                         closestEntity = entity;
