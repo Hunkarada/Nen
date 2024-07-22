@@ -1,7 +1,7 @@
 package hunkarada.nen.client;
 
-import hunkarada.nen.common.network.packet.CastPacket;
-import hunkarada.nen.common.network.packet.PlayerNenControlPacket;
+import hunkarada.nen.common.networking.packets.CastPacket;
+import hunkarada.nen.common.networking.packets.PlayerNenControlPacket;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;

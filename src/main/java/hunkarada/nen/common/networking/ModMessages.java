@@ -1,9 +1,9 @@
-package hunkarada.nen.common.network;
+package hunkarada.nen.common.networking;
 
-import hunkarada.nen.common.network.packet.AwakeNenPacket;
-import hunkarada.nen.common.network.packet.CastPacket;
-import hunkarada.nen.common.network.packet.PlayerNenControlPacket;
-import hunkarada.nen.common.network.packet.SyncPacket;
+import hunkarada.nen.common.networking.packets.AwakeNenPacket;
+import hunkarada.nen.common.networking.packets.CastPacket;
+import hunkarada.nen.common.networking.packets.PlayerNenControlPacket;
+import hunkarada.nen.common.networking.packets.SyncPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

@@ -1,6 +1,6 @@
-package hunkarada.nen.common.network.event;
+package hunkarada.nen.common.networking.event;
 
-import hunkarada.nen.common.network.packet.SyncPacket;
+import hunkarada.nen.common.networking.packets.SyncPacket;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;

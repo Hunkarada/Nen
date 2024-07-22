@@ -116,7 +116,6 @@ public abstract class PlayerEntityNen
     private void nen$loadDataFromNbtDisk(NbtCompound packedNbt){
         NbtCompound nen = packedNbt.getCompound("playerNen");
         nen$loadDataFromNbt(nen);
-        nen$updateAttributes();
     }
 
     public void nen$loadDataFromNbt(NbtCompound nbt){
@@ -275,7 +274,6 @@ public abstract class PlayerEntityNen
             if (isNenHidden){
                 nen$hideNenSwitch();
             }
-            nen$updateAttributes();
             //event here
         }
     }
@@ -302,7 +300,6 @@ public abstract class PlayerEntityNen
     public void nen$hideNenSwitch(){
         if (!isNenBlocked){
             isNenHidden = !isNenHidden;
-            nen$updateAttributes();
         }
         if (isNenActive){
             nen$activateNenSwitch();

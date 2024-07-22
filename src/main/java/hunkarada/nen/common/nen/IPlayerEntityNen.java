@@ -32,7 +32,6 @@ public interface IPlayerEntityNen {
      void nen$lvlUp();
      void nen$regenNen();
      boolean nen$getIsNenActive();
-     void nen$updateAttributes();
      void nen$activateNenSwitch();
      void nen$blockNen(int time);
      void nen$unblockNen();

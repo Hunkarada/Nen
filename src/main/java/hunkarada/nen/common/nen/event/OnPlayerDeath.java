@@ -21,7 +21,6 @@ public class OnPlayerDeath implements ServerPlayerEvents.CopyFrom{
         nenPlayerData.putInt("nenBlockedTime", 0);
 
         newNenPlayer.nen$loadDataFromNbt(nenPlayerData);
-        newNenPlayer.nen$updateAttributes();
 
         // same, but for entity part
         IEntityNen oldEntityPlayer = (IEntityNen) oldPlayer;

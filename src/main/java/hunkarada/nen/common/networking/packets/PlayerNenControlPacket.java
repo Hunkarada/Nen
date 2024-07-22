@@ -1,4 +1,4 @@
-package hunkarada.nen.common.network.packet;
+package hunkarada.nen.common.networking.packets;
 
 import hunkarada.nen.common.NenMod;
 import hunkarada.nen.common.nen.IPlayerEntityNen;
