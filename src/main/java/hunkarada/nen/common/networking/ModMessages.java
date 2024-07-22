@@ -21,9 +21,10 @@ public class ModMessages {
         PayloadTypeRegistry.playC2S().register(PlayerNenControlPacket.ID, PlayerNenControlPacket.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(PlayerNenControlPacket.ID, PlayerNenControlPacket::receive);
 
+        PayloadTypeRegistry.playS2C().register(SyncPacket.ID, SyncPacket.CODEC);
     }
     public static void registerS2CPackets(){
-        PayloadTypeRegistry.playS2C().register(SyncPacket.ID, SyncPacket.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(SyncPacket.ID, SyncPacket::receive);
+//        UnknownCustomPayload packet = (UnknownCustomPayload) new SyncPacket(new NbtCompound());
     }
 }
